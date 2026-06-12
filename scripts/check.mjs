@@ -18,8 +18,14 @@ const suggestions = dataManifest.collections?.suggestions;
 
 assert(html.includes("The overnight docs sweep"));
 assert(html.includes("The architecture satisfaction loop"));
+assert(html.includes("The sub-50 ms page-load loop"));
+assert(html.includes("Continue until every page loads in under 50 ms."));
 assert(html.includes("Matthew Berman"));
 assert(html.includes("Peter Steinberger"));
+assert.equal((html.match(/class="loop-card"/g) || []).length, 3);
+assert(html.includes("<dd>03</dd>"));
+assert(html.includes("Showing 3 loops"));
+assert(html.includes("Submission 004+"));
 assert(html.includes('id="loop-form"'));
 assert(html.includes("./.herenow/data/suggestions") === false);
 assert(css.includes("--orange: #ff5033"));

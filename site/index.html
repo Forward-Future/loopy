@@ -74,7 +74,7 @@
           <dl class="hero-stats" aria-label="Library statistics">
             <div>
               <dt>Loops</dt>
-              <dd>02</dd>
+              <dd>03</dd>
             </div>
             <div>
               <dt>Types</dt>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="results-line">
-          <p id="results-count" aria-live="polite">Showing 2 loops</p>
+          <p id="results-count" aria-live="polite">Showing 3 loops</p>
           <span>Community edition 001</span>
         </div>
 
@@ -345,6 +345,85 @@
               </div>
             </footer>
           </article>
+
+          <article
+            class="loop-card"
+            data-type="goal"
+            data-search="goal performance speed page load pageload 50ms benchmark optimize profiling routes matthew berman"
+          >
+            <header class="loop-card-header">
+              <span class="loop-number loop-number-violet">003</span>
+              <div>
+                <p class="loop-type">
+                  <span class="type-dot type-dot-violet" aria-hidden="true"></span>
+                  Goal loop
+                </p>
+                <h3>The sub-50 ms page-load loop</h3>
+              </div>
+              <p class="attribution">
+                Contributed by
+                <strong>Matthew Berman</strong>
+              </p>
+            </header>
+
+            <div class="loop-card-body">
+              <div class="prompt-panel">
+                <div class="panel-label">
+                  <span>Run this prompt</span>
+                  <button class="copy-button" type="button">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="8" y="8" width="11" height="11" rx="1"></rect>
+                      <path d="M16 8V5H5v11h3"></path>
+                    </svg>
+                    <span>Copy loop</span>
+                  </button>
+                </div>
+                <p class="prompt-text" data-prompt>
+                  Continue optimizing the code for speed. After each
+                  significant change, measure page-load performance across
+                  every page under the same repeatable test conditions.
+                  Continue until every page loads in under 50 ms.
+                </p>
+              </div>
+
+              <dl class="loop-spec">
+                <div>
+                  <dt>Goal</dt>
+                  <dd>Every page loads in under 50 ms</dd>
+                </div>
+                <div>
+                  <dt>Inspect</dt>
+                  <dd>Profiles, slow routes, bundles, and runtime bottlenecks</dd>
+                </div>
+                <div>
+                  <dt>Verify</dt>
+                  <dd>Re-run the same benchmark across every page</dd>
+                </div>
+                <div>
+                  <dt>Stop</dt>
+                  <dd>All pages are below 50 ms without regressions</dd>
+                </div>
+              </dl>
+            </div>
+
+            <footer class="loop-card-footer">
+              <p>
+                <span>Why it works</span>
+                It turns &ldquo;make it faster&rdquo; into a measurable
+                optimization loop with consistent evidence and a hard exit
+                condition.
+              </p>
+              <div class="loop-pathline" aria-label="Loop sequence">
+                <span>Profile</span>
+                <i aria-hidden="true"></i>
+                <span>Optimize</span>
+                <i aria-hidden="true"></i>
+                <span>Benchmark</span>
+                <i aria-hidden="true"></i>
+                <span>Repeat</span>
+              </div>
+            </footer>
+          </article>
         </div>
 
         <div class="empty-state" id="empty-state" hidden>
@@ -417,7 +496,7 @@
 
         <form class="submission-form" id="loop-form" novalidate>
           <div class="form-heading">
-            <span>Submission 003+</span>
+            <span>Submission 004+</span>
             <p>All fields marked * are required.</p>
           </div>
 
