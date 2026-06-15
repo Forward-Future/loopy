@@ -5,7 +5,7 @@
   <id>https://signals.forwardfuture.ai/loop-library/</id>
   <link href="https://signals.forwardfuture.ai/loop-library/" />
   <link href="https://signals.forwardfuture.ai/loop-library/feed.xml" rel="self" type="application/atom+xml" />
-  <updated>2026-06-13T00:00:00-07:00</updated>
+  <updated>2026-06-15T00:00:00-07:00</updated>
   <author>
     <name>Forward Future</name>
     <uri>https://forwardfuture.ai/</uri>
@@ -75,49 +75,5 @@
       <name>Matthew Berman</name>
     </author>
     <summary>A repeatable search visibility workflow that fixes the highest-impact crawl, indexation, page-intent, citation, and answer-readiness gaps first.</summary>
-  </entry>
-  <entry>
-    <title>The focused AI signal brief</title>
-    <id>https://signals.forwardfuture.ai/loop-library/loops/focused-ai-signal-brief/</id>
-    <link href="https://signals.forwardfuture.ai/loop-library/loops/focused-ai-signal-brief/" />
-    <published>2026-06-13T00:00:00-07:00</published>
-    <updated>2026-06-13T00:00:00-07:00</updated>
-    <author>
-      <name>Jonah / Forward Future</name>
-    </author>
-    <summary>A weekday AI briefing workflow that verifies primary sources, removes duplicates, caps the brief at three developments, and assigns a clear action.</summary>
-  </entry>
-  <entry>
-    <title>The hands-on tool evaluation loop</title>
-    <id>https://signals.forwardfuture.ai/loop-library/loops/hands-on-tool-evaluation-loop/</id>
-    <link href="https://signals.forwardfuture.ai/loop-library/loops/hands-on-tool-evaluation-loop/" />
-    <published>2026-06-13T00:00:00-07:00</published>
-    <updated>2026-06-13T00:00:00-07:00</updated>
-    <author>
-      <name>Jonah / Forward Future</name>
-    </author>
-    <summary>A side-by-side AI tool evaluation workflow that compares representative tasks, quality, time, cost, setup friction, and failure modes.</summary>
-  </entry>
-  <entry>
-    <title>The archive-before-reset loop</title>
-    <id>https://signals.forwardfuture.ai/loop-library/loops/archive-before-reset-loop/</id>
-    <link href="https://signals.forwardfuture.ai/loop-library/loops/archive-before-reset-loop/" />
-    <published>2026-06-13T00:00:00-07:00</published>
-    <updated>2026-06-13T00:00:00-07:00</updated>
-    <author>
-      <name>Jonah / Forward Future</name>
-    </author>
-    <summary>A scheduled spreadsheet safety workflow that snapshots a live tracker, verifies the archive, clears only approved ranges, and checks formulas and validation.</summary>
-  </entry>
-  <entry>
-    <title>The approval-gated overnight production loop</title>
-    <id>https://signals.forwardfuture.ai/loop-library/loops/approval-gated-overnight-production-loop/</id>
-    <link href="https://signals.forwardfuture.ai/loop-library/loops/approval-gated-overnight-production-loop/" />
-    <published>2026-06-13T00:00:00-07:00</published>
-    <updated>2026-06-13T00:00:00-07:00</updated>
-    <author>
-      <name>Jonah / Forward Future</name>
-    </author>
-    <summary>An overnight AI production workflow with source, rights, budget, quality, archive, and separate publishing approval gates.</summary>
   </entry>
 </feed>

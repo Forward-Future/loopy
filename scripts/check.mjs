@@ -104,18 +104,24 @@ assert(html.includes("Continue until every page loads in under 50 ms."));
 assert(html.includes("If no actionable errors are"));
 assert(html.includes("Add tests until we have 100% test coverage."));
 assert(html.includes("the same crawl and target-query benchmark"));
-assert(html.includes("stop scanning when the source pass"));
-assert(html.includes("no conclusion depends"));
-assert(html.includes("instead of resetting if the archive"));
-assert(html.includes("stop without spending credits"));
 assert(html.includes("Matthew Berman"));
 assert(html.includes("Peter Steinberger"));
-assert(html.includes("Jonah / Forward Future"));
+for (const removedSlug of [
+  "focused-ai-signal-brief",
+  "hands-on-tool-evaluation-loop",
+  "archive-before-reset-loop",
+  "approval-gated-overnight-production-loop",
+]) {
+  assert(!html.includes(removedSlug));
+  assert(!sitemap.includes(removedSlug));
+  assert(!feed.includes(removedSlug));
+}
 assert.equal((html.match(/class="loop-row"/g) || []).length, loops.length);
 assert.equal((html.match(/data-copy-root/g) || []).length, loops.length);
 assert(html.includes('class="loop-table"'));
 assert(!html.includes('class="loop-diagram"'));
 assert(html.includes(`Showing ${loops.length} loops`));
+assert(html.includes(`<time datetime="${siteMeta.updated}">`));
 assert(html.includes("./styles.css?v=20260615-here-now"));
 assert(html.includes("./script.js?v=20260615-here-now"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
