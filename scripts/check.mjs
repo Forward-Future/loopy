@@ -8,7 +8,7 @@ import { loops, site as siteMeta } from "./loop-data.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteRoot = path.join(root, "site");
 
-const [html, css, script, dataSource, sitemap, feed, loopPages] =
+const [html, css, script, dataSource, sitemap, feed, hereNowIcon, loopPages] =
   await Promise.all([
     readFile(path.join(siteRoot, "index.html"), "utf8"),
     readFile(path.join(siteRoot, "styles.css"), "utf8"),
@@ -16,6 +16,7 @@ const [html, css, script, dataSource, sitemap, feed, loopPages] =
     readFile(path.join(siteRoot, ".herenow", "data.json"), "utf8"),
     readFile(path.join(siteRoot, "sitemap.xml"), "utf8"),
     readFile(path.join(siteRoot, "feed.xml"), "utf8"),
+    readFile(path.join(siteRoot, "assets", "here-now-icon.svg"), "utf8"),
     Promise.all(
       loops.map((loop) =>
         readFile(
@@ -66,6 +67,12 @@ for (const [index, loop] of loops.entries()) {
   assert(page.includes(loop.description));
   assert(page.includes(loop.prompt));
   assert(page.includes('data-copy-root'));
+  assert.equal((page.match(/data-here-now-credit/g) || []).length, 2);
+  assert.equal((page.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
+  assert.equal((page.match(/aria-label="Hosted by here\.now"/g) || []).length, 2);
+  assert.equal((page.match(/<small>Hosted by<\/small>/g) || []).length, 2);
+  assert.equal((page.match(/<strong>here\.now<\/strong>/g) || []).length, 2);
+  assert.equal((page.match(/\.\.\/\.\.\/assets\/here-now-icon\.svg/g) || []).length, 2);
   assert(pageStructuredDataMatch);
 
   const pageStructuredData = JSON.parse(pageStructuredDataMatch[1]);
@@ -94,8 +101,14 @@ assert.equal((html.match(/data-copy-root/g) || []).length, loops.length);
 assert(html.includes('class="loop-table"'));
 assert(!html.includes('class="loop-diagram"'));
 assert(html.includes(`Showing ${loops.length} loops`));
-assert(html.includes("./styles.css?v=20260613-seo"));
-assert(html.includes("./script.js?v=20260613-seo"));
+assert(html.includes("./styles.css?v=20260615-here-now"));
+assert(html.includes("./script.js?v=20260615-here-now"));
+assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
+assert.equal((html.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
+assert.equal((html.match(/aria-label="Hosted by here\.now"/g) || []).length, 2);
+assert.equal((html.match(/<small>Hosted by<\/small>/g) || []).length, 2);
+assert.equal((html.match(/<strong>here\.now<\/strong>/g) || []).length, 2);
+assert.equal((html.match(/\.\/assets\/here-now-icon\.svg/g) || []).length, 2);
 assert(html.includes("Repeatable AI Agent Workflows"));
 assert(html.includes('rel="sitemap"'));
 assert(html.includes('type="application/ld+json"'));
@@ -127,6 +140,7 @@ assert(css.includes(".related-loop-link"));
 assert(css.includes(".about-library"));
 assert(css.includes(':root[data-theme="dark"]'));
 assert(css.includes(".theme-toggle"));
+assert(css.includes(".here-now-credit"));
 assert(!css.includes("box-shadow"));
 assert(script.includes('fetch("./.herenow/data/suggestions"'));
 assert(script.includes('document.querySelectorAll(".loop-row")'));
@@ -138,6 +152,8 @@ assert(script.includes('button.closest("[data-copy-root]")'));
 assert(!script.includes("innerHTML"));
 assert(sitemap.includes(`<loc>${siteMeta.baseUrl}</loc>`));
 assert(feed.includes(`<id>${siteMeta.baseUrl}</id>`));
+assert(hereNowIcon.includes('<rect width="128" height="128" fill="#ffffff"/>'));
+assert(hereNowIcon.includes('<circle cx="64" cy="64" r="26" fill="#000000"/>'));
 
 assert.equal(suggestions.access.read, "owner");
 assert.equal(suggestions.access.insert, "public");

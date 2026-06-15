@@ -260,6 +260,81 @@ code {
   text-decoration: none;
 }
 
+.here-now-credit {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 9px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.here-now-credit:hover {
+  opacity: 0.72;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.here-now-credit:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  text-decoration: none;
+}
+
+.here-now-credit__icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  outline: 1px solid rgba(16, 16, 16, 0.14);
+}
+
+.here-now-credit__text {
+  display: grid;
+  gap: 1px;
+}
+
+.here-now-credit small,
+.here-now-credit strong {
+  display: block;
+  line-height: 1;
+}
+
+.here-now-credit small {
+  opacity: 0.62;
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.here-now-credit strong {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.here-now-credit--footer {
+  color: var(--light);
+}
+
+.here-now-credit--footer .here-now-credit__icon {
+  width: 30px;
+  height: 30px;
+}
+
+.here-now-credit--footer small {
+  font-size: 0.55rem;
+}
+
+.here-now-credit--footer strong {
+  font-size: 0.92rem;
+}
+
 .eyebrow {
   margin-bottom: 16px;
   font-family: var(--font-mono);
@@ -1210,6 +1285,20 @@ code {
   color: rgba(250, 248, 247, 0.62);
 }
 
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.footer-actions p {
+  flex-wrap: wrap;
+}
+
+.footer-actions .here-now-credit__text {
+  color: var(--light);
+}
+
 .toast {
   position: fixed;
   z-index: 50;
@@ -1235,7 +1324,7 @@ code {
 }
 
 @media (max-width: 900px) {
-  .site-nav a:not(.nav-cta) {
+  .site-nav > a:not(.nav-cta):not(.here-now-credit) {
     display: none;
   }
 
@@ -1450,6 +1539,12 @@ code {
     flex-direction: column;
   }
 
+  .footer-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+
   .submit-button {
     width: 100%;
   }
@@ -1457,7 +1552,7 @@ code {
 
 @media (max-width: 460px) {
   .brand-name {
-    font-size: 0.9rem;
+    display: none;
   }
 
   .nav-cta {
@@ -1477,6 +1572,23 @@ code {
 
   .theme-label {
     display: none !important;
+  }
+
+  .here-now-credit {
+    gap: 7px;
+  }
+
+  .here-now-credit__icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .here-now-credit small {
+    font-size: 0.46rem;
+  }
+
+  .here-now-credit strong {
+    font-size: 0.72rem;
   }
 
   .section-heading h2 {

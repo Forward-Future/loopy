@@ -47,6 +47,28 @@ function relatedLinks(loop) {
     .join("");
 }
 
+function hereNowCredit(assetPath, modifier) {
+  return `<a
+          class="here-now-credit here-now-credit--${modifier}"
+          data-here-now-credit
+          href="https://here.now/r/signals"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Hosted by here.now"
+        >
+          <img
+            class="here-now-credit__icon"
+            src="${assetPath}"
+            alt=""
+            aria-hidden="true"
+          />
+          <span class="here-now-credit__text">
+            <small>Hosted by</small>
+            <strong>here.now</strong>
+          </span>
+        </a>`;
+}
+
 function structuredData(loop) {
   const url = absoluteUrl(loop.slug);
   const [authorName, authorAffiliation] = loop.author.split(" / ");
@@ -182,11 +204,11 @@ function renderLoopPage(loop) {
     <link rel="sitemap" type="application/xml" href="${escapeHtml(site.baseUrl)}sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="${escapeHtml(site.name)} updates" href="${escapeHtml(site.baseUrl)}feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260613-seo" />
+    <link rel="stylesheet" href="../../styles.css?v=20260615-here-now" />
     <script type="application/ld+json">
 ${structuredData(loop)}
     </script>
-    <script src="../../script.js?v=20260613-seo" defer></script>
+    <script src="../../script.js?v=20260615-here-now" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
   </head>
   <body>
@@ -226,6 +248,7 @@ ${structuredData(loop)}
           <span class="theme-label theme-label-dark">Dark</span>
         </button>
         <a class="nav-cta" href="../../#submit">Submit a loop</a>
+        ${hereNowCredit("../../assets/here-now-icon.svg", "header")}
       </nav>
     </header>
 
@@ -328,11 +351,14 @@ ${relatedLinks(loop)}
     <footer class="site-footer">
       <div class="page-width footer-inner">
         <p><strong>Forward Future</strong> <span>Make the future legible.</span></p>
-        <p>
-          <a href="../../">Loop Library</a>
-          <a href="https://forwardfuture.ai/" rel="noopener">forwardfuture.ai</a>
-          <span>&copy; 2026</span>
-        </p>
+        <div class="footer-actions">
+          <p>
+            <a href="../../">Loop Library</a>
+            <a href="https://forwardfuture.ai/" rel="noopener">forwardfuture.ai</a>
+            <span>&copy; 2026</span>
+          </p>
+          ${hereNowCredit("../../assets/here-now-icon.svg", "footer")}
+        </div>
       </div>
     </footer>
 
