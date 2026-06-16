@@ -88,7 +88,7 @@
       href="https://signals.forwardfuture.ai/loop-library/feed.xml"
     />
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
-    <link rel="stylesheet" href="./styles.css?v=20260615-here-now" />
+    <link rel="stylesheet" href="./styles.css?v=20260616-loop-batch" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -121,13 +121,13 @@
             "url": "https://signals.forwardfuture.ai/loop-library/",
             "name": "Loop Library",
             "description": "A practical library of repeatable AI agent workflows with clear checks and stopping conditions.",
-            "dateModified": "2026-06-15",
+            "dateModified": "2026-06-16",
             "isPartOf": {
               "@id": "https://signals.forwardfuture.ai/loop-library/#website"
             },
             "mainEntity": {
               "@type": "ItemList",
-              "numberOfItems": 6,
+              "numberOfItems": 15,
               "itemListElement": [
                 {
                   "@type": "ListItem",
@@ -164,6 +164,60 @@
                   "position": 6,
                   "name": "The SEO/GEO visibility loop",
                   "url": "https://signals.forwardfuture.ai/loop-library/loops/seo-geo-visibility-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 7,
+                  "name": "The logging coverage loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/exhaustive-logging-coverage-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 8,
+                  "name": "The nightly changelog loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/nightly-changelog-sweep/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 9,
+                  "name": "The quality streak loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 10,
+                  "name": "The full product evaluation loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 11,
+                  "name": "The test-suite speed loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 12,
+                  "name": "The repository cleanup loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 13,
+                  "name": "The stale-safe batch release loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 14,
+                  "name": "The production data cleanup loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/production-data-cleanup-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 15,
+                  "name": "The post-release baseline loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/"
                 }
               ]
             }
@@ -270,12 +324,15 @@
             <button class="filter-button" type="button" data-filter="goal">
               Goal
             </button>
+            <button class="filter-button" type="button" data-filter="triggered">
+              Triggered
+            </button>
           </div>
         </div>
 
         <div class="results-line">
-          <p id="results-count" aria-live="polite">Showing 6 loops</p>
-          <time datetime="2026-06-15">Updated June 15, 2026</time>
+          <p id="results-count" aria-live="polite">Showing 15 loops</p>
+          <time datetime="2026-06-16">Updated June 16, 2026</time>
         </div>
 
         <div class="table-wrap">
@@ -528,6 +585,344 @@
                   <span class="cell-label">Verify / stop</span>
                   <strong>Priority pages are indexable, answer-ready, and technically sound.</strong>
                   <span>The repeatable crawl and query benchmark finds no remaining high-impact gaps.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal logging logs observability coverage structured events important paths tests diagnostics matthew berman"
+              >
+                <td class="cell-number">007</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/exhaustive-logging-coverage-loop/">
+                      The logging coverage loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Review the system's logging and add missing coverage until
+                    every important path produces useful, tested logs.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Every important path emits useful, tested logs.</strong>
+                  <span>Representative success and failure tests prove coverage without exposing sensitive data.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="scheduled"
+                data-search="scheduled nightly changelog previous day changes users release notes commits pull requests deployments matthew berman"
+              >
+                <td class="cell-number">008</td>
+                <td class="cell-type">
+                  <span class="type-badge type-scheduled">Scheduled</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/nightly-changelog-sweep/">
+                      The nightly changelog loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Each night, review changes from the previous day and update
+                    the changelog with anything users should know.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Every user-relevant change from the previous day is accounted for.</strong>
+                  <span>The changelog is updated and validated, or the no-change result is recorded.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal quality streak realistic scenarios regression benchmark failure restart consecutive cases matthew berman"
+              >
+                <td class="cell-number">009</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/quality-streak-loop/">
+                      The quality streak loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Test realistic scenarios. When one fails, document it, add
+                    regression and benchmark coverage, fix it, and restart the
+                    streak. Stop after [N] successful cases in a row.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>The latest [N] realistic cases pass in a row.</strong>
+                  <span>Every earlier failure is documented, fixed, and protected by regression and benchmark coverage.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal full product evaluation realistic tests major features score responses quality bar rerun matthew berman"
+              >
+                <td class="cell-number">010</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/full-product-evaluation-loop/">
+                      The full product evaluation loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Create [N] realistic tests covering every major feature.
+                    Score each response, fix anything unsatisfactory, and rerun
+                    it until every case meets the quality bar.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Every one of the [N] cases meets the defined quality bar.</strong>
+                  <span>The final scored run covers every major feature under the original conditions.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal test suite speed performance runtime faster ci coverage behavior optimize matthew berman"
+              >
+                <td class="cell-number">011</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/test-suite-speed-loop/">
+                      The test-suite speed loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Optimize the test suite to run as quickly as possible
+                    without reducing coverage or changing behavior.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>The suite is faster with no coverage or behavior regression.</strong>
+                  <span>Repeatable timing, the full passing suite, and the original coverage report prove the result.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal repository cleanup local remote branches pull requests commits worktrees recover stale organized matthew berman"
+              >
+                <td class="cell-number">012</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/repository-cleanup-loop/">
+                      The repository cleanup loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Inspect local and remote branches, pull requests, commits,
+                    and worktrees. Recover valuable work and clean everything
+                    stale until the repository is current and organized.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Valuable work is recovered and remaining repository state is intentional.</strong>
+                  <span>Branches, pull requests, commits, and worktrees are current, owned, or safely removed with evidence.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal stale safe batch release pending changes pull requests exclude unfinished combine valid release together matthew berman"
+              >
+                <td class="cell-number">013</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/stale-safe-batch-release-loop/">
+                      The stale-safe batch release loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Review pending changes and pull requests, exclude stale or
+                    unfinished work, combine the valid changes, and release them
+                    together.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Only current, complete changes ship in the combined release.</strong>
+                  <span>The released revision is the latest integrated main that contains every selected change.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="goal"
+                data-search="goal production data cleanup records allowed definition classification logic verify remaining matthew berman"
+              >
+                <td class="cell-number">014</td>
+                <td class="cell-type">
+                  <span class="type-badge type-goal">Goal</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/production-data-cleanup-loop/">
+                      The production data cleanup loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    Review production records, remove anything that does not
+                    meet the allowed definition, improve the classification
+                    logic, and verify the remaining data.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>Every remaining record meets the allowed definition.</strong>
+                  <span>Representative classification tests and a post-cleanup audit prove the retained data is valid.</span>
+                </td>
+                <td class="cell-attribution">
+                  <span class="cell-label">Attribution</span>
+                  Matthew Berman
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-type="triggered"
+                data-search="triggered post release baseline benchmarks standard results current releases finish record matthew berman"
+              >
+                <td class="cell-number">015</td>
+                <td class="cell-type">
+                  <span class="type-badge type-triggered">Triggered</span>
+                </td>
+                <td class="cell-loop">
+                  <h3>
+                    <a class="loop-title-link" href="./loops/post-release-baseline-loop/">
+                      The post-release baseline loop
+                    </a>
+                  </h3>
+                  <p data-prompt>
+                    After current releases finish, run the standard benchmarks
+                    and record the results as the new baseline.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>The new baseline belongs to the completed release.</strong>
+                  <span>Revision, environment, benchmark version, conditions, and results are recorded together.</span>
                 </td>
                 <td class="cell-attribution">
                   <span class="cell-label">Attribution</span>

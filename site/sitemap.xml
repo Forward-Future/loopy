@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/</loc>
-    <lastmod>2026-06-15</lastmod>
+    <lastmod>2026-06-16</lastmod>
   </url>
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/</loc>
@@ -27,5 +27,41 @@
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/loops/seo-geo-visibility-loop/</loc>
     <lastmod>2026-06-13</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/exhaustive-logging-coverage-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/nightly-changelog-sweep/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/production-data-cleanup-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/</loc>
+    <lastmod>2026-06-16</lastmod>
   </url>
 </urlset>

@@ -584,6 +584,10 @@ code {
   background: var(--violet);
 }
 
+.type-triggered::before {
+  background: var(--success);
+}
+
 .cell-loop h3 {
   margin-bottom: 8px;
   font-size: 1.08rem;

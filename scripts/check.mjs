@@ -40,10 +40,18 @@ const [
 
 const dataManifest = JSON.parse(dataSource);
 const suggestions = dataManifest.collections?.suggestions;
-const normalizedHtml = html.replace(/\s+/g, " ");
 const structuredDataMatch = html.match(
   /<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/,
 );
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
 
 assert(structuredDataMatch);
 const structuredData = JSON.parse(structuredDataMatch[1]);
@@ -51,33 +59,68 @@ const collection = structuredData["@graph"].find(
   (item) => item["@type"] === "CollectionPage",
 );
 const slugs = new Set(loops.map((loop) => loop.slug));
+const titles = new Set(loops.map((loop) => loop.title));
+const prompts = new Set(loops.map((loop) => loop.prompt));
+const requestedConceptSlugs = [
+  "overnight-docs-sweep",
+  "architecture-satisfaction-loop",
+  "sub-50ms-page-load-loop",
+  "production-error-sweep",
+  "100-percent-test-coverage-loop",
+  "exhaustive-logging-coverage-loop",
+  "nightly-changelog-sweep",
+  "quality-streak-loop",
+  "full-product-evaluation-loop",
+  "test-suite-speed-loop",
+  "repository-cleanup-loop",
+  "stale-safe-batch-release-loop",
+  "production-data-cleanup-loop",
+  "post-release-baseline-loop",
+];
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
 assert.equal(collection.mainEntity.itemListElement.length, loops.length);
+assert.equal(loops.length, 15);
 assert.equal(slugs.size, loops.length);
+assert.equal(titles.size, loops.length);
+assert.equal(prompts.size, loops.length);
 assert.equal(new Set(loops.map((loop) => loop.number)).size, loops.length);
 assert.equal(new Set(loops.map((loop) => loop.seoTitle)).size, loops.length);
+assert(loops.every((loop) => ["goal", "scheduled", "triggered"].includes(loop.typeSlug)));
+assert(requestedConceptSlugs.every((slug) => slugs.has(slug)));
 assert.deepEqual(loopDirectories.sort(), [...slugs].sort());
 
 for (const [index, loop] of loops.entries()) {
   const url = `${siteMeta.baseUrl}loops/${loop.slug}/`;
   const page = loopPages[index];
   const listItem = collection.mainEntity.itemListElement[index];
+  const homepageHref = `href="./loops/${loop.slug}/"`;
+  const homepageHrefIndex = html.indexOf(homepageHref);
+  const rowStart = html.lastIndexOf("<tr", homepageHrefIndex);
+  const rowEnd = html.indexOf("</tr>", homepageHrefIndex);
+  const homepageRow = html.slice(rowStart, rowEnd);
+  const normalizedHomepageRow = homepageRow.replace(/\s+/g, " ");
   const pageStructuredDataMatch = page.match(
     /<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/,
   );
 
+  assert(homepageHrefIndex >= 0);
+  assert(rowStart >= 0);
+  assert(rowEnd > homepageHrefIndex);
   assert.equal(listItem.position, index + 1);
   assert.equal(listItem.name, loop.title);
   assert.equal(listItem.url, url);
   assert(loop.related.every((relatedSlug) => slugs.has(relatedSlug)));
   assert(html.includes(loop.title));
-  assert(normalizedHtml.includes(loop.prompt));
-  assert(html.includes(`href="./loops/${loop.slug}/"`));
+  assert(normalizedHomepageRow.includes(loop.prompt));
+  assert(homepageRow.includes(`data-type="${loop.typeSlug}"`));
+  assert(homepageRow.includes(`<td class="cell-number">${loop.number}</td>`));
+  assert(homepageRow.includes(loop.author));
+  assert(html.includes(homepageHref));
   assert(page.includes(`<title>${loop.seoTitle}</title>`));
   assert(page.includes(`<link rel="canonical" href="${url}"`));
   assert(page.includes(loop.description));
-  assert(page.includes(loop.prompt));
+  assert(page.includes(escapeHtml(loop.prompt)));
   assert(page.includes('data-copy-root'));
   assert.equal((page.match(/data-here-now-credit/g) || []).length, 2);
   assert.equal((page.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
@@ -104,6 +147,8 @@ assert(html.includes("Continue until every page loads in under 50 ms."));
 assert(html.includes("If no actionable errors are"));
 assert(html.includes("Add tests until we have 100% test coverage."));
 assert(html.includes("the same crawl and target-query benchmark"));
+assert(html.includes("Stop after [N] successful cases in a row."));
+assert(html.includes("run the standard benchmarks"));
 assert(html.includes("Matthew Berman"));
 assert(html.includes("Peter Steinberger"));
 for (const removedSlug of [
@@ -122,7 +167,8 @@ assert(html.includes('class="loop-table"'));
 assert(!html.includes('class="loop-diagram"'));
 assert(html.includes(`Showing ${loops.length} loops`));
 assert(html.includes(`<time datetime="${siteMeta.updated}">`));
-assert(html.includes("./styles.css?v=20260615-here-now"));
+assert(html.includes('data-filter="triggered"'));
+assert(html.includes("./styles.css?v=20260616-loop-batch"));
 assert(html.includes("./script.js?v=20260615-here-now"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 assert.equal((html.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
@@ -159,6 +205,7 @@ assert(css.includes(".setup-grid"));
 assert(css.includes(".detail-layout"));
 assert(css.includes(".related-loop-link"));
 assert(css.includes(".about-library"));
+assert(css.includes(".type-triggered::before"));
 assert(css.includes(':root[data-theme="dark"]'));
 assert(css.includes(".theme-toggle"));
 assert(css.includes(".here-now-credit"));

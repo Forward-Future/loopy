@@ -4,8 +4,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A bounded refactoring workflow that live-tests the system, runs an independent review, commits checkpoints, and records progress." />
-    <meta name="author" content="Peter Steinberger" />
+    <meta name="description" content="A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons." />
+    <meta name="author" content="Matthew Berman" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
     <meta name="color-scheme" content="light dark" />
@@ -35,18 +35,18 @@
     </script>
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
-    <meta property="og:title" content="Architecture Refactoring Loop for Coding Agents | Loop Library" />
-    <meta property="og:description" content="A bounded refactoring workflow that live-tests the system, runs an independent review, commits checkpoints, and records progress." />
-    <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/" />
+    <meta property="og:title" content="Post-Release Benchmark Baseline Loop | Loop Library" />
+    <meta property="og:description" content="A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons." />
+    <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/" />
     <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/ff-mark.png" />
     <meta property="og:image:alt" content="Forward Future Loop Library" />
-    <meta property="article:published_time" content="2026-06-12" />
-    <meta property="article:modified_time" content="2026-06-12" />
+    <meta property="article:published_time" content="2026-06-16" />
+    <meta property="article:modified_time" content="2026-06-16" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Architecture Refactoring Loop for Coding Agents | Loop Library" />
-    <meta name="twitter:description" content="A bounded refactoring workflow that live-tests the system, runs an independent review, commits checkpoints, and records progress." />
+    <meta name="twitter:title" content="Post-Release Benchmark Baseline Loop | Loop Library" />
+    <meta name="twitter:description" content="A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons." />
     <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/ff-mark.png" />
-    <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/" />
+    <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
@@ -57,7 +57,7 @@
   "@graph": [
     {
       "@type": "BreadcrumbList",
-      "@id": "https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/#breadcrumbs",
+      "@id": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/#breadcrumbs",
       "itemListElement": [
         {
           "@type": "ListItem",
@@ -68,31 +68,31 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "The architecture satisfaction loop",
-          "item": "https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/"
+          "name": "The post-release baseline loop",
+          "item": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/"
         }
       ]
     },
     {
       "@type": "Article",
-      "@id": "https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/#article",
-      "headline": "The architecture satisfaction loop",
-      "description": "A bounded refactoring workflow that live-tests the system, runs an independent review, commits checkpoints, and records progress.",
-      "url": "https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/",
-      "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/",
-      "datePublished": "2026-06-12",
-      "dateModified": "2026-06-12",
-      "articleSection": "AI coding agent workflow",
+      "@id": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/#article",
+      "headline": "The post-release baseline loop",
+      "description": "A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons.",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/",
+      "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/",
+      "datePublished": "2026-06-16",
+      "dateModified": "2026-06-16",
+      "articleSection": "AI release operations workflow",
       "keywords": [
-        "AI coding agent",
-        "architecture refactor",
-        "autoreview",
-        "incremental refactoring",
-        "coding agent workflow"
+        "AI release operations",
+        "post-release benchmark",
+        "performance baseline",
+        "release verification",
+        "benchmark history"
       ],
       "author": {
         "@type": "Person",
-        "name": "Peter Steinberger"
+        "name": "Matthew Berman"
       },
       "publisher": {
         "@id": "https://signals.forwardfuture.ai/loop-library/#organization"
@@ -117,7 +117,7 @@
 }
     </script>
     <script src="../../script.js?v=20260615-here-now" defer></script>
-    <title>Architecture Refactoring Loop for Coding Agents | Loop Library</title>
+    <title>Post-Release Benchmark Baseline Loop | Loop Library</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -182,31 +182,31 @@
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <ol>
           <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The architecture satisfaction loop</li>
+          <li aria-current="page">The post-release baseline loop</li>
         </ol>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">Goal AI coding agent workflow</p>
-          <h1>The architecture satisfaction loop</h1>
-          <p class="detail-lede">A bounded refactoring workflow that live-tests the system, runs an independent review, commits checkpoints, and records progress.</p>
+          <p class="eyebrow">Triggered AI release operations workflow</p>
+          <h1>The post-release baseline loop</h1>
+          <p class="detail-lede">A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons.</p>
           <dl class="detail-meta">
             <div>
               <dt>Type</dt>
-              <dd>Goal</dd>
+              <dd>Triggered</dd>
             </div>
             <div>
               <dt>Contributor</dt>
-              <dd>Peter Steinberger</dd>
+              <dd>Matthew Berman</dd>
             </div>
             <div>
               <dt>Published</dt>
-              <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
+              <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
             </div>
             <div>
               <dt>Updated</dt>
-              <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
+              <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
             </div>
           </dl>
         </header>
@@ -215,7 +215,7 @@
           <div class="detail-content">
             <section aria-labelledby="use-when">
               <h2 id="use-when">Use this when</h2>
-              <p>Use this for a deliberate architectural refactor where the destination can be stated in concrete terms and the current system can be tested after each meaningful change.</p>
+              <p>Use this immediately after a release when future regressions or improvements need to be measured against the exact version now in production.</p>
             </section>
 
             <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
@@ -228,45 +228,45 @@
                   <span>Copy</span>
                 </button>
               </div>
-              <p data-prompt>Refactor until you are happy with the architecture. After each significant step, live-test the system, run autoreview, and commit. Track progress in /tmp/refactor-{projectname}.md.</p>
+              <p data-prompt>After current releases finish, run the standard benchmarks and record the results as the new baseline.</p>
             </section>
 
             <section aria-labelledby="run-loop">
               <h2 id="run-loop">How to run it</h2>
               <ol class="detail-steps">
-                  <li>Write down the architectural target, constraints, and current risks before editing code.</li>
-                  <li>Make one significant, reviewable change at a time.</li>
-                  <li>Live-test the affected behavior and run an independent review after each significant step.</li>
-                  <li>Commit each verified checkpoint and update the temporary progress file with decisions, blockers, and the next action.</li>
+                  <li>Confirm every in-scope release is complete and record the production revision or artifact identity.</li>
+                  <li>Run the standard benchmark suite under its documented environment, data, warm-up, and repetition rules.</li>
+                  <li>Investigate invalid or unstable runs, then rerun only under the same documented conditions.</li>
+                  <li>Store the final results with the release identity and benchmark metadata, and mark them as the new comparison baseline.</li>
               </ol>
             </section>
 
             <section aria-labelledby="why-it-works">
               <h2 id="why-it-works">Why it works</h2>
-              <p>Small verified checkpoints reduce refactor risk and preserve rollback points. The progress file keeps the goal and decisions available across long sessions or handoffs.</p>
+              <p>Tying the baseline to a verified release creates a trustworthy reference point for later performance and quality work. Recording the conditions prevents unrelated environment changes from masquerading as product changes.</p>
             </section>
 
             <section class="implementation-note" aria-labelledby="implementation-note">
               <h2 id="implementation-note">Implementation note</h2>
-              <p>Define what satisfactory means before starting, such as module boundaries, dependency direction, passing tests, and acceptable performance. A subjective stop condition can otherwise run indefinitely.</p>
+              <p>Do not overwrite the previous baseline until the release identity and benchmark run are verified. Keep historical baselines available for trend analysis.</p>
             </section>
           </div>
 
           <aside class="detail-sidebar" aria-label="Loop verification and topics">
             <section class="verification-card">
               <p class="eyebrow">Verify / stop</p>
-              <h2>The architecture is satisfactory and checks pass.</h2>
-              <p>Live-test, autoreview, and commit each significant step.</p>
+              <h2>The new baseline belongs to the completed release.</h2>
+              <p>Revision, environment, benchmark version, conditions, and results are recorded together.</p>
             </section>
 
             <section class="topic-card">
               <h2>Topics</h2>
               <ul>
-                  <li>AI coding agent</li>
-                  <li>architecture refactor</li>
-                  <li>autoreview</li>
-                  <li>incremental refactoring</li>
-                  <li>coding agent workflow</li>
+                  <li>AI release operations</li>
+                  <li>post-release benchmark</li>
+                  <li>performance baseline</li>
+                  <li>release verification</li>
+                  <li>benchmark history</li>
               </ul>
             </section>
           </aside>
@@ -276,13 +276,13 @@
           <h2 id="related-heading">Related loops</h2>
           <div>
 
-              <a class="related-loop-link" href="../overnight-docs-sweep/">
-                <span>Scheduled</span>
-                <strong>The overnight docs sweep</strong>
-              </a>
-              <a class="related-loop-link" href="../sub-50ms-page-load-loop/">
+              <a class="related-loop-link" href="../stale-safe-batch-release-loop/">
                 <span>Goal</span>
-                <strong>The sub-50 ms page-load loop</strong>
+                <strong>The stale-safe batch release loop</strong>
+              </a>
+              <a class="related-loop-link" href="../test-suite-speed-loop/">
+                <span>Goal</span>
+                <strong>The test-suite speed loop</strong>
               </a>
           </div>
         </nav>

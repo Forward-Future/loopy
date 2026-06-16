@@ -4,7 +4,7 @@ export const site = {
   baseUrl: "https://signals.forwardfuture.ai/loop-library/",
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
-  updated: "2026-06-15",
+  updated: "2026-06-16",
 };
 
 export const loops = [
@@ -241,5 +241,356 @@ export const loops = [
       "answer engine optimization",
     ],
     related: ["overnight-docs-sweep", "production-error-sweep"],
+  },
+  {
+    number: "007",
+    slug: "exhaustive-logging-coverage-loop",
+    title: "The logging coverage loop",
+    seoTitle: "Logging Coverage Loop for Coding Agents | Loop Library",
+    description:
+      "A goal-based observability workflow that audits important paths, adds useful structured logs, and verifies success and failure events with tests.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI coding agent workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Review the system's logging and add missing coverage until every important path produces useful, tested logs.",
+    verifyTitle: "Every important path emits useful, tested logs.",
+    verifyDetail:
+      "Representative success and failure tests prove coverage without exposing sensitive data.",
+    useWhen:
+      "Use this when important user flows, service boundaries, background jobs, or failure paths are difficult to trace because the system's logging is incomplete or inconsistent.",
+    steps: [
+      "Inventory the important paths and define the event, outcome, severity, correlation context, and fields each one should emit.",
+      "Add structured logs to uncovered paths without duplicating events or adding low-value noise.",
+      "Add tests for successful and failed outcomes, then inspect representative emitted logs for useful context.",
+      "Verify redaction and repeat until every important path has tested coverage or a documented reason not to log.",
+    ],
+    why:
+      "Treating logging as testable coverage turns observability from scattered statements into a reviewable system requirement. Inspecting emitted events catches gaps that source review alone misses.",
+    note:
+      "Never log credentials, tokens, secrets, or sensitive personal data. Prefer stable event names and structured fields over interpolated prose.",
+    keywords: [
+      "AI coding agent",
+      "structured logging",
+      "observability coverage",
+      "logging tests",
+      "production diagnostics",
+    ],
+    related: ["production-error-sweep", "100-percent-test-coverage-loop"],
+  },
+  {
+    number: "008",
+    slug: "nightly-changelog-sweep",
+    title: "The nightly changelog loop",
+    seoTitle: "Nightly Changelog Loop for Coding Agents | Loop Library",
+    description:
+      "A scheduled coding-agent workflow that reviews the previous day's changes and keeps user-facing release history complete and current.",
+    type: "Scheduled",
+    typeSlug: "scheduled",
+    categoryLabel: "AI coding agent workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Each night, review changes from the previous day and update the changelog with anything users should know.",
+    verifyTitle: "Every user-relevant change from the previous day is accounted for.",
+    verifyDetail:
+      "The changelog is updated and validated, or the no-change result is recorded.",
+    useWhen:
+      "Use this when a project changes frequently enough that user-facing release notes can drift from merged pull requests, commits, deployments, and product changes.",
+    steps: [
+      "Collect the previous day's merged pull requests, commits, deployments, and other in-scope changes.",
+      "Identify which changes affect users and compare them with the current changelog.",
+      "Add concise dated entries with useful references while preserving existing content and avoiding duplicates.",
+      "Run the relevant checks and record either the validated update or the fact that no user-facing entry was needed.",
+    ],
+    why:
+      "A daily reconciliation makes omissions visible while the context is still fresh. Limiting entries to what users should know keeps the changelog useful instead of turning it into a raw commit feed.",
+    note:
+      "Use the underlying change and product behavior as the source of truth. Commit titles alone can overstate, understate, or misclassify what users experienced.",
+    keywords: [
+      "AI coding agent",
+      "nightly changelog",
+      "release notes workflow",
+      "changelog automation",
+      "daily repository review",
+    ],
+    related: ["overnight-docs-sweep", "repository-cleanup-loop"],
+  },
+  {
+    number: "009",
+    slug: "quality-streak-loop",
+    title: "The quality streak loop",
+    seoTitle: "Quality Streak Evaluation Loop for AI Products | Loop Library",
+    description:
+      "A realistic product-testing workflow that turns every failure into documented regression coverage and restarts the success streak after each fix.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI product evaluation workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Test realistic scenarios. When one fails, document it, add regression and benchmark coverage, fix it, and restart the streak. Stop after [N] successful cases in a row.",
+    verifyTitle: "The latest [N] realistic cases pass in a row.",
+    verifyDetail:
+      "Every earlier failure is documented, fixed, and protected by regression and benchmark coverage.",
+    useWhen:
+      "Use this when product quality needs a strict consecutive-success bar and failures should permanently improve the test and benchmark suite.",
+    steps: [
+      "Define realistic scenarios, the quality bar, the value of [N], and the evidence required for a pass.",
+      "Run cases one at a time under consistent conditions and preserve the result for review.",
+      "On any failure, document it, add regression and benchmark coverage, fix the cause, verify the fix, and reset the streak to zero.",
+      "Stop only after [N] consecutive cases meet the original quality bar.",
+    ],
+    why:
+      "Restarting the streak prevents isolated successes from hiding intermittent weaknesses. Converting each failure into durable coverage makes the evaluation stronger after every miss.",
+    note:
+      "Choose [N] before the run and keep the scenario distribution representative. Do not lower the quality bar or avoid difficult cases to preserve the streak.",
+    keywords: [
+      "AI product evaluation",
+      "quality streak",
+      "regression testing",
+      "benchmark coverage",
+      "realistic scenarios",
+    ],
+    related: ["full-product-evaluation-loop", "100-percent-test-coverage-loop"],
+  },
+  {
+    number: "010",
+    slug: "full-product-evaluation-loop",
+    title: "The full product evaluation loop",
+    seoTitle: "Full Product Evaluation Loop for AI Systems | Loop Library",
+    description:
+      "A comprehensive product-quality workflow that scores realistic tests across every major feature, fixes weak cases, and reruns them to the defined bar.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI product evaluation workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Create [N] realistic tests covering every major feature. Score each response, fix anything unsatisfactory, and rerun it until every case meets the quality bar.",
+    verifyTitle: "Every one of the [N] cases meets the defined quality bar.",
+    verifyDetail:
+      "The final scored run covers every major feature under the original conditions.",
+    useWhen:
+      "Use this for an end-to-end product evaluation when quality must be measured across the full feature set rather than a narrow regression or a few hand-picked examples.",
+    steps: [
+      "List every major feature, define the scoring rubric, choose [N], and allocate realistic cases across the product surface.",
+      "Run the full set under consistent conditions and score every response with evidence.",
+      "Document each unsatisfactory case, fix the underlying issue, and add focused regression coverage where appropriate.",
+      "Rerun affected cases and then the complete set until every score meets the original quality bar.",
+    ],
+    why:
+      "A fixed feature map and scoring rubric make product quality visible across the whole system. Requiring a final complete run catches fixes that improve one case while weakening another.",
+    note:
+      "Keep the test set representative and preserve failed examples. Averages can hide severe misses, so require every case to clear the bar.",
+    keywords: [
+      "AI product evaluation",
+      "full product testing",
+      "response scoring",
+      "quality benchmark",
+      "feature coverage",
+    ],
+    related: ["quality-streak-loop", "production-data-cleanup-loop"],
+  },
+  {
+    number: "011",
+    slug: "test-suite-speed-loop",
+    title: "The test-suite speed loop",
+    seoTitle: "Test-Suite Speed Optimization Loop | Loop Library",
+    description:
+      "A performance workflow for reducing test runtime under repeatable conditions without weakening coverage, assertions, isolation, or behavior.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI coding agent workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Optimize the test suite to run as quickly as possible without reducing coverage or changing behavior.",
+    verifyTitle: "The suite is faster with no coverage or behavior regression.",
+    verifyDetail:
+      "Repeatable timing, the full passing suite, and the original coverage report prove the result.",
+    useWhen:
+      "Use this when slow tests are delaying local feedback or continuous integration and the project has stable commands for measuring runtime and coverage.",
+    steps: [
+      "Record the full-suite runtime, coverage, environment, worker settings, and repeatable timing method.",
+      "Profile the suite to find expensive setup, redundant work, poor isolation, unnecessary integration paths, or safe parallelization opportunities.",
+      "Make one optimization at a time, then rerun the full suite and compare timing, coverage, and behavior.",
+      "Stop at the agreed runtime target or diminishing-returns rule with all original checks still passing.",
+    ],
+    why:
+      "A fixed baseline prevents speed work from quietly trading away coverage or correctness. Profiling directs effort toward measured bottlenecks instead of speculative rewrites.",
+    note:
+      "Define a runtime target or diminishing-returns rule before starting. Faster tests are not an improvement if they become flaky, order-dependent, or less representative.",
+    keywords: [
+      "AI coding agent",
+      "test suite performance",
+      "faster CI",
+      "test optimization",
+      "coverage preservation",
+    ],
+    related: ["100-percent-test-coverage-loop", "sub-50ms-page-load-loop"],
+  },
+  {
+    number: "012",
+    slug: "repository-cleanup-loop",
+    title: "The repository cleanup loop",
+    seoTitle: "Repository Cleanup Loop for Coding Agents | Loop Library",
+    description:
+      "A repository-hygiene workflow that audits branches, pull requests, commits, and worktrees, recovers valuable changes, and removes proven stale state.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI repository operations workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Inspect local and remote branches, pull requests, commits, and worktrees. Recover valuable work and clean everything stale until the repository is current and organized.",
+    verifyTitle: "Valuable work is recovered and remaining repository state is intentional.",
+    verifyDetail:
+      "Branches, pull requests, commits, and worktrees are current, owned, or safely removed with evidence.",
+    useWhen:
+      "Use this when abandoned branches, old worktrees, unclear pull requests, or unmerged commits make it difficult to know which repository state still matters.",
+    steps: [
+      "Inventory local and remote branches, open and recently closed pull requests, unmerged commits, and registered worktrees.",
+      "Classify each item as current, valuable but unfinished, superseded, merged, abandoned, or uncertain, recording evidence and ownership.",
+      "Recover valuable changes into an appropriate current branch before removing any stale reference.",
+      "Clean only proven stale state, fetch and prune safely, then rerun the inventory until every remaining item is intentional.",
+    ],
+    why:
+      "Inventory and classification separate recoverable work from clutter before cleanup begins. Repeating the inventory proves the repository is organized instead of merely smaller.",
+    note:
+      "Do not delete uncertain work, discard uncommitted changes, or close someone else's pull request without confirmation. Preserve evidence for every destructive cleanup action.",
+    keywords: [
+      "AI coding agent",
+      "repository cleanup",
+      "git worktree audit",
+      "branch hygiene",
+      "pull request triage",
+    ],
+    related: ["stale-safe-batch-release-loop", "nightly-changelog-sweep"],
+  },
+  {
+    number: "013",
+    slug: "stale-safe-batch-release-loop",
+    title: "The stale-safe batch release loop",
+    seoTitle: "Stale-Safe Batch Release Loop | Loop Library",
+    description:
+      "A release-coordination workflow that excludes stale or unfinished work, combines valid changes, and ships complete artifacts from the latest integrated main.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI release operations workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Review pending changes and pull requests, exclude stale or unfinished work, combine the valid changes, and release them together.",
+    verifyTitle: "Only current, complete changes ship in the combined release.",
+    verifyDetail:
+      "The released revision is the latest integrated main that contains every selected change.",
+    useWhen:
+      "Use this when several branches or pull requests may be ready at once and the release must avoid stale worktrees, partial overlays, and incomplete changes.",
+    steps: [
+      "Fetch current repository and pull-request state, then inspect every candidate change for freshness, completeness, ownership, checks, and dependencies.",
+      "Exclude stale, superseded, conflicting, or unfinished work and record why each candidate was omitted.",
+      "Integrate the valid changes, rerun the combined checks, and select the newest main revision that contains the full batch.",
+      "Release complete artifacts from a clean checkout, serialize the deployment, and verify production before closing the batch.",
+    ],
+    why:
+      "Evaluating all candidates before integration prevents stale code from entering a release through convenience or worktree confusion. Releasing from integrated main proves the deployed artifact matches the reviewed batch.",
+    note:
+      "The candidate diff selects what belongs in the batch, but deployment must use complete artifacts from the latest integrated main. Never deploy from a task worktree or partial file overlay.",
+    keywords: [
+      "AI release operations",
+      "batch release",
+      "stale code prevention",
+      "pull request coordination",
+      "deployment safety",
+    ],
+    related: ["repository-cleanup-loop", "post-release-baseline-loop"],
+  },
+  {
+    number: "014",
+    slug: "production-data-cleanup-loop",
+    title: "The production data cleanup loop",
+    seoTitle: "Production Data Cleanup Loop for AI Systems | Loop Library",
+    description:
+      "A production-data quality workflow that removes disallowed records, improves classification logic, and verifies the remaining dataset against an explicit definition.",
+    type: "Goal",
+    typeSlug: "goal",
+    categoryLabel: "AI data operations workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "Review production records, remove anything that does not meet the allowed definition, improve the classification logic, and verify the remaining data.",
+    verifyTitle: "Every remaining record meets the allowed definition.",
+    verifyDetail:
+      "Representative classification tests and a post-cleanup audit prove the retained data is valid.",
+    useWhen:
+      "Use this when a production dataset contains records that no longer match a product, policy, taxonomy, or quality definition and the classifier allowed them through.",
+    steps: [
+      "Write the allowed definition as explicit inclusion, exclusion, and edge-case rules before changing data.",
+      "Audit production records, preserve a recoverable record of proposed removals, and separate clear violations from uncertain cases.",
+      "Remove confirmed invalid records through the approved production path and improve the classifier with regression examples.",
+      "Rerun classification tests and audit the remaining production data until every sampled and queried record meets the definition.",
+    ],
+    why:
+      "Fixing both the existing records and the classifier closes the immediate data problem and reduces recurrence. Explicit rules and regression examples make future cleanup decisions reviewable.",
+    note:
+      "Follow access, retention, privacy, and audit requirements. Use backups or reversible operations where appropriate, and do not delete uncertain records without review.",
+    keywords: [
+      "AI data operations",
+      "production data cleanup",
+      "classification logic",
+      "data quality audit",
+      "regression examples",
+    ],
+    related: ["full-product-evaluation-loop", "exhaustive-logging-coverage-loop"],
+  },
+  {
+    number: "015",
+    slug: "post-release-baseline-loop",
+    title: "The post-release baseline loop",
+    seoTitle: "Post-Release Benchmark Baseline Loop | Loop Library",
+    description:
+      "A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons.",
+    type: "Triggered",
+    typeSlug: "triggered",
+    categoryLabel: "AI release operations workflow",
+    author: "Matthew Berman",
+    published: "2026-06-16",
+    modified: "2026-06-16",
+    prompt:
+      "After current releases finish, run the standard benchmarks and record the results as the new baseline.",
+    verifyTitle: "The new baseline belongs to the completed release.",
+    verifyDetail:
+      "Revision, environment, benchmark version, conditions, and results are recorded together.",
+    useWhen:
+      "Use this immediately after a release when future regressions or improvements need to be measured against the exact version now in production.",
+    steps: [
+      "Confirm every in-scope release is complete and record the production revision or artifact identity.",
+      "Run the standard benchmark suite under its documented environment, data, warm-up, and repetition rules.",
+      "Investigate invalid or unstable runs, then rerun only under the same documented conditions.",
+      "Store the final results with the release identity and benchmark metadata, and mark them as the new comparison baseline.",
+    ],
+    why:
+      "Tying the baseline to a verified release creates a trustworthy reference point for later performance and quality work. Recording the conditions prevents unrelated environment changes from masquerading as product changes.",
+    note:
+      "Do not overwrite the previous baseline until the release identity and benchmark run are verified. Keep historical baselines available for trend analysis.",
+    keywords: [
+      "AI release operations",
+      "post-release benchmark",
+      "performance baseline",
+      "release verification",
+      "benchmark history",
+    ],
+    related: ["stale-safe-batch-release-loop", "test-suite-speed-loop"],
   },
 ];

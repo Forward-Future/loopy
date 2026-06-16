@@ -5,7 +5,7 @@
   <id>https://signals.forwardfuture.ai/loop-library/</id>
   <link href="https://signals.forwardfuture.ai/loop-library/" />
   <link href="https://signals.forwardfuture.ai/loop-library/feed.xml" rel="self" type="application/atom+xml" />
-  <updated>2026-06-15T00:00:00-07:00</updated>
+  <updated>2026-06-16T00:00:00-07:00</updated>
   <author>
     <name>Forward Future</name>
     <uri>https://forwardfuture.ai/</uri>
@@ -75,5 +75,104 @@
       <name>Matthew Berman</name>
     </author>
     <summary>A repeatable search visibility workflow that fixes the highest-impact crawl, indexation, page-intent, citation, and answer-readiness gaps first.</summary>
+  </entry>
+  <entry>
+    <title>The logging coverage loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/exhaustive-logging-coverage-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/exhaustive-logging-coverage-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A goal-based observability workflow that audits important paths, adds useful structured logs, and verifies success and failure events with tests.</summary>
+  </entry>
+  <entry>
+    <title>The nightly changelog loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/nightly-changelog-sweep/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/nightly-changelog-sweep/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A scheduled coding-agent workflow that reviews the previous day&#39;s changes and keeps user-facing release history complete and current.</summary>
+  </entry>
+  <entry>
+    <title>The quality streak loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A realistic product-testing workflow that turns every failure into documented regression coverage and restarts the success streak after each fix.</summary>
+  </entry>
+  <entry>
+    <title>The full product evaluation loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A comprehensive product-quality workflow that scores realistic tests across every major feature, fixes weak cases, and reruns them to the defined bar.</summary>
+  </entry>
+  <entry>
+    <title>The test-suite speed loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A performance workflow for reducing test runtime under repeatable conditions without weakening coverage, assertions, isolation, or behavior.</summary>
+  </entry>
+  <entry>
+    <title>The repository cleanup loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A repository-hygiene workflow that audits branches, pull requests, commits, and worktrees, recovers valuable changes, and removes proven stale state.</summary>
+  </entry>
+  <entry>
+    <title>The stale-safe batch release loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A release-coordination workflow that excludes stale or unfinished work, combines valid changes, and ships complete artifacts from the latest integrated main.</summary>
+  </entry>
+  <entry>
+    <title>The production data cleanup loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/production-data-cleanup-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/production-data-cleanup-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A production-data quality workflow that removes disallowed records, improves classification logic, and verifies the remaining dataset against an explicit definition.</summary>
+  </entry>
+  <entry>
+    <title>The post-release baseline loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/" />
+    <published>2026-06-16T00:00:00-07:00</published>
+    <updated>2026-06-16T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons.</summary>
   </entry>
 </feed>
