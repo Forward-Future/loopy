@@ -7,12 +7,15 @@ import { loops, site as siteMeta } from "./loop-data.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteRoot = path.join(root, "site");
+const workerRoot = path.join(root, "worker");
 
 const [
   html,
   css,
   script,
   dataSource,
+  workerSource,
+  wranglerSource,
   sitemap,
   feed,
   hereNowIcon,
@@ -24,6 +27,8 @@ const [
     readFile(path.join(siteRoot, "styles.css"), "utf8"),
     readFile(path.join(siteRoot, "script.js"), "utf8"),
     readFile(path.join(siteRoot, ".herenow", "data.json"), "utf8"),
+    readFile(path.join(workerRoot, "src", "index.js"), "utf8"),
+    readFile(path.join(workerRoot, "wrangler.jsonc"), "utf8"),
     readFile(path.join(siteRoot, "sitemap.xml"), "utf8"),
     readFile(path.join(siteRoot, "feed.xml"), "utf8"),
     readFile(path.join(siteRoot, "assets", "here-now-icon.svg"), "utf8"),
@@ -39,6 +44,7 @@ const [
 ]);
 
 const dataManifest = JSON.parse(dataSource);
+const wranglerConfig = JSON.parse(wranglerSource);
 const suggestions = dataManifest.collections?.suggestions;
 const weeklySignups = dataManifest.collections?.weekly_signups;
 const structuredDataMatch = html.match(
@@ -176,8 +182,8 @@ assert(!html.includes('data-type='));
 assert(!html.includes('class="cell-type"'));
 assert(!html.includes("type-badge"));
 assert(!html.includes('<th scope="col">Type</th>'));
-assert(html.includes("./styles.css?v=20260617-search-focus"));
-assert(html.includes("./script.js?v=20260617-no-loop-type"));
+assert(html.includes("./styles.css?v=20260617-form-protection"));
+assert(html.includes("./script.js?v=20260617-form-protection"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 assert.equal((html.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
 assert.equal((html.match(/aria-label="Hosted by here\.now"/g) || []).length, 2);
@@ -195,6 +201,11 @@ assert(html.includes('id="weekly"'));
 assert(html.includes('id="weekly-form"'));
 assert(html.includes("One useful loop, once a week."));
 assert(html.includes("Notify me weekly"));
+assert(html.includes('name="loop-library-form-api"'));
+assert(html.includes("https://loop-library-forms.forwardfuture.ai"));
+assert(html.includes('id="weekly-turnstile"'));
+assert(html.includes('id="loop-turnstile"'));
+assert.equal((html.match(/type="submit" disabled/g) || []).length, 2);
 assert(!html.includes('class="workflow-help"'));
 assert(!html.includes("How to use these loops"));
 assert(html.includes("Share a loop"));
@@ -230,9 +241,14 @@ assert(css.includes(".newsletter-form"));
 assert(!css.includes(".workflow-help"));
 assert(css.includes(".submission-header"));
 assert(!css.includes("box-shadow"));
-assert.match(script, /postSiteData\(\s*"suggestions"/);
-assert.match(script, /postSiteData\(\s*"weekly_signups"/);
-assert(script.includes("`./.herenow/data/${collection}`"));
+assert(script.includes('postProtectedForm(\n        "/suggestions"'));
+assert(script.includes('postProtectedForm(\n        "/weekly-signups"'));
+assert(script.includes("https://challenges.cloudflare.com/turnstile/v0/api.js"));
+assert(script.includes('appearance: "interaction-only"'));
+assert(script.includes("turnstile_token"));
+assert(script.includes("bytes[6] = (bytes[6] & 0x0f) | 0x40"));
+assert(script.includes("bytes[8] = (bytes[8] & 0x3f) | 0x80"));
+assert(!script.includes("./.herenow/data/"));
 assert(script.includes('document.querySelectorAll(".loop-row")'));
 assert(script.includes('searchInput.addEventListener("input", updateLibrary)'));
 assert(script.includes('searchInput.addEventListener("search", updateLibrary)'));
@@ -243,13 +259,40 @@ assert(script.includes('themeToggle.addEventListener("click"'));
 assert(script.includes("window.localStorage.setItem(THEME_STORAGE_KEY, theme)"));
 assert(script.includes('button.closest("[data-copy-root]")'));
 assert(!script.includes("innerHTML"));
+assert(
+  workerSource.includes(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+  ),
+);
+assert(workerSource.includes("result.action !== expectedAction"));
+assert(workerSource.includes("TURNSTILE_HOSTNAMES"));
+assert(workerSource.includes('request.headers.get("CF-Connecting-IP")'));
+assert(workerSource.includes("hourlyLimit: 3"));
+assert(workerSource.includes("dailyLimit: 10"));
+assert(workerSource.includes("idempotency_conflict"));
+assert(workerSource.includes("`idempotency:${idempotencyKey}`"));
+assert(workerSource.includes("requestHash: body.requestHash"));
+assert(workerSource.includes("reserveFingerprint"));
+assert(workerSource.includes("Authorization: `Bearer ${env.HERENOW_API_KEY}`"));
+assert(workerSource.includes("export class FormGuard"));
+assert.equal(wranglerConfig.name, "loop-library-forms");
+assert.equal(wranglerConfig.workers_dev, false);
+assert.equal(
+  wranglerConfig.routes[0].pattern,
+  "loop-library-forms.forwardfuture.ai",
+);
+assert.equal(wranglerConfig.routes[0].custom_domain, true);
+assert.equal(
+  wranglerConfig.durable_objects.bindings[0].class_name,
+  "FormGuard",
+);
 assert(sitemap.includes(`<loc>${siteMeta.baseUrl}</loc>`));
 assert(feed.includes(`<id>${siteMeta.baseUrl}</id>`));
 assert(hereNowIcon.includes('<rect width="128" height="128" fill="#ffffff"/>'));
 assert(hereNowIcon.includes('<circle cx="64" cy="64" r="26" fill="#000000"/>'));
 
 assert.equal(suggestions.access.read, "owner");
-assert.equal(suggestions.access.insert, "public");
+assert.equal(suggestions.access.insert, "owner");
 assert.equal(suggestions.access.update, "owner");
 assert.equal(suggestions.access.delete, "owner");
 assert.equal(suggestions.rateLimit, "3/hour/ip");
@@ -259,7 +302,7 @@ assert(suggestions.fields.instructions.maxLength <= 3000);
 assert(suggestions.fields.email.maxLength <= 160);
 assert(suggestions.fields.source_url.maxLength <= 300);
 assert.equal(weeklySignups.access.read, "owner");
-assert.equal(weeklySignups.access.insert, "public");
+assert.equal(weeklySignups.access.insert, "owner");
 assert.equal(weeklySignups.access.update, "owner");
 assert.equal(weeklySignups.access.delete, "owner");
 assert.equal(weeklySignups.rateLimit, "5/hour/ip");

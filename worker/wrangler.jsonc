@@ -1,0 +1,33 @@
+{
+  "name": "loop-library-forms",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-17",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "loop-library-forms.forwardfuture.ai",
+      "custom_domain": true
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "FORM_GUARD",
+        "class_name": "FormGuard"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["FormGuard"]
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://signals.forwardfuture.ai,http://localhost:4173,http://127.0.0.1:4173",
+    "ALLOWED_ORIGIN_SUFFIXES": ".here.now"
+  }
+}

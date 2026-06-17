@@ -37,7 +37,7 @@
       },
       "access": {
         "read": "owner",
-        "insert": "public",
+        "insert": "owner",
         "update": "owner",
         "delete": "owner"
       },
@@ -54,7 +54,7 @@
       },
       "access": {
         "read": "owner",
-        "insert": "public",
+        "insert": "owner",
         "update": "owner",
         "delete": "owner"
       },

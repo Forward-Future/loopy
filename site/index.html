@@ -14,6 +14,10 @@
     />
     <meta name="theme-color" content="#faf8f7" />
     <meta name="color-scheme" content="light dark" />
+    <meta
+      name="loop-library-form-api"
+      content="https://loop-library-forms.forwardfuture.ai"
+    />
     <script>
       (() => {
         const storageKey = "loop-library-theme";
@@ -88,7 +92,7 @@
       href="https://signals.forwardfuture.ai/loop-library/feed.xml"
     />
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
-    <link rel="stylesheet" href="./styles.css?v=20260617-search-focus" />
+    <link rel="stylesheet" href="./styles.css?v=20260617-form-protection" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -225,7 +229,7 @@
         ]
       }
     </script>
-    <script src="./script.js?v=20260617-no-loop-type" defer></script>
+    <script src="./script.js?v=20260617-form-protection" defer></script>
     <title>Loop Library: Repeatable AI Agent Workflows | Forward Future</title>
   </head>
   <body>
@@ -897,11 +901,17 @@
                 placeholder="you@example.com"
                 required
               />
-              <button class="newsletter-button" type="submit">
+              <button class="newsletter-button" type="submit" disabled>
                 <span>Notify me weekly</span>
                 <span aria-hidden="true">&rarr;</span>
               </button>
             </div>
+
+            <div
+              class="form-verification form-verification--newsletter"
+              id="weekly-turnstile"
+              aria-label="Spam protection"
+            ></div>
 
             <div class="form-trap" aria-hidden="true">
               <label>
@@ -988,6 +998,12 @@
             </label>
           </div>
 
+          <div
+            class="form-verification"
+            id="loop-turnstile"
+            aria-label="Spam protection"
+          ></div>
+
           <label class="consent-field">
             <input name="permission" type="checkbox" required />
             <span>
@@ -1000,7 +1016,7 @@
             <p>
               Private review queue. Never include secrets or private code.
             </p>
-            <button class="submit-button" type="submit">
+            <button class="submit-button" type="submit" disabled>
               <span>Submit loop</span>
               <span aria-hidden="true">&rarr;</span>
             </button>

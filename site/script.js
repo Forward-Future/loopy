@@ -163,16 +163,72 @@ const form = document.querySelector("#loop-form");
 const formStatus = document.querySelector("#form-status");
 const submitButton = form?.querySelector(".submit-button");
 const submitButtonLabel = submitButton?.querySelector("span");
+const weeklyForm = document.querySelector("#weekly-form");
+const weeklyStatus = document.querySelector("#weekly-status");
+const weeklyButton = weeklyForm?.querySelector(".newsletter-button");
+const weeklyButtonLabel = weeklyButton?.querySelector("span");
+const formApiMeta = document.querySelector(
+  'meta[name="loop-library-form-api"]',
+);
+const configuredFormApiOrigin = formApiMeta?.getAttribute("content") || "";
+const isLocalPreview = ["localhost", "127.0.0.1"].includes(
+  window.location.hostname,
+);
+const FORM_API_ORIGIN = isLocalPreview
+  ? "http://localhost:8787"
+  : configuredFormApiOrigin;
 
 let formStartedAt = performance.now();
 let idempotencyKey = makeIdempotencyKey();
+let weeklyFormStartedAt = performance.now();
+let weeklyIdempotencyKey = makeIdempotencyKey();
+let formProtectionReady = false;
+let turnstileLoadPromise;
+
+const turnstileWidgets = {
+  suggestions: {
+    action: "",
+    container: document.querySelector("#loop-turnstile"),
+    id: null,
+    token: "",
+  },
+  weeklySignups: {
+    action: "",
+    container: document.querySelector("#weekly-turnstile"),
+    id: null,
+    token: "",
+  },
+};
 
 function makeIdempotencyKey() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
     return window.crypto.randomUUID();
   }
 
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  const bytes = new Uint8Array(16);
+
+  if (window.crypto && typeof window.crypto.getRandomValues === "function") {
+    window.crypto.getRandomValues(bytes);
+  } else {
+    for (let index = 0; index < bytes.length; index += 1) {
+      bytes[index] = Math.floor(Math.random() * 256);
+    }
+  }
+
+  bytes[6] = (bytes[6] & 0x0f) | 0x40;
+  bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+  const hex = [...bytes].map((byte) =>
+    byte.toString(16).padStart(2, "0"),
+  );
+
+  return [
+    hex.slice(0, 4).join(""),
+    hex.slice(4, 6).join(""),
+    hex.slice(6, 8).join(""),
+    hex.slice(8, 10).join(""),
+    hex.slice(10).join(""),
+  ].join("-");
 }
 
 function setFormStatus(message, kind = "") {
@@ -185,25 +241,169 @@ function setFormStatus(message, kind = "") {
   formStatus.classList.toggle("is-error", kind === "error");
 }
 
+function setWeeklyStatus(message, kind = "") {
+  if (!weeklyStatus) {
+    return;
+  }
+
+  weeklyStatus.textContent = message;
+  weeklyStatus.classList.toggle("is-success", kind === "success");
+  weeklyStatus.classList.toggle("is-error", kind === "error");
+}
+
 function optionalValue(formData, name) {
   const value = String(formData.get(name) || "").trim();
   return value || undefined;
 }
 
-async function postSiteData(
-  collection,
-  payload,
-  key,
-  rateLimitMessage,
-  fallbackMessage,
-) {
-  const response = await fetch(`./.herenow/data/${collection}`, {
+function setProtectedButtonsDisabled(disabled) {
+  if (submitButton) {
+    submitButton.disabled = disabled;
+  }
+
+  if (weeklyButton) {
+    weeklyButton.disabled = disabled;
+  }
+}
+
+function loadTurnstile() {
+  if (window.turnstile) {
+    return Promise.resolve(window.turnstile);
+  }
+
+  if (turnstileLoadPromise) {
+    return turnstileLoadPromise;
+  }
+
+  turnstileLoadPromise = new Promise((resolve, reject) => {
+    const callbackName = "loopLibraryTurnstileReady";
+    const script = document.createElement("script");
+
+    window[callbackName] = () => {
+      delete window[callbackName];
+
+      if (window.turnstile) {
+        resolve(window.turnstile);
+      } else {
+        reject(new Error("Spam protection did not initialize."));
+      }
+    };
+
+    script.src =
+      "https://challenges.cloudflare.com/turnstile/v0/api.js" +
+      `?render=explicit&onload=${callbackName}`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => {
+      delete window[callbackName];
+      reject(new Error("Spam protection could not be loaded."));
+    };
+    document.head.append(script);
+  });
+
+  return turnstileLoadPromise;
+}
+
+function renderTurnstile(turnstile, widget, siteKey) {
+  if (!widget.container || !widget.action) {
+    throw new Error("Spam protection is not configured.");
+  }
+
+  widget.id = turnstile.render(widget.container, {
+    sitekey: siteKey,
+    action: widget.action,
+    appearance: "interaction-only",
+    execution: "render",
+    size: "flexible",
+    theme:
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+    callback(token) {
+      widget.token = token;
+    },
+    "expired-callback"() {
+      widget.token = "";
+    },
+    "error-callback"() {
+      widget.token = "";
+    },
+  });
+}
+
+function resetTurnstile(widget) {
+  widget.token = "";
+
+  if (window.turnstile && widget.id !== null) {
+    window.turnstile.reset(widget.id);
+  }
+}
+
+async function initializeFormProtection() {
+  if (
+    !FORM_API_ORIGIN ||
+    !form ||
+    !weeklyForm ||
+    !submitButton ||
+    !weeklyButton
+  ) {
+    return;
+  }
+
+  setProtectedButtonsDisabled(true);
+
+  try {
+    const [configResponse, turnstile] = await Promise.all([
+      fetch(`${FORM_API_ORIGIN}/config`, {
+        headers: { Accept: "application/json" },
+      }),
+      loadTurnstile(),
+    ]);
+    const config = await configResponse.json();
+
+    if (
+      !configResponse.ok ||
+      !config.turnstileSiteKey ||
+      !config.actions?.suggestions ||
+      !config.actions?.weeklySignups
+    ) {
+      throw new Error(
+        config.error || "Spam protection is temporarily unavailable.",
+      );
+    }
+
+    turnstileWidgets.suggestions.action = config.actions.suggestions;
+    turnstileWidgets.weeklySignups.action = config.actions.weeklySignups;
+    renderTurnstile(
+      turnstile,
+      turnstileWidgets.suggestions,
+      config.turnstileSiteKey,
+    );
+    renderTurnstile(
+      turnstile,
+      turnstileWidgets.weeklySignups,
+      config.turnstileSiteKey,
+    );
+    formProtectionReady = true;
+    setProtectedButtonsDisabled(false);
+  } catch {
+    setFormStatus(
+      "Submissions are temporarily unavailable. Refresh and try again.",
+      "error",
+    );
+    setWeeklyStatus(
+      "Signups are temporarily unavailable. Refresh and try again.",
+      "error",
+    );
+  }
+}
+
+async function postProtectedForm(path, body, fallbackMessage) {
+  const response = await fetch(`${FORM_API_ORIGIN}${path}`, {
     method: "POST",
     headers: {
-      "content-type": "application/json",
-      "Idempotency-Key": key,
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
 
   let responseBody = {};
@@ -214,14 +414,8 @@ async function postSiteData(
   }
 
   if (!response.ok) {
-    if (response.status === 429) {
-      throw new Error(rateLimitMessage);
-    }
-
     throw new Error(
-      responseBody.message ||
-        responseBody.error ||
-        fallbackMessage,
+      responseBody.error || fallbackMessage,
     );
   }
 }
@@ -238,17 +432,18 @@ if (form && submitButton && submitButtonLabel) {
     }
 
     const formData = new FormData(form);
-    const honeypot = String(formData.get("company") || "").trim();
-
-    if (honeypot) {
-      form.reset();
-      setFormStatus("Thanks. Your suggestion is in review.", "success");
-      return;
-    }
 
     if (performance.now() - formStartedAt < 1200) {
       setFormStatus(
         "Take a moment to review the loop, then submit it again.",
+        "error",
+      );
+      return;
+    }
+
+    if (!formProtectionReady || !turnstileWidgets.suggestions.token) {
+      setFormStatus(
+        "Complete the verification check before submitting.",
         "error",
       );
       return;
@@ -274,11 +469,15 @@ if (form && submitButton && submitButtonLabel) {
     submitButtonLabel.textContent = "Sending";
 
     try {
-      await postSiteData(
-        "suggestions",
-        payload,
-        idempotencyKey,
-        "This connection has reached the submission limit. Try again later.",
+      await postProtectedForm(
+        "/suggestions",
+        {
+          payload,
+          permission: formData.get("permission") === "on",
+          honeypot: String(formData.get("company") || "").trim(),
+          idempotency_key: idempotencyKey,
+          turnstile_token: turnstileWidgets.suggestions.token,
+        },
         "The suggestion could not be submitted.",
       );
 
@@ -289,7 +488,9 @@ if (form && submitButton && submitButtonLabel) {
       );
       idempotencyKey = makeIdempotencyKey();
       formStartedAt = performance.now();
+      resetTurnstile(turnstileWidgets.suggestions);
     } catch (error) {
+      resetTurnstile(turnstileWidgets.suggestions);
       setFormStatus(
         error.message || "Something went wrong. Try again in a moment.",
         "error",
@@ -299,24 +500,6 @@ if (form && submitButton && submitButtonLabel) {
       submitButtonLabel.textContent = "Submit loop";
     }
   });
-}
-
-const weeklyForm = document.querySelector("#weekly-form");
-const weeklyStatus = document.querySelector("#weekly-status");
-const weeklyButton = weeklyForm?.querySelector(".newsletter-button");
-const weeklyButtonLabel = weeklyButton?.querySelector("span");
-
-let weeklyFormStartedAt = performance.now();
-let weeklyIdempotencyKey = makeIdempotencyKey();
-
-function setWeeklyStatus(message, kind = "") {
-  if (!weeklyStatus) {
-    return;
-  }
-
-  weeklyStatus.textContent = message;
-  weeklyStatus.classList.toggle("is-success", kind === "success");
-  weeklyStatus.classList.toggle("is-error", kind === "error");
 }
 
 if (weeklyForm && weeklyButton && weeklyButtonLabel) {
@@ -331,18 +514,17 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
     }
 
     const formData = new FormData(weeklyForm);
-    const honeypot = String(
-      formData.get("newsletter_company") || "",
-    ).trim();
-
-    if (honeypot) {
-      weeklyForm.reset();
-      setWeeklyStatus("You’re on the weekly list.", "success");
-      return;
-    }
 
     if (performance.now() - weeklyFormStartedAt < 800) {
       setWeeklyStatus("Take a moment, then submit again.", "error");
+      return;
+    }
+
+    if (!formProtectionReady || !turnstileWidgets.weeklySignups.token) {
+      setWeeklyStatus(
+        "Complete the verification check before signing up.",
+        "error",
+      );
       return;
     }
 
@@ -350,11 +532,16 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
     weeklyButtonLabel.textContent = "Adding";
 
     try {
-      await postSiteData(
-        "weekly_signups",
-        { email: String(formData.get("email")).trim() },
-        weeklyIdempotencyKey,
-        "This connection has reached the signup limit. Try again later.",
+      await postProtectedForm(
+        "/weekly-signups",
+        {
+          payload: { email: String(formData.get("email")).trim() },
+          honeypot: String(
+            formData.get("newsletter_company") || "",
+          ).trim(),
+          idempotency_key: weeklyIdempotencyKey,
+          turnstile_token: turnstileWidgets.weeklySignups.token,
+        },
         "The signup could not be submitted.",
       );
       weeklyForm.reset();
@@ -364,7 +551,9 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
       );
       weeklyIdempotencyKey = makeIdempotencyKey();
       weeklyFormStartedAt = performance.now();
+      resetTurnstile(turnstileWidgets.weeklySignups);
     } catch (error) {
+      resetTurnstile(turnstileWidgets.weeklySignups);
       setWeeklyStatus(
         error.message || "Something went wrong. Try again in a moment.",
         "error",
@@ -375,3 +564,5 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
     }
   });
 }
+
+initializeFormProtection();

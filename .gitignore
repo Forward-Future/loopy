@@ -2,3 +2,5 @@
 /.herenow/
 site/.herenow/state.json
 node_modules/
+worker/.dev.vars
+worker/.wrangler/

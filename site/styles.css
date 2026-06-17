@@ -726,6 +726,15 @@ code {
   font-size: 0.72rem;
 }
 
+.form-verification {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.form-verification--newsletter {
+  color-scheme: dark;
+}
+
 .newsletter-status {
   margin-bottom: -8px;
 }

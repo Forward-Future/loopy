@@ -203,11 +203,11 @@ function renderLoopPage(loop) {
     <link rel="sitemap" type="application/xml" href="${escapeHtml(site.baseUrl)}sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="${escapeHtml(site.name)} updates" href="${escapeHtml(site.baseUrl)}feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-no-loop-type" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
     <script type="application/ld+json">
 ${structuredData(loop)}
     </script>
-    <script src="../../script.js?v=20260617-no-loop-type" defer></script>
+    <script src="../../script.js?v=20260617-form-protection" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
   </head>
   <body>

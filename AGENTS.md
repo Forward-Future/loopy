@@ -21,6 +21,7 @@
   node --check scripts/build-loop-pages.mjs
   node --check scripts/loop-data.mjs
   node scripts/check.mjs
+  npm --prefix worker run check
   python3 -m json.tool site/.herenow/data.json >/dev/null
   git diff --check
   ```
@@ -41,5 +42,7 @@
   active deployment, then fetch and fast-forward again before selecting the
   deployment revision.
 - Hold the lock through here.now finalize and production verification.
+- Deploy and verify the form Worker before publishing a site revision that
+  changes Site Data form collections to owner-only.
 - Verify both `https://signals.forwardfuture.ai/loop-library/` and the backing
   here.now Site before reporting success.

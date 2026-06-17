@@ -1,0 +1,11 @@
+{
+  "name": "loop-library-form-gateway",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/index.js && node --test",
+    "deploy": "npx --yes wrangler@latest deploy",
+    "dev": "npx --yes wrangler@latest dev",
+    "test": "node --test"
+  }
+}
