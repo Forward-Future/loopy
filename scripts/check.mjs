@@ -176,7 +176,7 @@ assert(!html.includes('data-type='));
 assert(!html.includes('class="cell-type"'));
 assert(!html.includes("type-badge"));
 assert(!html.includes('<th scope="col">Type</th>'));
-assert(html.includes("./styles.css?v=20260617-no-loop-type"));
+assert(html.includes("./styles.css?v=20260617-search-focus"));
 assert(html.includes("./script.js?v=20260617-no-loop-type"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 assert.equal((html.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
@@ -215,6 +215,15 @@ assert(!css.includes(".type-goal"));
 assert(!css.includes(".type-triggered"));
 assert(css.includes(':root[data-theme="dark"]'));
 assert(css.includes(".theme-toggle"));
+assert(
+  css.includes(".search-control:focus-within {\n  color: var(--orange);\n}"),
+);
+assert(
+  css.includes(
+    ".search-control input:focus-visible {\n  border-bottom-color: currentColor;\n}",
+  ),
+);
+assert(!css.includes("outline: 2px solid var(--orange)"));
 assert(css.includes(".here-now-credit"));
 assert(css.includes(".newsletter-section"));
 assert(css.includes(".newsletter-form"));

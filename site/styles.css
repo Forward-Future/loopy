@@ -419,8 +419,7 @@ code {
 }
 
 .search-control:focus-within {
-  outline: 2px solid var(--orange);
-  outline-offset: 4px;
+  color: var(--orange);
 }
 
 .search-control svg {
@@ -434,11 +433,16 @@ code {
 
 .search-control input {
   width: 100%;
-  padding: 8px 0;
+  padding: 8px 0 6px;
   border: 0;
+  border-bottom: 2px solid transparent;
   outline: 0;
   color: var(--ink);
   background: transparent;
+}
+
+.search-control input:focus-visible {
+  border-bottom-color: currentColor;
 }
 
 .search-control input::placeholder {
