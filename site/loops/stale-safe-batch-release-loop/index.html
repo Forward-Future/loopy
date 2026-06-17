@@ -50,7 +50,7 @@
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,106 +180,97 @@
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The stale-safe batch release loop</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">AI release operations workflow</p>
+          <p class="eyebrow">Loop 013</p>
           <h1>The stale-safe batch release loop</h1>
           <p class="detail-lede">A release-coordination workflow that excludes stale or unfinished work, combines valid changes, and ships complete artifacts from the latest integrated main.</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>Matthew Berman</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>Matthew Berman</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>Use this when several branches or pull requests may be ready at once and the release must avoid stale worktrees, partial overlays, and incomplete changes.</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>Review pending changes and pull requests, exclude stale or unfinished work, combine the valid changes, and release them together.</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>Review pending changes and pull requests, exclude stale or unfinished work, combine the valid changes, and release them together.</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-                  <li>Fetch current repository and pull-request state, then inspect every candidate change for freshness, completeness, ownership, checks, and dependencies.</li>
-                  <li>Exclude stale, superseded, conflicting, or unfinished work and record why each candidate was omitted.</li>
-                  <li>Integrate the valid changes, rerun the combined checks, and select the newest main revision that contains the full batch.</li>
-                  <li>Release complete artifacts from a clean checkout, serialize the deployment, and verify production before closing the batch.</li>
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>Evaluating all candidates before integration prevents stale code from entering a release through convenience or worktree confusion. Releasing from integrated main proves the deployed artifact matches the reviewed batch.</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>The candidate diff selects what belongs in the batch, but deployment must use complete artifacts from the latest integrated main. Never deploy from a task worktree or partial file overlay.</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>Only current, complete changes ship in the combined release.</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">Only current, complete changes ship in the combined release.</h2>
               <p>The released revision is the latest integrated main that contains every selected change.</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-                  <li>AI release operations</li>
-                  <li>batch release</li>
-                  <li>stale code prevention</li>
-                  <li>pull request coordination</li>
-                  <li>deployment safety</li>
-              </ul>
-            </section>
-          </aside>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
+
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>Use this when several branches or pull requests may be ready at once and the release must avoid stale worktrees, partial overlays, and incomplete changes.</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+                <li>Fetch current repository and pull-request state, then inspect every candidate change for freshness, completeness, ownership, checks, and dependencies.</li>
+                <li>Exclude stale, superseded, conflicting, or unfinished work and record why each candidate was omitted.</li>
+                <li>Integrate the valid changes, rerun the combined checks, and select the newest main revision that contains the full batch.</li>
+                <li>Release complete artifacts from a clean checkout, serialize the deployment, and verify production before closing the batch.</li>
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>Evaluating all candidates before integration prevents stale code from entering a release through convenience or worktree confusion. Releasing from integrated main proves the deployed artifact matches the reviewed batch.</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>The candidate diff selects what belongs in the batch, but deployment must use complete artifacts from the latest integrated main. Never deploy from a task worktree or partial file overlay.</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
+
+                <a class="related-loop-link" href="../repository-cleanup-loop/">
+                  The repository cleanup loop
+                </a>
+                <a class="related-loop-link" href="../post-release-baseline-loop/">
+                  The post-release baseline loop
+                </a>
+                </div>
+              </nav>
+            </div>
+          </details>
         </div>
-
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
-
-              <a class="related-loop-link" href="../repository-cleanup-loop/">
-                <strong>The repository cleanup loop</strong>
-              </a>
-              <a class="related-loop-link" href="../post-release-baseline-loop/">
-                <strong>The post-release baseline loop</strong>
-              </a>
-          </div>
-        </nav>
       </article>
     </main>
 

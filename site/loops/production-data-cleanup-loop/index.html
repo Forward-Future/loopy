@@ -50,7 +50,7 @@
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,106 +180,97 @@
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The production data cleanup loop</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">AI data operations workflow</p>
+          <p class="eyebrow">Loop 014</p>
           <h1>The production data cleanup loop</h1>
           <p class="detail-lede">A production-data quality workflow that removes disallowed records, improves classification logic, and verifies the remaining dataset against an explicit definition.</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>Matthew Berman</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>Matthew Berman</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>Use this when a production dataset contains records that no longer match a product, policy, taxonomy, or quality definition and the classifier allowed them through.</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>Review production records, remove anything that does not meet the allowed definition, improve the classification logic, and verify the remaining data.</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>Review production records, remove anything that does not meet the allowed definition, improve the classification logic, and verify the remaining data.</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-                  <li>Write the allowed definition as explicit inclusion, exclusion, and edge-case rules before changing data.</li>
-                  <li>Audit production records, preserve a recoverable record of proposed removals, and separate clear violations from uncertain cases.</li>
-                  <li>Remove confirmed invalid records through the approved production path and improve the classifier with regression examples.</li>
-                  <li>Rerun classification tests and audit the remaining production data until every sampled and queried record meets the definition.</li>
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>Fixing both the existing records and the classifier closes the immediate data problem and reduces recurrence. Explicit rules and regression examples make future cleanup decisions reviewable.</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>Follow access, retention, privacy, and audit requirements. Use backups or reversible operations where appropriate, and do not delete uncertain records without review.</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>Every remaining record meets the allowed definition.</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">Every remaining record meets the allowed definition.</h2>
               <p>Representative classification tests and a post-cleanup audit prove the retained data is valid.</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-                  <li>AI data operations</li>
-                  <li>production data cleanup</li>
-                  <li>classification logic</li>
-                  <li>data quality audit</li>
-                  <li>regression examples</li>
-              </ul>
-            </section>
-          </aside>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
+
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>Use this when a production dataset contains records that no longer match a product, policy, taxonomy, or quality definition and the classifier allowed them through.</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+                <li>Write the allowed definition as explicit inclusion, exclusion, and edge-case rules before changing data.</li>
+                <li>Audit production records, preserve a recoverable record of proposed removals, and separate clear violations from uncertain cases.</li>
+                <li>Remove confirmed invalid records through the approved production path and improve the classifier with regression examples.</li>
+                <li>Rerun classification tests and audit the remaining production data until every sampled and queried record meets the definition.</li>
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>Fixing both the existing records and the classifier closes the immediate data problem and reduces recurrence. Explicit rules and regression examples make future cleanup decisions reviewable.</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>Follow access, retention, privacy, and audit requirements. Use backups or reversible operations where appropriate, and do not delete uncertain records without review.</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
+
+                <a class="related-loop-link" href="../full-product-evaluation-loop/">
+                  The full product evaluation loop
+                </a>
+                <a class="related-loop-link" href="../exhaustive-logging-coverage-loop/">
+                  The logging coverage loop
+                </a>
+                </div>
+              </nav>
+            </div>
+          </details>
         </div>
-
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
-
-              <a class="related-loop-link" href="../full-product-evaluation-loop/">
-                <strong>The full product evaluation loop</strong>
-              </a>
-              <a class="related-loop-link" href="../exhaustive-logging-coverage-loop/">
-                <strong>The logging coverage loop</strong>
-              </a>
-          </div>
-        </nav>
       </article>
     </main>
 

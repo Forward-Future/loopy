@@ -50,7 +50,7 @@
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,106 +180,97 @@
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The overnight docs sweep</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">AI coding agent workflow</p>
+          <p class="eyebrow">Loop 001</p>
           <h1>The overnight docs sweep</h1>
           <p class="detail-lede">A scheduled AI coding-agent workflow for comparing documentation with the current codebase, fixing drift, and opening a reviewable pull request.</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>Matthew Berman</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>Matthew Berman</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>Use this after active development days when implementation changes can leave READMEs, setup guides, API references, examples, or runbooks behind.</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>Each night, review the codebase in full and make sure all documentation reflects the latest changes from the previous day. Update the documentation as needed, then open a pull request with those changes.</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>Each night, review the codebase in full and make sure all documentation reflects the latest changes from the previous day. Update the documentation as needed, then open a pull request with those changes.</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-                  <li>Review implementation changes since the last documentation pass.</li>
-                  <li>Compare the repository&#39;s documentation with the code, configuration, commands, and behavior that now ship.</li>
-                  <li>Update only stale material, then verify commands, links, and examples against the current repository.</li>
-                  <li>Run the relevant checks and open a pull request that explains the documentation drift and the fixes.</li>
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>The loop ties documentation to the implementation instead of relying on memory. Requiring a pull request creates a visible diff, a review point, and a durable record of what changed.</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>Keep the scope tied to real implementation changes. Do not rewrite accurate documentation just to create activity.</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>Documentation matches the current implementation.</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">Documentation matches the current implementation.</h2>
               <p>Finish with a reviewable pull request.</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-                  <li>AI coding agent</li>
-                  <li>documentation audit</li>
-                  <li>documentation drift</li>
-                  <li>pull request workflow</li>
-                  <li>scheduled agent workflow</li>
-              </ul>
-            </section>
-          </aside>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
+
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>Use this after active development days when implementation changes can leave READMEs, setup guides, API references, examples, or runbooks behind.</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+                <li>Review implementation changes since the last documentation pass.</li>
+                <li>Compare the repository&#39;s documentation with the code, configuration, commands, and behavior that now ship.</li>
+                <li>Update only stale material, then verify commands, links, and examples against the current repository.</li>
+                <li>Run the relevant checks and open a pull request that explains the documentation drift and the fixes.</li>
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>The loop ties documentation to the implementation instead of relying on memory. Requiring a pull request creates a visible diff, a review point, and a durable record of what changed.</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>Keep the scope tied to real implementation changes. Do not rewrite accurate documentation just to create activity.</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
+
+                <a class="related-loop-link" href="../production-error-sweep/">
+                  The production error sweep
+                </a>
+                <a class="related-loop-link" href="../architecture-satisfaction-loop/">
+                  The architecture satisfaction loop
+                </a>
+                </div>
+              </nav>
+            </div>
+          </details>
         </div>
-
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
-
-              <a class="related-loop-link" href="../production-error-sweep/">
-                <strong>The production error sweep</strong>
-              </a>
-              <a class="related-loop-link" href="../architecture-satisfaction-loop/">
-                <strong>The architecture satisfaction loop</strong>
-              </a>
-          </div>
-        </nav>
       </article>
     </main>
 

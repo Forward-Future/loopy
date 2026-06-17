@@ -50,7 +50,7 @@
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,106 +180,97 @@
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The post-release baseline loop</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">AI release operations workflow</p>
+          <p class="eyebrow">Loop 015</p>
           <h1>The post-release baseline loop</h1>
           <p class="detail-lede">A triggered release workflow that runs standard benchmarks against the completed release and records a reproducible baseline for future comparisons.</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>Matthew Berman</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>Matthew Berman</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>Use this immediately after a release when future regressions or improvements need to be measured against the exact version now in production.</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>After current releases finish, run the standard benchmarks and record the results as the new baseline.</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>After current releases finish, run the standard benchmarks and record the results as the new baseline.</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-                  <li>Confirm every in-scope release is complete and record the production revision or artifact identity.</li>
-                  <li>Run the standard benchmark suite under its documented environment, data, warm-up, and repetition rules.</li>
-                  <li>Investigate invalid or unstable runs, then rerun only under the same documented conditions.</li>
-                  <li>Store the final results with the release identity and benchmark metadata, and mark them as the new comparison baseline.</li>
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>Tying the baseline to a verified release creates a trustworthy reference point for later performance and quality work. Recording the conditions prevents unrelated environment changes from masquerading as product changes.</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>Do not overwrite the previous baseline until the release identity and benchmark run are verified. Keep historical baselines available for trend analysis.</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>The new baseline belongs to the completed release.</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">The new baseline belongs to the completed release.</h2>
               <p>Revision, environment, benchmark version, conditions, and results are recorded together.</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-                  <li>AI release operations</li>
-                  <li>post-release benchmark</li>
-                  <li>performance baseline</li>
-                  <li>release verification</li>
-                  <li>benchmark history</li>
-              </ul>
-            </section>
-          </aside>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
+
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="2026-06-16">Jun 16, 2026</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>Use this immediately after a release when future regressions or improvements need to be measured against the exact version now in production.</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+                <li>Confirm every in-scope release is complete and record the production revision or artifact identity.</li>
+                <li>Run the standard benchmark suite under its documented environment, data, warm-up, and repetition rules.</li>
+                <li>Investigate invalid or unstable runs, then rerun only under the same documented conditions.</li>
+                <li>Store the final results with the release identity and benchmark metadata, and mark them as the new comparison baseline.</li>
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>Tying the baseline to a verified release creates a trustworthy reference point for later performance and quality work. Recording the conditions prevents unrelated environment changes from masquerading as product changes.</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>Do not overwrite the previous baseline until the release identity and benchmark run are verified. Keep historical baselines available for trend analysis.</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
+
+                <a class="related-loop-link" href="../stale-safe-batch-release-loop/">
+                  The stale-safe batch release loop
+                </a>
+                <a class="related-loop-link" href="../test-suite-speed-loop/">
+                  The test-suite speed loop
+                </a>
+                </div>
+              </nav>
+            </div>
+          </details>
         </div>
-
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
-
-              <a class="related-loop-link" href="../stale-safe-batch-release-loop/">
-                <strong>The stale-safe batch release loop</strong>
-              </a>
-              <a class="related-loop-link" href="../test-suite-speed-loop/">
-                <strong>The test-suite speed loop</strong>
-              </a>
-          </div>
-        </nav>
       </article>
     </main>
 

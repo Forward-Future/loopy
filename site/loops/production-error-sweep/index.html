@@ -50,7 +50,7 @@
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,106 +180,97 @@
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">The production error sweep</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">AI coding agent workflow</p>
+          <p class="eyebrow">Loop 004</p>
           <h1>The production error sweep</h1>
           <p class="detail-lede">A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result.</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>Matthew Berman</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>Matthew Berman</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>Use this as a scheduled reliability pass when an agent can read production telemetry, trace failures into the repository, run the relevant tests, and prepare a reviewable fix.</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. Then ping me in Slack with the findings and PR link. If no actionable errors are present, ping me with that result instead.</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. Then ping me in Slack with the findings and PR link. If no actionable errors are present, ping me with that result instead.</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-                  <li>Review the agreed production log window and group repeated symptoms into likely incidents.</li>
-                  <li>Separate actionable product errors from expected noise, transient upstream failures, and already-known issues.</li>
-                  <li>Trace each actionable error to a root cause, implement the smallest appropriate fix, and verify it with focused checks.</li>
-                  <li>Open a pull request and report the findings, verification, and link. If the logs are clean, report that terminal state instead.</li>
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, review artifact, and explicit communication instead of stopping at a list of errors.</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>Treat logs as sensitive production data. Do not copy credentials, tokens, personal information, or private payloads into prompts, pull requests, or chat messages.</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>Actionable production errors are fixed and verified.</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">Actionable production errors are fixed and verified.</h2>
               <p>Finish with a pull request and Slack summary, or a clean-log confirmation.</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-                  <li>AI coding agent</li>
-                  <li>production log review</li>
-                  <li>error triage</li>
-                  <li>root cause analysis</li>
-                  <li>reliability workflow</li>
-              </ul>
-            </section>
-          </aside>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
+
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="2026-06-12">Jun 12, 2026</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>Use this as a scheduled reliability pass when an agent can read production telemetry, trace failures into the repository, run the relevant tests, and prepare a reviewable fix.</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+                <li>Review the agreed production log window and group repeated symptoms into likely incidents.</li>
+                <li>Separate actionable product errors from expected noise, transient upstream failures, and already-known issues.</li>
+                <li>Trace each actionable error to a root cause, implement the smallest appropriate fix, and verify it with focused checks.</li>
+                <li>Open a pull request and report the findings, verification, and link. If the logs are clean, report that terminal state instead.</li>
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, review artifact, and explicit communication instead of stopping at a list of errors.</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>Treat logs as sensitive production data. Do not copy credentials, tokens, personal information, or private payloads into prompts, pull requests, or chat messages.</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
+
+                <a class="related-loop-link" href="../overnight-docs-sweep/">
+                  The overnight docs sweep
+                </a>
+                <a class="related-loop-link" href="../sub-50ms-page-load-loop/">
+                  The sub-50 ms page-load loop
+                </a>
+                </div>
+              </nav>
+            </div>
+          </details>
         </div>
-
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
-
-              <a class="related-loop-link" href="../overnight-docs-sweep/">
-                <strong>The overnight docs sweep</strong>
-              </a>
-              <a class="related-loop-link" href="../sub-50ms-page-load-loop/">
-                <strong>The sub-50 ms page-load loop</strong>
-              </a>
-          </div>
-        </nav>
       </article>
     </main>
 

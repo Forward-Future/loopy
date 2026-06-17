@@ -39,9 +39,9 @@ function relatedLinks(loop) {
     .filter(Boolean)
     .map(
       (related) => `
-              <a class="related-loop-link" href="../${escapeHtml(related.slug)}/">
-                <strong>${escapeHtml(related.title)}</strong>
-              </a>`,
+                <a class="related-loop-link" href="../${escapeHtml(related.slug)}/">
+                  ${escapeHtml(related.title)}
+                </a>`,
     )
     .join("");
 }
@@ -145,10 +145,7 @@ function structuredData(loop) {
 function renderLoopPage(loop) {
   const url = absoluteUrl(loop.slug);
   const steps = loop.steps
-    .map((step) => `                  <li>${escapeHtml(step)}</li>`)
-    .join("\n");
-  const tags = loop.keywords
-    .map((keyword) => `                  <li>${escapeHtml(keyword)}</li>`)
+    .map((step) => `                <li>${escapeHtml(step)}</li>`)
     .join("\n");
 
   return `<!doctype html>
@@ -203,7 +200,7 @@ function renderLoopPage(loop) {
     <link rel="sitemap" type="application/xml" href="${escapeHtml(site.baseUrl)}sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="${escapeHtml(site.name)} updates" href="${escapeHtml(site.baseUrl)}feed.xml" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260617-form-protection" />
+    <link rel="stylesheet" href="../../styles.css?v=20260617-simple-detail" />
     <script type="application/ld+json">
 ${structuredData(loop)}
     </script>
@@ -253,93 +250,88 @@ ${structuredData(loop)}
 
     <main class="detail-main page-width" id="main">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><a href="../../">Loop Library</a></li>
-          <li aria-current="page">${escapeHtml(loop.title)}</li>
-        </ol>
+        <a href="../../">&larr; All loops</a>
       </nav>
 
       <article class="loop-detail">
         <header class="detail-hero">
-          <p class="eyebrow">${escapeHtml(loop.categoryLabel)}</p>
+          <p class="eyebrow">Loop ${escapeHtml(loop.number)}</p>
           <h1>${escapeHtml(loop.title)}</h1>
           <p class="detail-lede">${escapeHtml(loop.description)}</p>
-          <dl class="detail-meta">
-            <div>
-              <dt>Contributor</dt>
-              <dd>${escapeHtml(loop.author)}</dd>
-            </div>
-            <div>
-              <dt>Published</dt>
-              <dd><time datetime="${escapeHtml(loop.published)}">${escapeHtml(formatDate(loop.published))}</time></dd>
-            </div>
-            <div>
-              <dt>Updated</dt>
-              <dd><time datetime="${escapeHtml(loop.modified)}">${escapeHtml(formatDate(loop.modified))}</time></dd>
-            </div>
-          </dl>
+          <p class="detail-byline">Contributed by <strong>${escapeHtml(loop.author)}</strong></p>
         </header>
 
-        <div class="detail-layout">
-          <div class="detail-content">
-            <section aria-labelledby="use-when">
-              <h2 id="use-when">Use this when</h2>
-              <p>${escapeHtml(loop.useWhen)}</p>
-            </section>
-
-            <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
-              <div class="detail-prompt-heading">
-                <div>
-                  <p class="eyebrow">Ready-to-use prompt</p>
-                  <h2 id="copy-loop">Copy the loop</h2>
-                </div>
-                <button class="copy-button" type="button">
-                  <span>Copy</span>
-                </button>
+        <div class="detail-stack">
+          <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
+            <div class="detail-prompt-heading">
+              <div>
+                <p class="eyebrow">Ready-to-use prompt</p>
+                <h2 id="copy-loop">Copy the loop</h2>
               </div>
-              <p data-prompt>${escapeHtml(loop.prompt)}</p>
-            </section>
+              <button class="copy-button" type="button">
+                <span>Copy</span>
+              </button>
+            </div>
+            <p data-prompt>${escapeHtml(loop.prompt)}</p>
+          </section>
 
-            <section aria-labelledby="run-loop">
-              <h2 id="run-loop">How to run it</h2>
-              <ol class="detail-steps">
-${steps}
-              </ol>
-            </section>
-
-            <section aria-labelledby="why-it-works">
-              <h2 id="why-it-works">Why it works</h2>
-              <p>${escapeHtml(loop.why)}</p>
-            </section>
-
-            <section class="implementation-note" aria-labelledby="implementation-note">
-              <h2 id="implementation-note">Implementation note</h2>
-              <p>${escapeHtml(loop.note)}</p>
-            </section>
-          </div>
-
-          <aside class="detail-sidebar" aria-label="Loop verification and topics">
-            <section class="verification-card">
-              <p class="eyebrow">Verify / stop</p>
-              <h2>${escapeHtml(loop.verifyTitle)}</h2>
+          <section class="verification-card" aria-labelledby="verify-stop">
+            <p class="eyebrow">Verify / stop</p>
+            <div>
+              <h2 id="verify-stop">${escapeHtml(loop.verifyTitle)}</h2>
               <p>${escapeHtml(loop.verifyDetail)}</p>
-            </section>
+            </div>
+          </section>
 
-            <section class="topic-card">
-              <h2>Topics</h2>
-              <ul>
-${tags}
-              </ul>
-            </section>
-          </aside>
-        </div>
+          <details class="detail-more">
+            <summary>
+              <span>Context and guidance</span>
+              <small>When to use it, steps, safety notes, and related loops</small>
+            </summary>
 
-        <nav class="related-loops" aria-labelledby="related-heading">
-          <h2 id="related-heading">Related loops</h2>
-          <div>
+            <div class="detail-more-body">
+              <dl class="detail-meta">
+                <div>
+                  <dt>Published</dt>
+                  <dd><time datetime="${escapeHtml(loop.published)}">${escapeHtml(formatDate(loop.published))}</time></dd>
+                </div>
+                <div>
+                  <dt>Updated</dt>
+                  <dd><time datetime="${escapeHtml(loop.modified)}">${escapeHtml(formatDate(loop.modified))}</time></dd>
+                </div>
+              </dl>
+
+              <section aria-labelledby="use-when">
+                <h2 id="use-when">Use this when</h2>
+                <p>${escapeHtml(loop.useWhen)}</p>
+              </section>
+
+              <section aria-labelledby="run-loop">
+                <h2 id="run-loop">How to run it</h2>
+                <ol class="detail-steps">
+${steps}
+                </ol>
+              </section>
+
+              <section aria-labelledby="why-it-works">
+                <h2 id="why-it-works">Why it works</h2>
+                <p>${escapeHtml(loop.why)}</p>
+              </section>
+
+              <section class="implementation-note" aria-labelledby="implementation-note">
+                <h2 id="implementation-note">Implementation note</h2>
+                <p>${escapeHtml(loop.note)}</p>
+              </section>
+
+              <nav class="related-loops" aria-labelledby="related-heading">
+                <h2 id="related-heading">Related loops</h2>
+                <div>
 ${relatedLinks(loop)}
-          </div>
-        </nav>
+                </div>
+              </nav>
+            </div>
+          </details>
+        </div>
       </article>
     </main>
 
