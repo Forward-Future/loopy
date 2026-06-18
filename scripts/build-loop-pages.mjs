@@ -34,7 +34,7 @@ function absoluteUrl(slug = "") {
 }
 
 function socialImageUrl(loop) {
-  return `${site.baseUrl}assets/social/${loop.slug}-${site.socialImageVersion}.jpg`;
+  return `${site.baseUrl}assets/social/${loop.slug}-${site.socialImageVersion}.${site.socialImageExtension}`;
 }
 
 function relatedLinks(loop) {
@@ -203,7 +203,7 @@ function renderLoopPage(loop) {
     <meta property="og:url" content="${escapeHtml(url)}" />
     <meta property="og:image" content="${escapeHtml(imageUrl)}" />
     <meta property="og:image:secure_url" content="${escapeHtml(imageUrl)}" />
-    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:type" content="${escapeHtml(site.socialImageMimeType)}" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="${escapeHtml(imageAlt)}" />

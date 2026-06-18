@@ -4,5 +4,6 @@ site/.herenow/state.json
 node_modules/
 __pycache__/
 *.py[cod]
+/.playwright-mcp/
 worker/.dev.vars
 worker/.wrangler/

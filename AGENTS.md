@@ -11,19 +11,18 @@
   contributor attribution, published and modified dates, practical context,
   verification criteria, and related-loop links.
 - After changing the catalog or homepage rows, run
-  `node scripts/build-social-images.mjs` and
-  `node scripts/build-loop-pages.mjs`. Commit the generated social cards,
-  detail pages, `site/sitemap.xml`, and `site/feed.xml`.
+  `node scripts/build-loop-pages.mjs`, capture the versioned page screenshots,
+  and then run `node scripts/build-social-images.mjs`. Commit the screenshots,
+  generated detail pages, `site/sitemap.xml`, and `site/feed.xml`.
 - Run the full repository checks before committing:
 
   ```bash
-  node scripts/build-social-images.mjs
   node scripts/build-loop-pages.mjs
+  node scripts/build-social-images.mjs
   node --check scripts/build-social-images.mjs
   node --check site/script.js
   node --check scripts/build-loop-pages.mjs
   node --check scripts/loop-data.mjs
-  python3 -m py_compile scripts/render-social-images.py
   node scripts/check.mjs
   npm --prefix worker run check
   python3 -m json.tool site/.herenow/data.json >/dev/null
