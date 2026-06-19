@@ -209,7 +209,7 @@
     <summary>A scheduled editorial workflow that turns meaningful public product changes into a short, source-grounded podcast episode.</summary>
   </entry>
   <entry>
-    <title>The adversarial code-review loop</title>
+    <title>The Clodex adversarial-review loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -217,10 +217,10 @@
     <author>
       <name>Lukas Kucinski</name>
     </author>
-    <summary>A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar.</summary>
+    <summary>A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats.</summary>
   </entry>
   <entry>
-    <title>The second-agent verification loop</title>
+    <title>The Loop Harness verification loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -228,10 +228,10 @@
     <author>
       <name>Istasha</name>
     </author>
-    <summary>A recurring repository workflow that publishes staged output only after a separate agent verifies it.</summary>
+    <summary>A scheduled Loop Harness workflow that runs Claude in an isolated worktree and ships staged output only after a second Claude session verifies it.</summary>
   </entry>
   <entry>
-    <title>The visual reconstruction benchmark</title>
+    <title>The Boeing 747 benchmark</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -239,10 +239,10 @@
     <author>
       <name>@victormustar</name>
     </author>
-    <summary>A visual workflow that improves a rendered subject by comparing repeatable views against references and a fixed quality bar.</summary>
+    <summary>A vision benchmark in which an agent builds a Boeing 747 from Three.js primitives, renders nine repeatable angles, and fixes what each view reveals.</summary>
   </entry>
   <entry>
-    <title>The frontend reconstruction loop</title>
+    <title>War Loops: frontend reconstruction</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -250,10 +250,10 @@
     <author>
       <name>Swayam</name>
     </author>
-    <summary>A workflow that rebuilds an authorized interface and improves it against repeatable checks for appearance, motion, and responsive behavior.</summary>
+    <summary>A War Loops workflow that captures a real page, builds a static Pencil mirror and moving Forge version, then repairs the weakest fidelity signals.</summary>
   </entry>
   <entry>
-    <title>The champion-challenger loop</title>
+    <title>The self-improving champion loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -261,7 +261,7 @@
     <author>
       <name>Jose C. Munoz</name>
     </author>
-    <summary>A bounded workflow that tests targeted changes on fresh evidence and keeps only improvements that pass every guard check.</summary>
+    <summary>A prompt-optimization workflow that tests challengers on a working set, promotes only fresh holdout wins, and keeps the current champion on uncertainty.</summary>
   </entry>
   <entry>
     <title>The devil&#39;s-advocate loop</title>
@@ -286,7 +286,7 @@
     <summary>A disposable-environment workflow that follows the README from scratch, fixes every hidden setup assumption, and restarts until onboarding works cleanly.</summary>
   </entry>
   <entry>
-    <title>The thumbnail iteration loop</title>
+    <title>The Infinite Clickbait thumbnail loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/infinite-clickbait-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/infinite-clickbait-loop/" />
     <published>2026-06-18T00:00:00-07:00</published>
@@ -294,10 +294,10 @@
     <author>
       <name>@Alex_FF</name>
     </author>
-    <summary>A workflow that generates, scores, and refines thumbnail concepts until one clears an agreed quality bar without misleading viewers.</summary>
+    <summary>A thumbnail workflow that creates ten concepts, scores the top three against a relevant YouTube channel, and improves the winner without misleading viewers.</summary>
   </entry>
   <entry>
-    <title>The independent builder-reviewer loop</title>
+    <title>The autonomy-loop builder-reviewer loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/autonomy-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/autonomy-loop/" />
     <published>2026-06-19T00:00:00-07:00</published>
@@ -305,10 +305,10 @@
     <author>
       <name>@inferencegod</name>
     </author>
-    <summary>A coding workflow that pairs an isolated builder with an independent reviewer who proves each new test detects the change it protects.</summary>
+    <summary>An autonomy-loop workflow in which a builder and adversarial reviewer pass a git baton between worktrees and prove each new test can catch its fix.</summary>
   </entry>
   <entry>
-    <title>The completion-contract loop</title>
+    <title>The Codex completion-contract loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/" />
     <published>2026-06-19T00:00:00-07:00</published>
@@ -316,10 +316,10 @@
     <author>
       <name>3goblack (@Dis_Trackted)</name>
     </author>
-    <summary>A workflow that defines completion up front, tracks proof for every requirement, and prevents partial work from being reported as done.</summary>
+    <summary>A goal-planner-codex workflow that defines completion up front, tracks proof for every requirement, and prevents partial Codex work from being reported as done.</summary>
   </entry>
   <entry>
-    <title>The evidence-based improvement loop</title>
+    <title>The Revolve versioned-experiment loop</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/revolve-self-improvement-loop/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/revolve-self-improvement-loop/" />
     <published>2026-06-19T00:00:00-07:00</published>
@@ -327,6 +327,6 @@
     <author>
       <name>Agent Zero</name>
     </author>
-    <summary>A research workflow that compares one change at a time under a fixed evaluation and keeps only improvements with a safe rollback.</summary>
+    <summary>A Revolve workflow that improves prompts, code, or configurations through checkpointed experiments whose scores remain comparable across sessions.</summary>
   </entry>
 </feed>

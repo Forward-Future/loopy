@@ -147,7 +147,7 @@ URL above.
 
 - Category: Engineering
 - Use when: Use this when a real but loosely written ticket, bug report, or customer complaint needs to become a bounded engineering change with enough proof for a fast review.
-- Prompt: Turn [issue] into a review-ready fix. Reproduce the problem, identify the root cause with evidence, make the smallest scoped change, and rerun the same check plus relevant regression tests. Repeat only while the evidence changes. Stop when the fix is proved, [reproduction limit] is reached, or a broader decision is required. Do not expand scope without approval. Finish with the cause, change, proof, risks, and suggested pull-request summary.
+- Prompt: Take a ticket, bug report, failing behavior, or customer complaint and turn it into a review-ready patch. Reproduce the failure in the smallest representative environment, prove the root cause, make the smallest credible fix, and rerun the original reproduction plus relevant regression tests. If the issue cannot be reproduced after two serious attempts, say so. Do not fold unrelated refactors into the patch. Finish with the cause, changed files, before-and-after proof, risks, and pull-request summary.
 - Verify: The failure is fixed, verified, and ready for review. The issue reproduces before the fix, no longer reproduces afterward, and relevant regression checks pass.
 - Keywords: AI coding agent, ticket to pull request, bug reproduction, root cause analysis, review-ready patch
 - Related: [The production error sweep](https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/), [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/)
@@ -156,8 +156,8 @@ URL above.
 
 - Category: Operations
 - Use when: Use this when an AI workflow must live inside a real customer process and needs validation, approval, gradual rollout, monitoring, and a clear business outcome.
-- Prompt: Move one agreed customer workflow toward a measurable production outcome. Define the owner, users, inputs, outputs, risks, approvals, and success check. Build or change one bounded part, test it with representative data, fix the smallest verified problem, and retest. Release only through approved stages and monitor the agreed signals. Stop on verified success, a clear blocker, or no progress. Ask before customer-facing, sensitive, financial, or irreversible actions. Finish with the outcome, evidence, open risks, and next step.
-- Verify: The workflow reaches an approved, measurable outcome. Evidence confirms the agreed rollout stage and success check, or the run stops with a clear blocker, owner, and next step.
+- Prompt: Run this when a customer requests an AI workflow, reports a failure, or reaches an operations review. Choose one priority, such as enriching leads, drafting emails, summarizing meetings, or updating a CRM. Define the owner, inputs, approvals, success metric, and ROI hypothesis. Dry-run it on realistic customer data, fix the smallest verified problem, then release through approved stages and monitor production. Finish with the outcome, evidence, customer update, lessons saved, and next review.
+- Verify: One customer priority reaches a proven terminal state. The workflow reaches its agreed rollout stage, a production issue is fixed, or a blocker is escalated with an owner and next step.
 - Keywords: customer AI deployment, AI workflow rollout, approval gates, production monitoring, AI ROI
 - Related: [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/), [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/)
 
@@ -165,53 +165,53 @@ URL above.
 
 - Category: Content
 - Use when: Use this when a product ships frequently enough that users would benefit from a short recurring audio explanation of what changed and how to use it.
-- Prompt: At [cadence], review public product changes from [release window]. Select only changes that matter to users and verify each against the released product or public documentation. Create a short audio update with [available podcast tool], then check the script and audio for accuracy, clarity, and pronunciation. Revise until the checks pass. If nothing meaningful shipped, publish nothing and record the no-op. Ask before releasing the episode. Finish with the episode, sources, and review result.
-- Verify: The episode is accurate, useful, and ready for review. Every included update is public and source-backed, or the run records that no episode is needed.
+- Prompt: Each night, review publicly released product changes and select only those users need to know. Verify each against the product, docs, or release notes. Use the Jellypod MCP to turn the approved changes into a three-to-five-minute podcast explaining what changed, why it matters, and how to try it. Check the script and audio for accuracy, clarity, and pronunciation. If nothing meaningful shipped, make no episode. Ask before publishing. Finish with the draft episode, sources, and review result.
+- Verify: The episode accurately covers every meaningful public update. Finish with a review-ready three-to-five-minute episode, or a confirmed no-episode result when nothing meaningful shipped.
 - Keywords: AI podcast workflow, product update podcast, Jellypod MCP, release communication, editorial automation
 - Related: [The nightly changelog loop](https://signals.forwardfuture.ai/loop-library/loops/nightly-changelog-sweep/), [The post-release baseline loop](https://signals.forwardfuture.ai/loop-library/loops/post-release-baseline-loop/)
 
-## 019 — [The adversarial code-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/)
+## 019 — [The Clodex adversarial-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/)
 
 - Category: Engineering
-- Use when: Use this when a code change needs independent review and may require several bounded fix-and-review rounds.
-- Prompt: For [code change], have one agent implement and verify a reviewable patch, then have an independent reviewer inspect it against [acceptance criteria] and rank findings by severity. Fix findings above [accepted severity], rerun the relevant checks, and review again. Stop on approval, only explicitly accepted findings, no progress, or [iteration limit]. Never report an errored or exhausted run as approved. Finish with the patch, checks, verdict, remaining findings, and review link.
-- Verify: The change reaches the agreed review bar. An independent reviewer approves it or only explicitly accepted findings remain; errors, stalls, and exhausted limits are reported as such.
+- Use when: Use Clodex when Claude is building a meaningful code change and Codex should independently review each repair round.
+- Prompt: Run /clodex [task] think hard --max-iter 5 --threshold medium. Claude plans the task, implements it, opens a pull request, asks Codex for an adversarial review, fixes findings above the accepted severity, and repeats. Keep the branch, PR, findings, verdict, and iteration state resumable. Stop when Codex approves, only accepted findings remain, progress stalls, or the iteration cap is reached. Never describe an errored or exhausted run as approved. Finish with the PR, checks, verdict, and remaining findings.
+- Verify: The pull request reaches the configured review bar. Codex approves it or only explicitly accepted findings remain; errors, stalls, and exhausted limits are reported as such.
 - Keywords: Clodex, Codex adversarial review, Claude Code plugin, review fix loop, pull request automation
 - Related: [The architecture satisfaction loop](https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/), [The stale-safe batch release loop](https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/)
 
-## 020 — [The second-agent verification loop](https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/)
+## 020 — [The Loop Harness verification loop](https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/)
 
 - Category: Engineering
 - Use when: Use this when a recurring repository task should run unattended but one agent must not be allowed to generate and approve the same output.
-- Prompt: At [cadence], run one bounded repository task in an isolated workspace and stage the result without publishing it. Have a separate agent verify the staged work against [acceptance criteria]. Publish the configured output only after a pass and any required approval. On failure, publish nothing, preserve the evidence, and retry only under [retry policy]. Finish with the source revision, staged artifacts, verifier result, delivery status, and next run.
+- Prompt: Use Loop Harness for scheduled repository work such as CI triage, issue grooming, dependency updates, or docs sync. Set [retry limit], then start an isolated git worktree. Let one Claude session stage a patch or outbox message and a second Claude session verify it against explicit criteria. Ship only after a pass; otherwise preserve the findings and retry only within the limit. Finish with the source revision, staged output, verifier result, delivery status, and next run.
 - Verify: Only independently verified output ships. A second-agent pass releases the configured output; a failed verification preserves evidence and produces no external change.
 - Keywords: Loop Harness, scheduled coding agent, git worktree isolation, second-agent verification, autonomous agent workflow
-- Related: [The adversarial code-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/), [The docs sweep](https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/)
+- Related: [The Clodex adversarial-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/), [The docs sweep](https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/)
 
-## 021 — [The visual reconstruction benchmark](https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/)
+## 021 — [The Boeing 747 benchmark](https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/)
 
 - Category: Design
-- Use when: Use this to test whether an agent can recreate and improve a visual subject through repeatable rendering and comparison.
-- Prompt: Recreate [reference subject] with [rendering tool]. Define the reference images, required views, and scoring rubric before building. After each bounded change, render the same views, compare them with the references, and fix the largest visible gap without regressing stronger areas. Keep the best verified version. Stop when every required view meets [quality threshold], progress stalls for [limit], or the budget ends. Finish with the artifact, comparison renders, scores, and remaining gaps.
-- Verify: Every required view meets the agreed visual threshold. Repeatable renders meet the fixed rubric, or the run reports stagnation, budget exhaustion, and remaining gaps.
+- Use when: Use this as a concrete Three.js vision benchmark, or adapt the same capture-and-critic pattern to another rendered subject.
+- Prompt: Before building, choose reference images, a scoring rubric, [visual threshold], and [budget]. Build the most realistic Boeing 747 you can from Three.js primitives, then create a rig that screenshots nine repeatable angles. After each change, render and score the same views, have a critic identify the weakest feature, and fix it without regressing stronger views. Keep the best version. Stop at the threshold, stalled progress, or budget. Finish with the model, nine renders, scores, remaining gaps, and run summary.
+- Verify: The Boeing 747 meets the visual bar from all nine angles. The same camera rig and rubric show every required view meeting the preset threshold, or the run reports stagnation, budget exhaustion, and remaining gaps.
 - Keywords: Boeing 747 benchmark, Three.js agent workflow, vision self-verification, 3D reconstruction loop, camera inspection system
 - Related: [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)
 
-## 022 — [The frontend reconstruction loop](https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/)
+## 022 — [War Loops: frontend reconstruction](https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/)
 
 - Category: Design
-- Use when: Use this when an authorized interface must be rebuilt from a URL or image and checked beyond a single screenshot.
-- Prompt: Rebuild [authorized page or image] with [available design and code tools]. Capture a reliable reference and record its layout, styles, content, motion, and responsive behavior. Compare the same viewports and interactions after each bounded change. Fix the largest measured mismatch while preserving what already passes. Stop when every agreed fidelity check passes, progress stalls, or the reference cannot be captured. Finish with the best build, reference spec, comparisons, scores, and remaining gaps.
-- Verify: The build meets every agreed fidelity check. Appearance, motion, and responsive behavior pass under repeatable conditions, or the run reports stagnation or a blocked reference.
+- Use when: Use War Loops when an authorized interface must be rebuilt from a URL or image and judged on appearance, motion, and responsive behavior.
+- Prompt: Point War Loops at an authorized URL or image. Capture it with a genuine browser and record the layout, styles, content, motion, and responsive behavior. Build a static Pencil mirror and a moving Forge version. Compare both with the source at desktop, tablet, and mobile sizes; repair only the weakest fidelity signals. Stop when every gate passes, progress stalls, or capture is blocked. Finish with the builds, spec, renders, scores, and remaining gaps.
+- Verify: The builds match the source across all three fidelity axes. Static appearance, experiential motion, and responsive reflow pass their gates, or the run reports stagnation or a blocked capture.
 - Keywords: War Loops, autonomous frontend designer, frontend fidelity, visual evaluation loop, responsive motion matching
 - Related: [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/), [The sub-50 ms page-load loop](https://signals.forwardfuture.ai/loop-library/loops/sub-50ms-page-load-loop/)
 
-## 023 — [The champion-challenger loop](https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/)
+## 023 — [The self-improving champion loop](https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/)
 
 - Category: Evaluation
-- Use when: Use this to improve a prompt, policy, configuration, or other testable artifact when cheap iteration is useful but final acceptance must use fresh evidence.
-- Prompt: Improve [artifact] against [objective] within [budget]. Save the current best version and its score. Each round, make one untried change based on a recorded failure, test it on the working set, and evaluate promising candidates on fresh holdout cases plus [guard checks]. Replace the current best only when the holdout score improves by [margin] and no guard regresses. Stop on success, budget exhaustion, or no progress. Finish with the best version, scores, experiment log, and remaining failures.
-- Verify: The strongest verified version is returned. Every candidate is logged, and accepted changes beat the previous version on fresh cases without a guard regression.
+- Use when: Use this to tune a prompt, policy, or configuration when cheap iteration is useful but final acceptance must use fresh examples.
+- Prompt: Improve a prompt, policy, or configuration. A support assistant's system prompt is one example. Save the champion, its score, a working set, untouched holdout cases, must-pass checks, and [budget]. Each round, change one thing based on a recorded failure. Promote the challenger only if it beats the champion on holdouts by [margin] without weakening a must-pass check; otherwise keep the champion. Stop at the target, budget limit, or no progress. Return the winner, scores, experiment log, and remaining failures.
+- Verify: The best holdout-tested champion is returned. Every challenger is logged, and accepted changes beat the previous champion on untouched cases without weakening a must-pass check.
 - Keywords: self-improving loop, champion challenger evaluation, Goodhart prevention, independent evaluation gate, bounded optimization workflow
 - Related: [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/), [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/)
 
@@ -219,52 +219,52 @@ URL above.
 
 - Category: Evaluation
 - Use when: Use this before committing to an architecture, interface, rollout plan, or other consequential design that benefits from structured adversarial review.
-- Prompt: Challenge [design] against [acceptance criteria]. Have a critic record the strongest evidence-backed objections in [shared log] and rank them by impact. For each high-impact objection, have the builder either fix it and verify the result or document why it is accepted. Let the critic reopen unsupported closures. Repeat until no high-impact objection remains or the same unresolved issues show no new evidence or progress for [limit]. Finish with the decision, resolved and accepted objections, evidence, and any stalemate.
+- Prompt: Before committing to an architecture, interface, or rollout plan, have a critic argue that it is wrong. Record each objection, impact, and status in a repository-local log at .agent-reviews/redteam.md. The builder must fix and verify each high-impact weakness or document why it is accepted; the critic may reopen unsupported answers. Stop when no high-impact objection remains or the same issues repeat for two rounds without new evidence. Finish with the decision, resolved and accepted objections, evidence, and any stalemate.
 - Verify: No high-impact objection remains open. Every logged objection is verified as resolved or explicitly accepted with evidence, or the final report truthfully records a two-round stalemate.
 - Keywords: devil's advocate loop, adversarial design review, critic builder workflow, architecture objection log, red team design process
-- Related: [The architecture satisfaction loop](https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/), [The adversarial code-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/)
+- Related: [The architecture satisfaction loop](https://signals.forwardfuture.ai/loop-library/loops/architecture-satisfaction-loop/), [The Clodex adversarial-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/)
 
 ## 025 — [The fresh-clone loop](https://signals.forwardfuture.ai/loop-library/loops/fresh-clone-loop/)
 
 - Category: Engineering
 - Use when: Use this to test whether a repository's onboarding instructions work in a clean environment without undocumented help.
-- Prompt: Test [repository] from a clean disposable environment. Follow only its onboarding documentation. When a step fails or assumes missing knowledge, record the gap, fix the smallest documentation or setup issue, discard the environment, and start again. Carry no dependencies, configuration, credentials, or manual repairs between attempts. Stop when one uninterrupted run reaches [documented ready state], progress stalls, or [budget] ends. Finish with the verified commands, gaps closed, and remaining blockers.
-- Verify: A clean environment reaches the documented ready state. The final run uses only the onboarding guide and needs no unstated dependency, configuration, or manual repair.
+- Prompt: Clone [repository] into a disposable environment and follow only its README to the documented ready state, such as running the app or building the package. When a step fails or assumes missing knowledge, record the gap, fix the setup or documentation issue, discard the environment, and start again. Carry no dependencies, configuration, credentials, or repairs between attempts. Stop when one uninterrupted fresh clone reaches that state, progress stalls, or [budget] ends. Return exact commands, gaps closed, and remaining blockers.
+- Verify: A clean environment reaches the documented ready state using only the README. The final run uses only the onboarding guide and needs no unstated dependency, configuration, or manual repair.
 - Keywords: fresh clone loop, README verification, developer onboarding test, clean environment setup, repository documentation workflow
 - Related: [The docs sweep](https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/), [The repository cleanup loop](https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/)
 
-## 026 — [The thumbnail iteration loop](https://signals.forwardfuture.ai/loop-library/loops/infinite-clickbait-loop/)
+## 026 — [The Infinite Clickbait thumbnail loop](https://signals.forwardfuture.ai/loop-library/loops/infinite-clickbait-loop/)
 
 - Category: Design
 - Use when: Use this when a video topic and asset set are ready but the thumbnail needs several structured ideation and critique rounds before production.
-- Prompt: For [video], create [number] distinct thumbnail concepts from [approved assets]. Score each at realistic display sizes using a fixed rubric for clarity, curiosity, emotional pull, contrast, and accuracy. Improve the weakest dimension of the top candidates and rescore them under the same conditions. Stop when one concept meets [quality threshold], progress stalls, or [budget] ends. Reject misleading concepts. Finish with the winner, runners-up, final previews, scores, and rationale.
+- Prompt: For [video], use [approved assets] to make ten thumbnail concepts. Score each at real YouTube sizes against [inspiration channel] for clarity, curiosity, emotional pull, contrast, and accuracy. Take the top three, improve each one's weakest dimension, and rescore them under the same rubric. Keep iterating the strongest concept until it clears [quality threshold] or [budget] ends. Reject anything the video cannot deliver. Return the winner, two runners-up, previews, final scores, and rationale.
 - Verify: One accurate thumbnail clears the fixed quality threshold. The winner outscores the alternatives under the same conditions, remains legible at realistic sizes, and represents the video accurately.
 - Keywords: Infinite Clickbait, YouTube thumbnail loop, thumbnail iteration workflow, clickbait scoring rubric, AI visual design
-- Related: [The visual reconstruction benchmark](https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)
+- Related: [The Boeing 747 benchmark](https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)
 
-## 027 — [The independent builder-reviewer loop](https://signals.forwardfuture.ai/loop-library/loops/autonomy-loop/)
+## 027 — [The autonomy-loop builder-reviewer loop](https://signals.forwardfuture.ai/loop-library/loops/autonomy-loop/)
 
 - Category: Engineering
-- Use when: Use this when a repository task benefits from repeated builder-reviewer handoffs and has reliable automated checks.
-- Prompt: For [repository task], separate builder and reviewer into isolated workspaces. The builder makes one bounded change, adds a test that fails before the fix and passes after it, runs the checks, and hands off. The reviewer reruns the checks, audits the change, and proves the test detects the fix by reverting or mutating it. Accept only on both passes. Stop for protected changes, repeated failure, no progress, or budget exhaustion. Finish with the change, test proof, checks, and risks.
-- Verify: Every accepted change passes independent test proof. The new test fails without the change and passes with it, all agreed checks pass, and protected changes remain approval-gated.
+- Use when: Use autonomy-loop when a repository has deterministic test, build, and lint gates plus a task suited to repeated builder-reviewer handoffs.
+- Prompt: Use autonomy-loop for [repository task] after the test, build, and lint gates pass. Run /autonomy-loop:autonomy-init, then start builder and reviewer in separate worktrees. The builder reads LOOP-STATE.md, makes one bounded change, and adds a red-before, green-after test. The reviewer reruns the gates and proves the test by reverting or mutating the fix. Accept only on both passes; park protected or repeated-failure work for a human. Finish with the commit, gate evidence, test proof, trust tier, and risks.
+- Verify: Every accepted wave passes autonomy-loop's proof-of-test gate. The new test fails without the change, passes with it, every configured gate passes, and protected production changes remain human-gated.
 - Keywords: autonomy-loop, adversarial code review, mutation testing, builder reviewer workflow, Claude Code loop
-- Related: [The adversarial code-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/), [The second-agent verification loop](https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/)
+- Related: [The Clodex adversarial-review loop](https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/), [The Loop Harness verification loop](https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/)
 
-## 028 — [The completion-contract loop](https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/)
+## 028 — [The Codex completion-contract loop](https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/)
 
 - Category: Engineering
-- Use when: Use this for long-running or high-risk work where a plausible partial result could be mistaken for completion.
-- Prompt: For [task], define the requirements, scope, non-goals, and evidence needed for completion before acting. After each bounded action, record each requirement as proved, weak, missing, or contradicted using current evidence. Continue only while the evidence closes a requirement and [budget] remains. Mark complete only when every required item is proved. Otherwise stop as blocked, exhausted, or stalled without claiming success. Ask before creating persistent goal state. Finish with the requirement-to-evidence table, status, owner, and next action.
-- Verify: Every required item has current, adequate proof. The final audit contains no weak, missing, or contradicted required item; otherwise the work remains open, blocked, or exhausted.
+- Use when: Use this for long-running Codex work, pull requests, runtime checks, or user-visible artifacts where a plausible partial result could be mistaken for completion.
+- Prompt: Run $goal-planner-codex [task] for long-running Codex work where partial work could be mistaken for done. Landing a PR and verifying production is one example. Before acting, define every required outcome and its evidence. After each bounded action, mark requirements proved, weak, missing, or contradicted. Complete the Goal only when all are proved; otherwise stop as blocked, stalled, or exhausted. Ask before creating Goal state. Finish with the requirement-to-evidence table, status, owner, and next action.
+- Verify: Every Codex Goal requirement has current, adequate proof. The final audit contains no weak, missing, or contradicted required item; otherwise the work remains open, blocked, or exhausted.
 - Keywords: Codex Goal, completion contract, evidence audit, definition of done, false completion prevention
 - Related: [The ticket-to-PR-ready loop](https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/), [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/)
 
-## 029 — [The evidence-based improvement loop](https://signals.forwardfuture.ai/loop-library/loops/revolve-self-improvement-loop/)
+## 029 — [The Revolve versioned-experiment loop](https://signals.forwardfuture.ai/loop-library/loops/revolve-self-improvement-loop/)
 
 - Category: Evaluation
-- Use when: Use this when improving a testable artifact across several experiments that must remain comparable, resumable, and reversible.
-- Prompt: Improve [artifact] toward [objective] within [budget]. Save a version, freeze the evaluation, and record a baseline. Test one change per cycle. Keep it only when it improves by [margin] without a guard regression; otherwise restore the best version. If the evaluation changes, create a revision and rerun the baseline. Ask before changing the live artifact. Stop on success, no progress, a blocker, or budget exhaustion. Finish with the best version, evidence, rollback, and next action.
-- Verify: The best version wins under one unchanged evaluation. Every comparison uses the same evaluation, accepted changes pass all guards, rollback is available, and live changes have approval.
+- Use when: Use Revolve to improve a prompt, policy, workflow, model configuration, code path, or dataset when experiments must remain comparable and resumable across sessions.
+- Prompt: Use Revolve to improve a support prompt, code path, or testable subject. In revolve/, define the goal and [budget], freeze the tests and scoring, checkpoint the current version, and record a baseline. Each round, test one hypothesis; keep only a clear, regression-free win. If the evaluation changes, open a new revision and rerun the baseline. Ask before changing live files. Stop on success, no progress, a blocker, or exhausted budget. Return the best checkpoint, comparisons, rollback, and next action.
+- Verify: The best Revolve checkpoint wins within one evaluation revision. The incumbent and candidates have comparable recorded runs, accepted changes pass every guard, rollback is available, and live promotion has approval.
 - Keywords: Revolve, agent self improvement, checkpoint evaluation, revisioned experiments, evidence based promotion
-- Related: [The champion-challenger loop](https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)
+- Related: [The self-improving champion loop](https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)

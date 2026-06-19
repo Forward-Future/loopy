@@ -121,6 +121,7 @@ const agentLoopTerm = structuredData["@graph"].find(
   (item) => item["@type"] === "DefinedTerm",
 );
 const slugs = new Set(loops.map((loop) => loop.slug));
+const loopBySlug = new Map(loops.map((loop) => [loop.slug, loop]));
 const titles = new Set(loops.map((loop) => loop.title));
 const prompts = new Set(loops.map((loop) => loop.prompt));
 const categorySlugs = new Set(categories.map((category) => category.slug));
@@ -154,6 +155,22 @@ const requestedConceptSlugs = [
   "codex-completion-contract-loop",
   "revolve-self-improvement-loop",
 ];
+const submissionPromptAnchors = new Map([
+  ["ticket-to-pr-ready-loop", ["bug report", "customer complaint"]],
+  ["customer-ai-deployment-loop", ["enriching leads", "updating a CRM"]],
+  ["product-update-podcast-loop", ["Jellypod MCP", "three-to-five-minute"]],
+  ["clodex-adversarial-review-loop", ["/clodex", "Claude", "Codex"]],
+  ["loop-harness-verification-loop", ["Loop Harness", "CI triage"]],
+  ["boeing-747-benchmark", ["Boeing 747", "Three.js", "nine"]],
+  ["war-loops-frontend-designer", ["War Loops", "Pencil", "Forge"]],
+  ["self-improving-champion-loop", ["support assistant", "holdout"]],
+  ["devils-advocate-design-loop", ["architecture", ".agent-reviews/redteam.md"]],
+  ["fresh-clone-loop", ["README", "running the app", "building the package"]],
+  ["infinite-clickbait-loop", ["ten thumbnail", "top three", "YouTube"]],
+  ["autonomy-loop", ["autonomy-loop", "LOOP-STATE.md", "red-before"]],
+  ["codex-completion-contract-loop", ["$goal-planner-codex", "landing a PR"]],
+  ["revolve-self-improvement-loop", ["Revolve", "revolve/", "support prompt"]],
+]);
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
 assert.equal(collection.mainEntity.itemListElement.length, loops.length);
@@ -192,6 +209,17 @@ assert.deepEqual(
 assert(loops.every((loop) => !Object.hasOwn(loop, "type")));
 assert(loops.every((loop) => !Object.hasOwn(loop, "typeSlug")));
 assert(requestedConceptSlugs.every((slug) => slugs.has(slug)));
+for (const [slug, anchors] of submissionPromptAnchors) {
+  const prompt = loopBySlug.get(slug)?.prompt ?? "";
+  const normalizedPrompt = prompt.toLowerCase();
+
+  for (const anchor of anchors) {
+    assert(
+      normalizedPrompt.includes(anchor.toLowerCase()),
+      `${slug} must preserve the source-specific prompt anchor: ${anchor}`,
+    );
+  }
+}
 assert.deepEqual(loopDirectories.sort(), [...slugs].sort());
 assert.equal(skillCatalog, renderCatalogMarkdown());
 assert.equal(publicCatalogMarkdown, renderCatalogMarkdown());

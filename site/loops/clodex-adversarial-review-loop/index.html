@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar." />
+    <meta name="description" content="A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats." />
     <meta name="author" content="Lukas Kucinski" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
@@ -35,22 +35,22 @@
     </script>
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
-    <meta property="og:title" content="Adversarial Code Review Loop for Coding Agents | Loop Library" />
-    <meta property="og:description" content="A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar." />
+    <meta property="og:title" content="Clodex Adversarial Code Review Loop | Loop Library" />
+    <meta property="og:description" content="A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-3.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-3.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-5.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-5.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="The adversarial code-review loop — Forward Future Loop Library" />
+    <meta property="og:image:alt" content="The Clodex adversarial-review loop — Forward Future Loop Library" />
     <meta property="article:published_time" content="2026-06-18" />
     <meta property="article:modified_time" content="2026-06-19" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Adversarial Code Review Loop for Coding Agents | Loop Library" />
-    <meta name="twitter:description" content="A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-3.png" />
-    <meta name="twitter:image:alt" content="The adversarial code-review loop — Forward Future Loop Library" />
+    <meta name="twitter:title" content="Clodex Adversarial Code Review Loop | Loop Library" />
+    <meta name="twitter:description" content="A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats." />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-5.png" />
+    <meta name="twitter:image:alt" content="The Clodex adversarial-review loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
     <link rel="alternate" type="application/atom+xml" title="Loop Library updates" href="https://signals.forwardfuture.ai/loop-library/feed.xml" />
@@ -75,7 +75,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "The adversarial code-review loop",
+          "name": "The Clodex adversarial-review loop",
           "item": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/"
         }
       ]
@@ -83,8 +83,8 @@
     {
       "@type": "Article",
       "@id": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/#article",
-      "headline": "The adversarial code-review loop",
-      "description": "A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar.",
+      "headline": "The Clodex adversarial-review loop",
+      "description": "A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats.",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/",
       "datePublished": "2026-06-18",
@@ -100,7 +100,7 @@
       "isBasedOn": "https://github.com/lukaskucinski/clodex",
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-3.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/clodex-adversarial-review-loop-20260619-5.png",
         "width": 1200,
         "height": 630
       },
@@ -131,7 +131,7 @@
 }
     </script>
     <script src="../../script.js?v=20260618-x-handle" defer></script>
-    <title>Adversarial Code Review Loop for Coding Agents | Loop Library</title>
+    <title>Clodex Adversarial Code Review Loop | Loop Library</title>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -200,8 +200,8 @@
       <article class="loop-detail">
         <header class="detail-hero">
           <p class="eyebrow">Loop 019</p>
-          <h1>The adversarial code-review loop</h1>
-          <p class="detail-lede">A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar.</p>
+          <h1>The Clodex adversarial-review loop</h1>
+          <p class="detail-lede">A Claude-and-Codex workflow that opens a pull request, runs an independent Codex review, fixes blocking findings, and repeats.</p>
           <p class="detail-byline">
             Contributed by <strong>Lukas Kucinski</strong> · <a class="detail-source-link" href="https://github.com/lukaskucinski/clodex" target="_blank" rel="noopener noreferrer">Source</a>
           </p>
@@ -218,14 +218,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>For [code change], have one agent implement and verify a reviewable patch, then have an independent reviewer inspect it against [acceptance criteria] and rank findings by severity. Fix findings above [accepted severity], rerun the relevant checks, and review again. Stop on approval, only explicitly accepted findings, no progress, or [iteration limit]. Never report an errored or exhausted run as approved. Finish with the patch, checks, verdict, remaining findings, and review link.</p>
+            <p data-prompt>Run /clodex [task] think hard --max-iter 5 --threshold medium. Claude plans the task, implements it, opens a pull request, asks Codex for an adversarial review, fixes findings above the accepted severity, and repeats. Keep the branch, PR, findings, verdict, and iteration state resumable. Stop when Codex approves, only accepted findings remain, progress stalls, or the iteration cap is reached. Never describe an errored or exhausted run as approved. Finish with the PR, checks, verdict, and remaining findings.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
-              <h2 id="verify-stop">The change reaches the agreed review bar.</h2>
-              <p>An independent reviewer approves it or only explicitly accepted findings remain; errors, stalls, and exhausted limits are reported as such.</p>
+              <h2 id="verify-stop">The pull request reaches the configured review bar.</h2>
+              <p>Codex approves it or only explicitly accepted findings remain; errors, stalls, and exhausted limits are reported as such.</p>
             </div>
           </section>
 
@@ -249,22 +249,22 @@
 
               <section aria-labelledby="use-when">
                 <h2 id="use-when">Use this when</h2>
-                <p>Use this when a code change needs independent review and may require several bounded fix-and-review rounds.</p>
+                <p>Use Clodex when Claude is building a meaningful code change and Codex should independently review each repair round.</p>
               </section>
 
               <section aria-labelledby="run-loop">
                 <h2 id="run-loop">How to run it</h2>
                 <ol class="detail-steps">
-                <li>Define the change, acceptance criteria, accepted severity, and iteration or no-progress limit.</li>
-                <li>Have the builder implement and verify one reviewable patch.</li>
-                <li>Have an independent reviewer rank findings, then fix blocking issues and rerun the checks.</li>
-                <li>Repeat until the review bar or another named stop is reached, then report the verdict and remaining findings.</li>
+                <li>Choose the task, thinking level, maximum iterations, and highest acceptable finding severity.</li>
+                <li>Have Claude plan, implement, verify, and open the pull request through Clodex.</li>
+                <li>Run the Codex adversarial review, fix blocking findings, push, and review again.</li>
+                <li>Persist state across rounds and finish with the verdict, remaining findings, checks, and pull-request link.</li>
                 </ol>
               </section>
 
               <section aria-labelledby="why-it-works">
                 <h2 id="why-it-works">Why it works</h2>
-                <p>Separating the builder from the reviewer turns findings into a bounded repair loop. Persisted state keeps the work resumable without treating an interruption as approval.</p>
+                <p>Clodex separates the Claude builder from the Codex reviewer and turns review feedback into a bounded repair loop. Persisted state keeps the work resumable without treating an interruption as approval.</p>
               </section>
 
               <section class="implementation-note" aria-labelledby="implementation-note">

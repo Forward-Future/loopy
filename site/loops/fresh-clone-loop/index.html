@@ -38,8 +38,8 @@
     <meta property="og:title" content="Fresh Clone README Verification Loop | Loop Library" />
     <meta property="og:description" content="A disposable-environment workflow that follows the README from scratch, fixes every hidden setup assumption, and restarts until onboarding works cleanly." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/fresh-clone-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-3.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-3.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-5.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-5.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -49,7 +49,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Fresh Clone README Verification Loop | Loop Library" />
     <meta name="twitter:description" content="A disposable-environment workflow that follows the README from scratch, fixes every hidden setup assumption, and restarts until onboarding works cleanly." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-3.png" />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-5.png" />
     <meta name="twitter:image:alt" content="The fresh-clone loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/fresh-clone-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -99,7 +99,7 @@
       ],
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-3.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/fresh-clone-loop-20260619-5.png",
         "width": 1200,
         "height": 630
       },
@@ -217,13 +217,13 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Test [repository] from a clean disposable environment. Follow only its onboarding documentation. When a step fails or assumes missing knowledge, record the gap, fix the smallest documentation or setup issue, discard the environment, and start again. Carry no dependencies, configuration, credentials, or manual repairs between attempts. Stop when one uninterrupted run reaches [documented ready state], progress stalls, or [budget] ends. Finish with the verified commands, gaps closed, and remaining blockers.</p>
+            <p data-prompt>Clone [repository] into a disposable environment and follow only its README to the documented ready state, such as running the app or building the package. When a step fails or assumes missing knowledge, record the gap, fix the setup or documentation issue, discard the environment, and start again. Carry no dependencies, configuration, credentials, or repairs between attempts. Stop when one uninterrupted fresh clone reaches that state, progress stalls, or [budget] ends. Return exact commands, gaps closed, and remaining blockers.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
-              <h2 id="verify-stop">A clean environment reaches the documented ready state.</h2>
+              <h2 id="verify-stop">A clean environment reaches the documented ready state using only the README.</h2>
               <p>The final run uses only the onboarding guide and needs no unstated dependency, configuration, or manual repair.</p>
             </div>
           </section>
@@ -257,7 +257,7 @@
                 <li>Create a disposable environment with no project dependencies or configuration carried over from another checkout.</li>
                 <li>Fresh-clone the repository and follow only the README, recording every missing step, hidden assumption, and failure.</li>
                 <li>Fix the smallest setup or documentation gap, discard the environment completely, and begin again.</li>
-                <li>Repeat until one clean run reaches the documented ready state without intervention, then report the commands and gaps closed.</li>
+                <li>Repeat until one clean run reaches the documented ready state without intervention, then report the exact commands and gaps closed.</li>
                 </ol>
               </section>
 
