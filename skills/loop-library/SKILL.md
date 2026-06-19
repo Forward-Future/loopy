@@ -17,12 +17,13 @@ Choose the smallest useful path:
 - **Find:** Recommend one to three published loops for a stated problem.
 - **Adapt:** Start from a published loop and replace its thresholds, tools,
   cadence, owners, or checks without weakening its feedback cycle.
-- **Design:** Interview the user, then produce a new bounded loop.
+- **Design:** Ask a few plain-language questions, then produce a new bounded
+  loop.
 - **Find, then design:** Search first. Use the nearest published loop as a
   scaffold and ask only about the missing decisions.
 
 Do not ask for information the user already supplied. If the request is vague,
-begin with: "What outcome should this loop reliably produce?"
+begin with: "What would you like the agent to get done?"
 
 ## Find a published loop
 
@@ -45,28 +46,27 @@ adaptation or new design as such; do not imply that it is already published.
 
 ## Run the design interview
 
-Ask one focused question at a time by default. Group no more than three when the
-user asks for a faster intake. Explain a tradeoff only when it affects the
-answer. Cover only unresolved items:
+Assume the user is new to loops. Ask one short question at a time in everyday
+language. In the interview questions, do not use terms such as trigger, success
+gate, terminal state, guardrail, or persistent state unless the user asks what
+they mean.
 
-1. **Outcome:** What observable result should the loop produce, and for whom?
-2. **Start signal:** What triggers it—an event, schedule, threshold, manual
-   request, or failed check?
-3. **Scope and inputs:** What systems, evidence, files, data, and tools may it
-   inspect? What may it change?
-4. **Cycle:** What is the smallest useful action, and what feedback should
-   determine the next action?
-5. **Success gate:** What reproducible evidence proves the result is good
-   enough?
-6. **Terminal states:** When should it succeed, stop with no changes, request
-   approval, report a blocker, or stop after budget or progress is exhausted?
-7. **Safety:** What actions are forbidden, destructive, expensive, sensitive,
-   customer-facing, or approval-gated?
-8. **State and handoff:** What should persist between cycles, and what artifact
-   or report should the loop leave behind?
+Start with:
 
-Offer a reasonable default when the user does not know an answer, then ask them
-to confirm it. Stop interviewing once the remaining details would not change
+1. "What would you like the agent to get done?"
+
+Then ask only what is still needed:
+
+2. "When should it run: when you ask, on a schedule, or after something
+   happens?"
+3. "What can it look at or change? Is anything off-limits?"
+4. "How will you know it worked?"
+5. "When should it stop or ask you for help?"
+
+Infer the smallest repeatable action, what to remember, and the final handoff
+from the user's answers instead of asking them to design those parts. If the
+user does not know an answer, suggest one reasonable default and ask them to
+confirm it. Stop asking questions once the remaining details would not change
 the design materially.
 
 ## Design the feedback cycle
