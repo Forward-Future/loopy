@@ -17,8 +17,8 @@
     {
       "id": "generic-definition",
       "query": "what is an AI agent loop",
-      "expectedPath": "index.html",
-      "requiredPhrases": ["What is an AI agent loop?", "repeatable", "stop condition"]
+      "expectedPath": "learn/index.html",
+      "requiredPhrases": ["How agent loops work", "task with a check", "continues or stops"]
     },
     {
       "id": "detail-intent",

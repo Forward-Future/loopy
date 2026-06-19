@@ -387,59 +387,6 @@ code {
   max-width: 920px;
 }
 
-.answer-capsule {
-  display: grid;
-  gap: clamp(20px, 4vw, 44px);
-  margin-top: 26px;
-  padding: 24px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
-}
-
-.answer-capsule h2 {
-  margin-bottom: 0;
-  font-size: clamp(1.55rem, 2.5vw, 2.15rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1;
-}
-
-.answer-capsule-kicker,
-.answer-capsule-sources {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  line-height: 1.45;
-}
-
-.answer-capsule-kicker {
-  margin-bottom: 8px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.answer-capsule-copy > p {
-  margin-bottom: 10px;
-}
-
-.answer-capsule-copy > p:last-child {
-  margin-bottom: 0;
-}
-
-.answer-capsule-sources a {
-  color: inherit;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.answer-capsule-sources a:hover,
-.answer-capsule-sources a:focus-visible {
-  color: var(--ink);
-  text-decoration-thickness: 2px;
-}
-
 .skill-promo {
   display: grid;
   align-items: center;
@@ -1673,11 +1620,6 @@ code {
 
   .skill-promo {
     align-items: start;
-    gap: 14px;
-    grid-template-columns: 1fr;
-  }
-
-  .answer-capsule {
     gap: 14px;
     grid-template-columns: 1fr;
   }
