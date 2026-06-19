@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Learn how agent loops work, how to write one, and how to run one in Cursor, Codex, Claude Code, Factory, or Devin."
+    />
+    <meta name="theme-color" content="#faf8f7" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      (() => {
+        const storageKey = "loop-library-theme";
+        let storedTheme;
+
+        try {
+          storedTheme = window.localStorage.getItem(storageKey);
+        } catch {
+          storedTheme = null;
+        }
+
+        const theme =
+          storedTheme === "light" || storedTheme === "dark"
+            ? storedTheme
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+
+        document.documentElement.dataset.theme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", theme === "dark" ? "#101010" : "#faf8f7");
+      })();
+    </script>
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="How Agent Loops Work | Loop Library" />
+    <meta
+      property="og:description"
+      content="A plain-language guide to writing and running useful agent loops."
+    />
+    <meta
+      property="og:url"
+      content="https://signals.forwardfuture.ai/loop-library/learn/"
+    />
+    <meta
+      property="og:image"
+      content="https://signals.forwardfuture.ai/loop-library/assets/ff-mark.png"
+    />
+    <link
+      rel="canonical"
+      href="https://signals.forwardfuture.ai/loop-library/learn/"
+    />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      href="https://signals.forwardfuture.ai/loop-library/sitemap.xml"
+    />
+    <link rel="icon" type="image/png" href="../assets/favicon.png" />
+    <link rel="stylesheet" href="../styles.css?v=20260619-learn-page" />
+    <script src="../script.js?v=20260619-pagination" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "How Agent Loops Work",
+        "description": "A plain-language guide to writing and running useful agent loops.",
+        "url": "https://signals.forwardfuture.ai/loop-library/learn/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Forward Future",
+          "url": "https://forwardfuture.ai/"
+        }
+      }
+    </script>
+    <title>How Agent Loops Work | Loop Library</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a class="brand-lockup" href="../" aria-label="Forward Future Loop Library home">
+        <img
+          class="brand-mark"
+          src="../assets/favicon.png"
+          width="32"
+          height="32"
+          alt=""
+        />
+        <span class="brand-name">Forward Future</span>
+        <span class="brand-product">Loop Library</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../#library">Loops</a>
+        <a href="./" aria-current="page">Learn</a>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark mode"
+          aria-pressed="false"
+        >
+          <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M12 2v3M12 19v3M4.9 4.9 7 7M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z"></path>
+          </svg>
+          <span class="theme-label theme-label-light">Light</span>
+          <span class="theme-label theme-label-dark">Dark</span>
+        </button>
+        <a
+          class="here-now-credit here-now-credit--header"
+          data-here-now-credit
+          href="https://here.now/r/signals"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Hosted by here.now"
+        >
+          <img
+            class="here-now-credit__icon"
+            src="../assets/here-now-icon.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <span class="here-now-credit__text">
+            <small>Hosted by</small>
+            <strong>here.now</strong>
+          </span>
+        </a>
+        <a class="nav-cta" href="../#submit">Submit a loop</a>
+      </nav>
+    </header>
+
+    <main id="main" class="article-page">
+      <article class="article-guide page-width">
+        <header class="article-header">
+          <h1>How agent loops work</h1>
+          <p class="article-lede">
+            An agent loop is a task with a check. The agent does some work,
+            checks the result, and then continues or stops.
+          </p>
+          <p>
+            In practice, the agent observes the current state, takes one action,
+            checks what happened, and decides what to do next. Use a loop when
+            the result of one step should change the next step. If it will not,
+            use a one-time task instead.
+          </p>
+        </header>
+
+        <section class="article-section" aria-labelledby="useful-title">
+          <h2 id="useful-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </span>
+            What makes a loop useful
+          </h2>
+          <p>
+            <strong>Start with a clear goal.</strong> Describe the result in a way
+            you can measure or review. “Improve the code” is vague. “Make every
+            page load in under 50 milliseconds under the same test conditions”
+            gives the agent a real finish line.
+          </p>
+          <p>
+            <strong>Keep each action small.</strong> Ask the agent to make one
+            bounded, reversible change at a time. Smaller changes are easier to
+            verify and easier to undo when the result gets worse.
+          </p>
+          <p>
+            <strong>Use a fixed check.</strong> Run the same test, benchmark,
+            rubric, or approval step after every change. The check—not the
+            agent’s opinion—determines whether the work improved.
+          </p>
+          <p>
+            <strong>Define how it stops.</strong> Say what success looks like,
+            when no change is needed, when the agent should ask for approval,
+            and when it should stop because it is blocked or out of budget.
+          </p>
+          <p>
+            A goal loop starts manually and continues until its check passes or
+            its budget runs out. A scheduled loop starts at a set time or after
+            an event. Every scheduled run should still finish, report its result,
+            and wait for the next trigger.
+          </p>
+        </section>
+
+        <section class="article-section" id="build" aria-labelledby="prompt-title">
+          <h2 id="prompt-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M5 7h14M5 12h14M5 17h9"></path>
+              </svg>
+            </span>
+            Write the prompt
+          </h2>
+          <p>
+            Write the loop in ordinary language. Name the trigger, the current
+            information the agent should inspect, the change it may make, the
+            check it must run, and the conditions that make it stop.
+          </p>
+          <p><strong>Copy and adapt this:</strong></p>
+          <div class="prompt-paragraphs">
+            <p>
+              When [trigger], inspect [fresh inputs]. Choose one in-scope action
+              using [criteria], then make the change.
+            </p>
+            <p>
+              Run [acceptance check] under the same conditions. Record what
+              changed, the evidence, and the next step in [state file].
+            </p>
+            <p>
+              Repeat only while progress is measurable and [budget] remains.
+              Stop when [success gate] passes. Stop without changes when [no-op
+              condition] is true.
+            </p>
+            <p>
+              Ask for approval or report a blocker when [escalation condition]
+              occurs. Never [forbidden action]. Finish with [pull request,
+              report, artifact, or handoff].
+            </p>
+          </div>
+          <p>
+            Run the prompt once by hand before you schedule it. The first run
+            usually reveals a missing check, an unclear boundary, or a stopping
+            condition that needs to be more specific.
+          </p>
+        </section>
+
+        <section class="article-section" id="tools" aria-labelledby="tools-title">
+          <h2 id="tools-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="m5 7 5 5-5 5M13 17h6"></path>
+              </svg>
+            </span>
+            Run it in your coding agent
+          </h2>
+          <p>
+            The same loop prompt works across tools. The main difference is where
+            you save recurring instructions and how you schedule future runs.
+          </p>
+
+          <h3 id="cursor">Cursor</h3>
+          <p>
+            Open the repository, select <strong>Agent</strong>, and paste the loop
+            prompt. Include the files in scope, the exact check to run, and the
+            stopping rule. Review the terminal output and diff, then use the
+            check—not the agent’s summary—to decide whether the work is done.
+          </p>
+          <p>
+            For recurring work, save stable guidance in <code>.cursor/rules</code>
+            or <code>AGENTS.md</code>. Use Cursor Automations for scheduled or
+            event-triggered runs. See the official documentation for
+            <a href="https://docs.cursor.com/agent" target="_blank" rel="noopener noreferrer">Agent</a>,
+            <a href="https://docs.cursor.com/context/rules-for-ai" target="_blank" rel="noopener noreferrer">Rules</a>, and
+            <a href="https://cursor.com/automate" target="_blank" rel="noopener noreferrer">Automations</a>.
+          </p>
+
+          <h3 id="codex">Codex</h3>
+          <p>
+            Open the repository and start a Worktree thread when the loop should
+            change code in isolation. Paste the prompt with the goal, constraints,
+            check, and “done when” condition. Review the diff and final test or
+            benchmark result before accepting the work.
+          </p>
+          <p>
+            For recurring work, keep project rules in <code>AGENTS.md</code>.
+            Test the prompt manually, then create a Codex Automation and review
+            its first runs. See the official documentation for
+            <a href="https://developers.openai.com/codex/learn/best-practices" target="_blank" rel="noopener noreferrer">best practices</a>,
+            <a href="https://developers.openai.com/codex/guides/agents-md" target="_blank" rel="noopener noreferrer">AGENTS.md</a>, and
+            <a href="https://developers.openai.com/codex/app/automations" target="_blank" rel="noopener noreferrer">Automations</a>.
+          </p>
+
+          <h3 id="claude-code">Claude Code</h3>
+          <p>
+            Run <code>cd my-project</code>, then <code>claude</code>. Paste the
+            loop prompt with its check, budget, and stopping rule. Run
+            <code>/init</code> if you want a starting <code>CLAUDE.md</code> for
+            stable project instructions.
+          </p>
+          <p>
+            For polling inside an open session, use a prompt such as
+            <code>/loop 5m check whether the deploy finished</code>. Use a Routine,
+            Desktop task, or GitHub Action for work that must survive a closed
+            terminal. See the official documentation for
+            <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer">CLAUDE.md</a>,
+            <a href="https://code.claude.com/docs/en/scheduled-tasks" target="_blank" rel="noopener noreferrer">scheduled tasks</a>, and
+            <a href="https://code.claude.com/docs/en/routines" target="_blank" rel="noopener noreferrer">Routines</a>.
+          </p>
+
+          <h3 id="factory">Factory</h3>
+          <p>
+            Open the repository, run <code>droid</code>, and paste the loop prompt.
+            Include the working directory, check, final output, and stopping rule.
+            Review the spec, permissions, edits, and verification output.
+          </p>
+          <p>
+            For recurring work, call
+            <code>droid exec --auto medium -f .factory/prompts/loop.md</code> from
+            CI or cron. Use the lowest autonomy level that can finish the task.
+            See the official documentation for the
+            <a href="https://docs.factory.ai/cli/getting-started/overview" target="_blank" rel="noopener noreferrer">Droid CLI</a> and
+            <a href="https://docs.factory.ai/cli/droid-exec/overview" target="_blank" rel="noopener noreferrer">Droid Exec</a>.
+          </p>
+
+          <h3 id="devin">Devin</h3>
+          <p>
+            Start a session with the correct repository and branch. Paste the
+            loop prompt and say whether the final output should be a pull request,
+            report, or clean no-op. Review the plan, changes, and evidence before
+            merging.
+          </p>
+          <p>
+            For recurring work, save the prompt as a Playbook. Use
+            <strong>Schedule Devin</strong> or <strong>Settings &gt; Schedules</strong>
+            for recurring runs, then review Past Sessions. See the official
+            documentation for
+            <a href="https://docs.devin.ai/product-guides/creating-playbooks" target="_blank" rel="noopener noreferrer">Playbooks</a> and
+            <a href="https://docs.devin.ai/product-guides/scheduled-sessions" target="_blank" rel="noopener noreferrer">Scheduled Sessions</a>.
+          </p>
+          <p>
+            Product controls change. The links above go to each product’s official documentation.
+          </p>
+        </section>
+
+        <section class="article-section" aria-labelledby="safety-title">
+          <h2 id="safety-title">
+            <span class="section-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3 19 6v5c0 5-3 8-7 10-4-2-7-5-7-10V6Z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </span>
+            Keep loops safe
+          </h2>
+          <p>
+            <strong>Set limits.</strong> Give every loop a maximum time, cost,
+            retry count, iteration count, or affected scope. A loop should never
+            interpret “keep going” as unlimited authority.
+          </p>
+          <p>
+            <strong>Keep the check stable.</strong> Changing the benchmark after
+            every result makes progress impossible to compare. Use a fresh
+            acceptance set when the loop is optimizing a prompt or model.
+          </p>
+          <p>
+            <strong>Leave a useful handoff.</strong> Record the goal, completed
+            steps, evidence, blockers, and next action in
+            <code>tmp/&lt;file&gt;.md</code>. Never store secrets there.
+          </p>
+          <p>
+            <strong>Keep consequential actions behind approval.</strong> Require
+            a person to approve production, destructive, financial,
+            privacy-sensitive, or external-message actions. Blocked, exhausted,
+            and stagnant runs are not successful runs.
+          </p>
+        </section>
+
+        <footer class="article-footer">
+          <p><a href="../#library">Browse the Loop Library &rarr;</a></p>
+        </footer>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <div class="page-width footer-inner">
+        <p><strong>Forward Future</strong> <span>Make the future legible.</span></p>
+        <div class="footer-actions">
+          <p>
+            <a href="https://forwardfuture.ai/" rel="noopener">forwardfuture.ai</a>
+            <span>&copy; 2026</span>
+          </p>
+          <a
+            class="here-now-credit here-now-credit--footer"
+            data-here-now-credit
+            href="https://here.now/r/signals"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Hosted by here.now"
+          >
+            <img
+              class="here-now-credit__icon"
+              src="../assets/here-now-icon.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <span class="here-now-credit__text">
+              <small>Hosted by</small>
+              <strong>here.now</strong>
+            </span>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

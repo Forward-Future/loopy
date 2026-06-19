@@ -23,6 +23,7 @@ const skillRoot = path.join(root, "skills", "loop-library");
 
 const [
   html,
+  learnHtml,
   css,
   script,
   dataSource,
@@ -41,6 +42,7 @@ const [
 ] =
   await Promise.all([
     readFile(path.join(siteRoot, "index.html"), "utf8"),
+    readFile(path.join(siteRoot, "learn", "index.html"), "utf8"),
     readFile(path.join(siteRoot, "styles.css"), "utf8"),
     readFile(path.join(siteRoot, "script.js"), "utf8"),
     readFile(path.join(siteRoot, ".herenow", "data.json"), "utf8"),
@@ -510,8 +512,10 @@ assert(!html.includes('data-type='));
 assert(!html.includes('class="cell-type"'));
 assert(!html.includes("type-badge"));
 assert(!html.includes('<th scope="col">Type</th>'));
-assert(html.includes("./styles.css?v=20260619-loop-summaries"));
+assert(html.includes("./styles.css?v=20260619-learn-page"));
 assert(html.includes("./script.js?v=20260619-pagination"));
+assert(html.includes('href="./learn/"'));
+assert(html.includes("Learn how loops work and run one"));
 assert(html.includes('id="library-pagination"'));
 assert(html.includes('aria-label="Loop pages"'));
 assert(html.includes('id="pagination-previous"'));
@@ -547,6 +551,31 @@ assert.equal((html.match(/aria-label="Hosted by here\.now"/g) || []).length, 2);
 assert.equal((html.match(/<small>Hosted by<\/small>/g) || []).length, 2);
 assert.equal((html.match(/<strong>here\.now<\/strong>/g) || []).length, 2);
 assert.equal((html.match(/\.\/assets\/here-now-icon\.svg/g) || []).length, 2);
+assert.equal((learnHtml.match(/data-here-now-credit/g) || []).length, 2);
+assert.equal(
+  (learnHtml.match(/href="https:\/\/here\.now\/r\/signals"/g) || []).length,
+  2,
+);
+assert(learnHtml.includes("../styles.css?v=20260619-learn-page"));
+assert(learnHtml.includes("../script.js?v=20260619-pagination"));
+assert(learnHtml.includes("How agent loops work"));
+assert(learnHtml.includes("What makes a loop useful"));
+assert(learnHtml.includes("Write the prompt"));
+assert(learnHtml.includes("Run it in your coding agent"));
+assert(learnHtml.includes("Keep loops safe"));
+assert(!learnHtml.includes("trigger-goal-graphic"));
+assert(!learnHtml.includes("mini-loop-graphic"));
+assert(!learnHtml.includes("<figure"));
+assert(!learnHtml.includes("<ol"));
+assert(!learnHtml.includes("<ul"));
+assert(!learnHtml.includes("<pre"));
+assert((learnHtml.match(/<p(?:\s|>)/g) || []).length >= 30);
+assert.equal((learnHtml.match(/class="section-icon"/g) || []).length, 4);
+assert(learnHtml.includes('id="cursor"'));
+assert(learnHtml.includes('id="codex"'));
+assert(learnHtml.includes('id="claude-code"'));
+assert(learnHtml.includes('id="factory"'));
+assert(learnHtml.includes('id="devin"'));
 assert(html.includes("Repeatable AI Agent Workflows"));
 assert(html.includes('rel="sitemap"'));
 assert(html.includes(`href="${siteMeta.baseUrl}catalog.json"`));
@@ -617,6 +646,13 @@ assert(
 );
 assert(!css.includes("outline: 2px solid var(--orange)"));
 assert(css.includes(".here-now-credit"));
+assert(css.includes(".article-guide"));
+assert(css.includes(".article-header"));
+assert(css.includes(".article-section"));
+assert(css.includes(".section-icon"));
+assert(!css.includes(".learning-hero"));
+assert(!css.includes(".cycle-visual"));
+assert(!css.includes(".guide-hero"));
 assert(css.includes(".newsletter-section"));
 assert(css.includes(".newsletter-form"));
 assert(!css.includes(".workflow-help"));
@@ -684,6 +720,7 @@ assert.equal(
   "FormGuard",
 );
 assert(sitemap.includes(`<loc>${siteMeta.baseUrl}</loc>`));
+assert(sitemap.includes(`<loc>${siteMeta.baseUrl}learn/</loc>`));
 assert(feed.includes(`<id>${siteMeta.baseUrl}</id>`));
 assert(hereNowIcon.includes('<rect width="128" height="128" fill="#ffffff"/>'));
 assert(hereNowIcon.includes('<circle cx="64" cy="64" r="26" fill="#000000"/>'));

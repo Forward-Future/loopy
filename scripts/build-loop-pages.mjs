@@ -388,6 +388,10 @@ function renderSitemap() {
       url: site.baseUrl,
       modified: site.updated,
     },
+    {
+      url: `${site.baseUrl}learn/`,
+      modified: site.updated,
+    },
     ...loops.map((loop) => ({
       url: absoluteUrl(loop.slug),
       modified: loop.modified,
