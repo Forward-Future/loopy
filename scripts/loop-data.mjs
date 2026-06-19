@@ -5,7 +5,7 @@ export const site = {
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
   updated: "2026-06-18",
-  socialImageVersion: "20260618-7",
+  socialImageVersion: "20260618-8",
   socialImageExtension: "png",
   socialImageMimeType: "image/png",
 };
@@ -160,26 +160,26 @@ export const loops = [
     title: "The production error sweep",
     seoTitle: "Production Error Triage Loop for Coding Agents | Loop Library",
     description:
-      "A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result.",
+      "A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed.",
     categoryLabel: "AI coding agent workflow",
     author: "Matthew Berman",
     published: "2026-06-12",
-    modified: "2026-06-17",
+    modified: "2026-06-18",
     prompt:
-      "Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. Then ping me in Slack with the findings and PR link. If no actionable errors are present, ping me with that result instead.",
+      "Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. If no actionable errors are present, stop without making changes.",
     verifyTitle: "Actionable production errors are fixed and verified.",
     verifyDetail:
-      "Finish with a pull request and Slack summary, or a clean-log confirmation.",
+      "Finish with a pull request, or stop when no actionable errors are present.",
     useWhen:
       "Use this as a scheduled reliability pass when an agent can read production telemetry, trace failures into the repository, run the relevant tests, and prepare a reviewable fix.",
     steps: [
       "Review the agreed production log window and group repeated symptoms into likely incidents.",
       "Separate actionable product errors from expected noise, transient upstream failures, and already-known issues.",
       "Trace each actionable error to a root cause, implement the smallest appropriate fix, and verify it with focused checks.",
-      "Open a pull request and report the findings, verification, and link. If the logs are clean, report that terminal state instead.",
+      "Open a pull request for each verified fix. If the logs are clean, stop without making changes.",
     ],
     why:
-      "The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, review artifact, and explicit communication instead of stopping at a list of errors.",
+      "The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, and review artifact instead of stopping at a list of errors.",
     note:
       "Treat logs as sensitive production data. Do not copy credentials, tokens, personal information, or private payloads into prompts, pull requests, or chat messages.",
     keywords: [

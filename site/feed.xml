@@ -48,11 +48,11 @@
     <id>https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/" />
     <published>2026-06-12T00:00:00-07:00</published>
-    <updated>2026-06-17T00:00:00-07:00</updated>
+    <updated>2026-06-18T00:00:00-07:00</updated>
     <author>
       <name>Matthew Berman</name>
     </author>
-    <summary>A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result.</summary>
+    <summary>A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed.</summary>
   </entry>
   <entry>
     <title>The 100% test coverage loop</title>

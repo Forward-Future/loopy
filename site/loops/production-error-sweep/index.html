@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result." />
+    <meta name="description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed." />
     <meta name="author" content="Matthew Berman" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
@@ -36,20 +36,20 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
     <meta property="og:title" content="Production Error Triage Loop for Coding Agents | Loop Library" />
-    <meta property="og:description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result." />
+    <meta property="og:description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-7.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-7.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-8.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-8.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The production error sweep — Forward Future Loop Library" />
     <meta property="article:published_time" content="2026-06-12" />
-    <meta property="article:modified_time" content="2026-06-17" />
+    <meta property="article:modified_time" content="2026-06-18" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Production Error Triage Loop for Coding Agents | Loop Library" />
-    <meta name="twitter:description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-7.png" />
+    <meta name="twitter:description" content="A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed." />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-8.png" />
     <meta name="twitter:image:alt" content="The production error sweep — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -82,11 +82,11 @@
       "@type": "Article",
       "@id": "https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/#article",
       "headline": "The production error sweep",
-      "description": "A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result.",
+      "description": "A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed.",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/production-error-sweep/",
       "datePublished": "2026-06-12",
-      "dateModified": "2026-06-17",
+      "dateModified": "2026-06-18",
       "articleSection": "AI coding agent workflow",
       "keywords": [
         "AI coding agent",
@@ -97,7 +97,7 @@
       ],
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-7.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/production-error-sweep-20260618-8.png",
         "width": 1200,
         "height": 630
       },
@@ -198,7 +198,7 @@
         <header class="detail-hero">
           <p class="eyebrow">Loop 004</p>
           <h1>The production error sweep</h1>
-          <p class="detail-lede">A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and reports the result.</p>
+          <p class="detail-lede">A scheduled production-log workflow that traces actionable errors to root causes, verifies fixes, opens a pull request, and stops cleanly when no action is needed.</p>
           <p class="detail-byline">
             Contributed by <strong>Matthew Berman</strong>
           </p>
@@ -215,14 +215,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. Then ping me in Slack with the findings and PR link. If no actionable errors are present, ping me with that result instead.</p>
+            <p data-prompt>Review our production logs for errors. If you find an actionable issue, trace it to its root cause, fix it, verify the fix, and open a pull request. If no actionable errors are present, stop without making changes.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
               <h2 id="verify-stop">Actionable production errors are fixed and verified.</h2>
-              <p>Finish with a pull request and Slack summary, or a clean-log confirmation.</p>
+              <p>Finish with a pull request, or stop when no actionable errors are present.</p>
             </div>
           </section>
 
@@ -240,7 +240,7 @@
                 </div>
                 <div>
                   <dt>Updated</dt>
-                  <dd><time datetime="2026-06-17">Jun 17, 2026</time></dd>
+                  <dd><time datetime="2026-06-18">Jun 18, 2026</time></dd>
                 </div>
               </dl>
 
@@ -255,13 +255,13 @@
                 <li>Review the agreed production log window and group repeated symptoms into likely incidents.</li>
                 <li>Separate actionable product errors from expected noise, transient upstream failures, and already-known issues.</li>
                 <li>Trace each actionable error to a root cause, implement the smallest appropriate fix, and verify it with focused checks.</li>
-                <li>Open a pull request and report the findings, verification, and link. If the logs are clean, report that terminal state instead.</li>
+                <li>Open a pull request for each verified fix. If the logs are clean, stop without making changes.</li>
                 </ol>
               </section>
 
               <section aria-labelledby="why-it-works">
                 <h2 id="why-it-works">Why it works</h2>
-                <p>The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, review artifact, and explicit communication instead of stopping at a list of errors.</p>
+                <p>The loop converts passive log review into a closed reliability workflow. It requires a root cause, verified change, and review artifact instead of stopping at a list of errors.</p>
               </section>
 
               <section class="implementation-note" aria-labelledby="implementation-note">
