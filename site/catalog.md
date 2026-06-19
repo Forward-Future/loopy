@@ -277,3 +277,12 @@ URL above.
 - Verify: Every repository item reaches a proven handoff or terminal state. Authorized autonomous work lands with evidence; other items are decision-ready, blocked with one exact ask, or recorded as a clean no-op.
 - Keywords: Codex repository maintenance, multi-repository orchestration, five minute agent loop, GitHub project triage, thread delegation
 - Related: [The ticket-to-PR-ready loop](https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/), [The stale-safe batch release loop](https://signals.forwardfuture.ai/loop-library/loops/stale-safe-batch-release-loop/)
+
+## 031 — [The recent-feedback sweep](https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/)
+
+- Category: Engineering
+- Use when: Use this after several days of project feedback when repeated mistakes may point to similar issues elsewhere and the agent can inspect both the conversation history and the complete current project.
+- Prompt: Review all available threads from [lookback window] where I reported something wrong with [project] and asked for a fix. Build a deduplicated issue list, group it into failure patterns, and verify current state. Audit the complete project for every pattern, fix each confirmed instance, and add regression coverage where practical. Repeat the full audit until it finds no remaining instance or [iteration budget] ends. Stop on blocked or approval-gated work. Return the issues, fixes, evidence, and blockers.
+- Verify: The issue inventory is closed and a fresh pattern audit is clean. Every reported issue and newly found match has current proof of resolution; blocked, approval-gated, or budget-exhausted items remain explicitly open.
+- Keywords: recent user feedback, project-wide issue audit, failure pattern sweep, regression prevention, AI coding agent
+- Related: [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/), [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/)

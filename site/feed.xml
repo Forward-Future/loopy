@@ -340,4 +340,15 @@
     </author>
     <summary>A five-minute Codex workflow that triages repositories, directs bounded maintenance to dedicated threads, and requires proof and permission before work lands.</summary>
   </entry>
+  <entry>
+    <title>The recent-feedback sweep</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/" />
+    <published>2026-06-19T00:00:00-07:00</published>
+    <updated>2026-06-19T00:00:00-07:00</updated>
+    <author>
+      <name>Matthew Berman</name>
+    </author>
+    <summary>A project audit that turns recent user-reported problems into reusable failure patterns, fixes every confirmed match, and verifies a clean final sweep.</summary>
+  </entry>
 </feed>

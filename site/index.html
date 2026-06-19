@@ -58,11 +58,11 @@
     />
     <meta
       property="og:image"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-7.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-8.png"
     />
     <meta
       property="og:image:secure_url"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-7.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-8.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta
@@ -82,7 +82,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-7.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-8.png"
     />
     <meta
       name="twitter:image:alt"
@@ -152,7 +152,7 @@
             "dateModified": "2026-06-19",
             "primaryImageOfPage": {
               "@type": "ImageObject",
-              "url": "https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-7.png",
+              "url": "https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260619-8.png",
               "width": 1200,
               "height": 630
             },
@@ -164,7 +164,7 @@
             },
             "mainEntity": {
               "@type": "ItemList",
-              "numberOfItems": 30,
+              "numberOfItems": 31,
               "itemListElement": [
                 {
                   "@type": "ListItem",
@@ -345,6 +345,12 @@
                   "position": 30,
                   "name": "The five-minute repository maintainer loop",
                   "url": "https://signals.forwardfuture.ai/loop-library/loops/five-minute-repository-maintainer-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 31,
+                  "name": "The recent-feedback sweep",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/"
                 }
               ]
             }
@@ -551,7 +557,7 @@
         </div>
 
         <div class="results-line">
-          <p id="results-count" aria-live="polite">Showing 30 loops</p>
+          <p id="results-count" aria-live="polite">Showing 31 loops</p>
           <time datetime="2026-06-19">Updated June 19, 2026</time>
         </div>
 
@@ -1751,6 +1757,48 @@
                   <span class="cell-label">Verify / stop</span>
                   <strong>Every repository item reaches a proven handoff or terminal state.</strong>
                   <span>Authorized autonomous work lands with evidence; other items are decision-ready, blocked with one exact ask, or recorded as a clean no-op.</span>
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-category="engineering"
+                data-search="recent user feedback threads corrections reported issues project audit failure patterns regression prevention matthew berman coding agent"
+              >
+                <td class="cell-number">031</td>
+                <td class="cell-loop">
+                  <div class="loop-meta">
+                    <span class="loop-category">Engineering</span>
+                    <span class="loop-attribution">By Matthew Berman</span>
+                  </div>
+                  <h3>
+                    <a class="loop-title-link" href="./loops/recent-feedback-sweep/">
+                      The recent-feedback sweep
+                    </a>
+                  </h3>
+                  <p class="loop-summary">Turns recent user corrections into a project-wide audit and verified fixes.</p>
+                  <p data-prompt>
+                    Review all available threads from [lookback window] where I
+                    reported something wrong with [project] and asked for a fix.
+                    Build a deduplicated issue list, group it into failure
+                    patterns, and verify current state. Audit the complete
+                    project for every pattern, fix each confirmed instance, and
+                    add regression coverage where practical. Repeat the full
+                    audit until it finds no remaining instance or [iteration
+                    budget] ends. Stop on blocked or approval-gated work. Return
+                    the issues, fixes, evidence, and blockers.
+                  </p>
+                </td>
+                <td class="cell-check">
+                  <span class="cell-label">Verify / stop</span>
+                  <strong>The issue inventory is closed and a fresh pattern audit is clean.</strong>
+                  <span>Every reported issue and newly found match has current proof of resolution; blocked, approval-gated, or budget-exhausted items remain explicitly open.</span>
                 </td>
                 <td class="cell-action">
                   <button class="copy-button" type="button">
