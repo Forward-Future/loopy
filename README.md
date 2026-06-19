@@ -154,6 +154,10 @@ npm --prefix worker run dev
 python3 -m http.server 4173 --directory site
 ```
 
+## License
+
+Loop Library is available under the [MIT License](LICENSE).
+
 ## Production
 
 The canonical URL is:

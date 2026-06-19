@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+
+      - name: Install Worker dependencies
+        run: npm ci --prefix worker
+
+      - name: Verify generated artifacts
+        run: |
+          node scripts/build-skill-catalog.mjs
+          node scripts/build-loop-pages.mjs
+          node scripts/build-social-images.mjs
+          if [[ -n "$(git status --porcelain --untracked-files=all)" ]]; then
+            git status --short
+            git diff
+            exit 1
+          fi
+
+      - name: Validate site and skill sources
+        run: |
+          node --check scripts/build-skill-catalog.mjs
+          node --check scripts/build-loop-pages.mjs
+          node --check scripts/build-social-images.mjs
+          node --check scripts/loop-data.mjs
+          node --check site/script.js
+          node scripts/check.mjs
+          python3 -m json.tool site/.herenow/data.json >/dev/null
+          python3 -m json.tool site/catalog.json >/dev/null
+          git diff --check
+
+      - name: Test form Worker
+        run: npm --prefix worker run check
