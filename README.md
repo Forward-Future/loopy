@@ -1,5 +1,9 @@
 # Loop Library
 
+The Loop Library skill is an installable guide for your AI agent. Tell it what
+you want to get done and it can find a published loop, adapt one to your
+situation, or help you design a new one through a short conversation.
+
 Loop Library is a collection of reusable ways to get better work from AI
 agents. Each loop tells an agent what to do, how to check its work, what to try
 next, and when to stop.
