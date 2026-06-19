@@ -4,7 +4,12 @@ import { readFile, readdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-import { loops, site as siteMeta } from "./loop-data.mjs";
+import {
+  categories,
+  getLoopCategory,
+  loops,
+  site as siteMeta,
+} from "./loop-data.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteRoot = path.join(root, "site");
@@ -94,6 +99,7 @@ const collection = structuredData["@graph"].find(
 const slugs = new Set(loops.map((loop) => loop.slug));
 const titles = new Set(loops.map((loop) => loop.title));
 const prompts = new Set(loops.map((loop) => loop.prompt));
+const categorySlugs = new Set(categories.map((category) => category.slug));
 const requestedConceptSlugs = [
   "overnight-docs-sweep",
   "architecture-satisfaction-loop",
@@ -129,6 +135,12 @@ assert.equal(siteMeta.socialImageExtension, "png");
 assert.equal(siteMeta.socialImageMimeType, "image/png");
 assert.equal(new Set(loops.map((loop) => loop.number)).size, loops.length);
 assert.equal(new Set(loops.map((loop) => loop.seoTitle)).size, loops.length);
+assert.equal(categories.length, 5);
+assert.equal(categorySlugs.size, categories.length);
+assert.deepEqual(
+  categories.map(({ label }) => label),
+  ["Engineering", "Evaluation", "Operations", "Content", "Design"],
+);
 assert(loops.every((loop) => !Object.hasOwn(loop, "type")));
 assert(loops.every((loop) => !Object.hasOwn(loop, "typeSlug")));
 assert(requestedConceptSlugs.every((slug) => slugs.has(slug)));
@@ -146,6 +158,7 @@ for (const [index, loop] of loops.entries()) {
   const rowEnd = html.indexOf("</tr>", homepageHrefIndex);
   const homepageRow = html.slice(rowStart, rowEnd);
   const normalizedHomepageRow = homepageRow.replace(/\s+/g, " ");
+  const category = getLoopCategory(loop);
   const pageStructuredDataMatch = page.match(
     /<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/,
   );
@@ -160,6 +173,12 @@ for (const [index, loop] of loops.entries()) {
   assert(html.includes(loop.title));
   assert(normalizedHomepageRow.includes(loop.prompt));
   assert(homepageRow.includes(`<td class="cell-number">${loop.number}</td>`));
+  assert(homepageRow.includes(`data-category="${category.slug}"`));
+  assert(
+    homepageRow.includes(
+      `<span class="loop-category">${category.label}</span>`,
+    ),
+  );
   assert(homepageRow.includes(loop.author));
   assert(html.includes(homepageHref));
   assert(page.includes(`<title>${loop.seoTitle}</title>`));
@@ -298,13 +317,22 @@ assert(html.includes('<meta property="og:image:height" content="630"'));
 assert(html.includes('<meta name="twitter:card" content="summary_large_image"'));
 assert(html.includes('name="twitter:image:alt"'));
 assert(!html.includes("Filter by loop type"));
-assert(!html.includes('data-filter='));
+assert.equal((html.match(/data-category-filter=/g) || []).length, categories.length + 1);
+assert.equal((html.match(/class="loop-category"/g) || []).length, loops.length);
+assert.equal((html.match(/data-category="/g) || []).length, loops.length);
+assert(html.includes('aria-label="Filter loops by category"'));
+assert(html.includes('data-category-filter="all"'));
+assert(
+  categories.every(({ slug, label }) =>
+    html.includes(`data-category-filter="${slug}"`) && html.includes(`>${label}<`),
+  ),
+);
 assert(!html.includes('data-type='));
 assert(!html.includes('class="cell-type"'));
 assert(!html.includes("type-badge"));
 assert(!html.includes('<th scope="col">Type</th>'));
-assert(html.includes("./styles.css?v=20260617-simple-detail"));
-assert(html.includes("./script.js?v=20260618-x-handle"));
+assert(html.includes("./styles.css?v=20260618-categories"));
+assert(html.includes("./script.js?v=20260618-categories"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 assert.equal((html.match(/https:\/\/here\.now\/r\/signals/g) || []).length, 2);
 assert.equal((html.match(/aria-label="Hosted by here\.now"/g) || []).length, 2);
@@ -347,7 +375,9 @@ assert(css.includes(".verification-card"));
 assert(css.includes(".detail-more"));
 assert(!css.includes(".detail-layout"));
 assert(css.includes(".related-loop-link"));
-assert(!css.includes(".filter-button"));
+assert(css.includes(".category-filters"));
+assert(css.includes(".category-filter.is-active"));
+assert(css.includes(".loop-category"));
 assert(!css.includes(".type-badge"));
 assert(!css.includes(".type-goal"));
 assert(!css.includes(".type-triggered"));
@@ -381,9 +411,10 @@ assert(!script.includes("./.herenow/data/"));
 assert(script.includes('document.querySelectorAll(".loop-row")'));
 assert(script.includes('searchInput.addEventListener("input", updateLibrary)'));
 assert(script.includes('searchInput.addEventListener("search", updateLibrary)'));
-assert(!script.includes("filterButtons"));
-assert(!script.includes("activeFilter"));
-assert(!script.includes("matchesType"));
+assert(script.includes('document.querySelectorAll("[data-category-filter]")'));
+assert(script.includes('let activeCategory = "all"'));
+assert(script.includes('row.dataset.category === activeCategory'));
+assert(script.includes('candidate.setAttribute("aria-pressed", String(isActive))'));
 assert(script.includes('themeToggle.addEventListener("click"'));
 assert(script.includes("window.localStorage.setItem(THEME_STORAGE_KEY, theme)"));
 assert(script.includes('button.closest("[data-copy-root]")'));

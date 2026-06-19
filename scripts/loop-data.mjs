@@ -5,10 +5,42 @@ export const site = {
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
   updated: "2026-06-18",
-  socialImageVersion: "20260618-4",
+  socialImageVersion: "20260618-5",
   socialImageExtension: "png",
   socialImageMimeType: "image/png",
 };
+
+export const categories = [
+  { slug: "engineering", label: "Engineering" },
+  { slug: "evaluation", label: "Evaluation" },
+  { slug: "operations", label: "Operations" },
+  { slug: "content", label: "Content" },
+  { slug: "design", label: "Design" },
+];
+
+const categorySlugByLabel = new Map([
+  ["AI coding agent workflow", "engineering"],
+  ["AI repository operations workflow", "engineering"],
+  ["AI product evaluation workflow", "evaluation"],
+  ["AI release operations workflow", "operations"],
+  ["AI data operations workflow", "operations"],
+  ["AI deployment operations workflow", "operations"],
+  ["AI search visibility workflow", "content"],
+  ["AI editorial workflow", "content"],
+  ["AI visual design workflow", "design"],
+  ["AI frontend design workflow", "design"],
+]);
+
+export function getLoopCategory(loop) {
+  const categorySlug = categorySlugByLabel.get(loop.categoryLabel);
+  const category = categories.find(({ slug }) => slug === categorySlug);
+
+  if (!category) {
+    throw new Error(`No browsing category for ${loop.title}.`);
+  }
+
+  return category;
+}
 
 export const loops = [
   {

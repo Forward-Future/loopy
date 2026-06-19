@@ -402,9 +402,9 @@ code {
 
 .library-controls {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 14px;
   margin-top: 32px;
   padding: 12px 0;
   border-top: 1px solid var(--ink);
@@ -447,6 +447,38 @@ code {
 
 .search-control input::placeholder {
   color: var(--placeholder);
+}
+
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-filter {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.category-filter:hover,
+.category-filter:focus-visible,
+.category-filter.is-active {
+  color: var(--charcoal);
+  background: var(--orange);
+}
+
+.category-filter:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .copy-button {
@@ -544,6 +576,17 @@ code {
   margin-bottom: 8px;
   font-size: 1.08rem;
   letter-spacing: -0.025em;
+}
+
+.loop-category {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .loop-title-link {

@@ -56,10 +56,14 @@ themeMedia.addEventListener("change", (event) => {
 
 const searchInput = document.querySelector("#loop-search");
 const loopRows = [...document.querySelectorAll(".loop-row")];
+const categoryFilters = [
+  ...document.querySelectorAll("[data-category-filter]"),
+];
 const resultsCount = document.querySelector("#results-count");
 const emptyState = document.querySelector("#empty-state");
 const toast = document.querySelector("#toast");
 
+let activeCategory = "all";
 let toastTimer;
 
 function normalize(value) {
@@ -78,9 +82,12 @@ function updateLibrary() {
     const searchableText = `${row.dataset.search} ${row.textContent}`;
     const matchesSearch =
       query.length === 0 || normalize(searchableText).includes(query);
+    const matchesCategory =
+      activeCategory === "all" || row.dataset.category === activeCategory;
+    const isVisible = matchesSearch && matchesCategory;
 
-    row.hidden = !matchesSearch;
-    if (matchesSearch) {
+    row.hidden = !isVisible;
+    if (isVisible) {
       visibleCount += 1;
     }
   });
@@ -95,6 +102,20 @@ if (searchInput) {
   searchInput.addEventListener("input", updateLibrary);
   searchInput.addEventListener("search", updateLibrary);
 }
+
+categoryFilters.forEach((filter) => {
+  filter.addEventListener("click", () => {
+    activeCategory = filter.dataset.categoryFilter;
+
+    categoryFilters.forEach((candidate) => {
+      const isActive = candidate === filter;
+      candidate.classList.toggle("is-active", isActive);
+      candidate.setAttribute("aria-pressed", String(isActive));
+    });
+
+    updateLibrary();
+  });
+});
 
 updateLibrary();
 
