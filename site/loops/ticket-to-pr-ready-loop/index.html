@@ -38,18 +38,18 @@
     <meta property="og:title" content="Ticket-to-PR-Ready Loop for Coding Agents | Loop Library" />
     <meta property="og:description" content="A bounded engineering workflow that turns a ticket, failing behavior, or customer complaint into a proven root cause, minimal patch, and reviewer-ready handoff." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-2.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-2.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-3.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-3.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The ticket-to-PR-ready loop — Forward Future Loop Library" />
     <meta property="article:published_time" content="2026-06-18" />
-    <meta property="article:modified_time" content="2026-06-18" />
+    <meta property="article:modified_time" content="2026-06-19" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ticket-to-PR-Ready Loop for Coding Agents | Loop Library" />
     <meta name="twitter:description" content="A bounded engineering workflow that turns a ticket, failing behavior, or customer complaint into a proven root cause, minimal patch, and reviewer-ready handoff." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-2.png" />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-3.png" />
     <meta name="twitter:image:alt" content="The ticket-to-PR-ready loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -88,7 +88,7 @@
       "url": "https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/",
       "datePublished": "2026-06-18",
-      "dateModified": "2026-06-18",
+      "dateModified": "2026-06-19",
       "articleSection": "AI coding agent workflow",
       "keywords": [
         "AI coding agent",
@@ -100,7 +100,7 @@
       "isBasedOn": "https://docs.google.com/document/d/1PjkOSfGaww1k_NJjswovfCdSHl31w8sxIEzXilU92gg/edit?tab=t.0",
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-2.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/ticket-to-pr-ready-loop-20260619-3.png",
         "width": 1200,
         "height": 630
       },
@@ -218,14 +218,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Take this ticket, bug report, failing behavior, or customer complaint and turn it into a review-ready patch. Define the failure clearly and reproduce it in the smallest possible environment. Isolate the root cause and confirm it with evidence, not inference. Implement the smallest credible fix, then verify the before-and-after behavior. If verification fails, return to the root cause and iterate. If the issue cannot be reproduced after two serious attempts, say so clearly. Do not silently expand scope; split broader refactors or separate problems into named follow-ups. Finish with the failure summary, reproduction steps, root cause, fix summary, files changed, verification proof, risks, follow-ups, suggested PR title, and PR description draft.</p>
+            <p data-prompt>Turn [issue] into a review-ready fix. Reproduce the problem, identify the root cause with evidence, make the smallest scoped change, and rerun the same check plus relevant regression tests. Repeat only while the evidence changes. Stop when the fix is proved, [reproduction limit] is reached, or a broader decision is required. Do not expand scope without approval. Finish with the cause, change, proof, risks, and suggested pull-request summary.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
               <h2 id="verify-stop">The failure is fixed, verified, and ready for review.</h2>
-              <p>The same behavior reproduces before the fix, no longer reproduces afterward, and the handoff explains the evidence in under two minutes.</p>
+              <p>The issue reproduces before the fix, no longer reproduces afterward, and relevant regression checks pass.</p>
             </div>
           </section>
 
@@ -243,7 +243,7 @@
                 </div>
                 <div>
                   <dt>Updated</dt>
-                  <dd><time datetime="2026-06-18">Jun 18, 2026</time></dd>
+                  <dd><time datetime="2026-06-19">Jun 19, 2026</time></dd>
                 </div>
               </dl>
 

@@ -747,13 +747,13 @@
       },
       "author": "Hiten Shah",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
+      "modified": "2026-06-19",
       "description": "A bounded engineering workflow that turns a ticket, failing behavior, or customer complaint into a proven root cause, minimal patch, and reviewer-ready handoff.",
       "useWhen": "Use this when a real but loosely written ticket, bug report, or customer complaint needs to become a bounded engineering change with enough proof for a fast review.",
-      "prompt": "Take this ticket, bug report, failing behavior, or customer complaint and turn it into a review-ready patch. Define the failure clearly and reproduce it in the smallest possible environment. Isolate the root cause and confirm it with evidence, not inference. Implement the smallest credible fix, then verify the before-and-after behavior. If verification fails, return to the root cause and iterate. If the issue cannot be reproduced after two serious attempts, say so clearly. Do not silently expand scope; split broader refactors or separate problems into named follow-ups. Finish with the failure summary, reproduction steps, root cause, fix summary, files changed, verification proof, risks, follow-ups, suggested PR title, and PR description draft.",
+      "prompt": "Turn [issue] into a review-ready fix. Reproduce the problem, identify the root cause with evidence, make the smallest scoped change, and rerun the same check plus relevant regression tests. Repeat only while the evidence changes. Stop when the fix is proved, [reproduction limit] is reached, or a broader decision is required. Do not expand scope without approval. Finish with the cause, change, proof, risks, and suggested pull-request summary.",
       "verification": {
         "title": "The failure is fixed, verified, and ready for review.",
-        "detail": "The same behavior reproduces before the fix, no longer reproduces afterward, and the handoff explains the evidence in under two minutes."
+        "detail": "The issue reproduces before the fix, no longer reproduces afterward, and relevant regression checks pass."
       },
       "steps": [
         "State the expected and actual behavior, then reproduce the failure in the smallest representative environment.",
@@ -795,21 +795,21 @@
       },
       "author": "AgentLed.ai Agent",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
+      "modified": "2026-06-19",
       "description": "A supervised delivery workflow that advances one customer priority into a validated, gradually released AI system with monitoring, approvals, and outcome evidence.",
       "useWhen": "Use this when an AI workflow must live inside a real customer process and needs validation, approval, gradual rollout, monitoring, and a clear business outcome.",
-      "prompt": "Manage one customer AI deployment from priority to production outcome. Run this loop when a customer shares a new priority, requests an AI workflow, gives feedback, reports a failure, or reaches a scheduled AI operations review. Start from the customer's current business priority and choose one concrete workflow or improvement to advance. Define the business goal, owner, affected users, systems and APIs, input data, expected output, approval gates, risk level, success criteria, and ROI hypothesis. Build or update the deployment, run a dry run on realistic customer data, record failures and edge cases, fix the smallest underlying issue, and rerun until the dry run passes or a blocker is clear. Release gradually and monitor production. Before stopping, produce a customer-facing update and store the reusable lessons for the next run.",
+      "prompt": "Move one agreed customer workflow toward a measurable production outcome. Define the owner, users, inputs, outputs, risks, approvals, and success check. Build or change one bounded part, test it with representative data, fix the smallest verified problem, and retest. Release only through approved stages and monitor the agreed signals. Stop on verified success, a clear blocker, or no progress. Ask before customer-facing, sensitive, financial, or irreversible actions. Finish with the outcome, evidence, open risks, and next step.",
       "verification": {
-        "title": "One customer priority reaches a proven terminal state.",
-        "detail": "The workflow reaches its agreed rollout stage, a production issue is fixed, a blocker is escalated with an owner, or a healthy review records the next check."
+        "title": "The workflow reaches an approved, measurable outcome.",
+        "detail": "Evidence confirms the agreed rollout stage and success check, or the run stops with a clear blocker, owner, and next step."
       },
       "steps": [
-        "Review the current customer priority, recent feedback, workflow history, failures, approvals, usage, cost, and ROI signals.",
-        "Choose one workflow or improvement and define its owner, systems, data, risk, approval gates, success criteria, and ROI hypothesis.",
-        "Build or update it, run a dry run on realistic data, repair the smallest underlying issue, and release through controlled stages.",
-        "Monitor production, send the customer-facing update, and store preferences, rules, failures, examples, and ROI observations in shared memory."
+        "Review the agreed customer priority, recent evidence, approvals, and current workflow state.",
+        "Choose one bounded improvement and define its owner, inputs, outputs, risks, approval gates, and success check.",
+        "Test it with representative data, fix the smallest verified problem, and release only through approved stages.",
+        "Monitor the agreed signals and record the outcome, open risks, reusable lessons, and next step."
       ],
-      "why": "The loop treats deployment as the operating system around an automation: scope, validation, approval, rollout, monitoring, learning, and accountability all stay connected to the customer's priority.",
+      "why": "The loop keeps scope, validation, approval, rollout, monitoring, and learning tied to one customer priority and measurable outcome.",
       "implementationNote": "Do not expand rollout when dry-run evidence, approval state, or monitoring is missing. Keep sensitive, irreversible, financial, and customer-facing actions behind explicit human approval.",
       "keywords": [
         "customer AI deployment",
@@ -843,19 +843,19 @@
       },
       "author": "Pierson Marks",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
+      "modified": "2026-06-19",
       "description": "A scheduled editorial workflow that turns meaningful public product changes into a short, source-grounded podcast episode.",
       "useWhen": "Use this when a product ships frequently enough that users would benefit from a short recurring audio explanation of what changed and how to use it.",
-      "prompt": "Each night, review any new publicly released features or changes from the repository and identify the ones most meaningful to users. Verify each selected change against the released product, documentation, or release notes. Use the Jellypod MCP to generate a short three-to-five-minute podcast episode explaining how users can take advantage of the new features, why they are important, and how to try them. Review the script and audio for accuracy, clarity, and pronunciation; fix or regenerate anything that does not match the source material. If there were no meaningful public changes, record that result instead of manufacturing an episode.",
+      "prompt": "At [cadence], review public product changes from [release window]. Select only changes that matter to users and verify each against the released product or public documentation. Create a short audio update with [available podcast tool], then check the script and audio for accuracy, clarity, and pronunciation. Revise until the checks pass. If nothing meaningful shipped, publish nothing and record the no-op. Ask before releasing the episode. Finish with the episode, sources, and review result.",
       "verification": {
-        "title": "The episode accurately covers every meaningful public update.",
-        "detail": "Finish with a review-ready three-to-five-minute episode, or a confirmed no-episode result when nothing meaningful shipped."
+        "title": "The episode is accurate, useful, and ready for review.",
+        "detail": "Every included update is public and source-backed, or the run records that no episode is needed."
       },
       "steps": [
-        "Collect the release window's public product changes, documentation, and release notes.",
+        "Collect public product changes and supporting sources from the agreed release window.",
         "Select the changes most meaningful to users and verify what actually shipped.",
-        "Generate a three-to-five-minute Jellypod episode covering the benefit, importance, and how-to for each selected change.",
-        "Review the script and audio against the sources, then regenerate weak or unsupported passages before stopping."
+        "Create a short audio update with the available podcast tool, covering the benefit and how to use each change.",
+        "Review the script and audio against the sources, revise unsupported passages, and request approval before release."
       ],
       "why": "A fixed release window keeps coverage current, while editorial selection and source verification prevent the episode from becoming an automated reading of commit titles.",
       "implementationNote": "Use only publicly released information. Do not expose private repository context, customer data, security-sensitive details, or unreleased work in the generated episode.",
@@ -883,7 +883,7 @@
     {
       "number": "019",
       "slug": "clodex-adversarial-review-loop",
-      "title": "The Clodex adversarial-review loop",
+      "title": "The adversarial code-review loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/",
       "category": {
         "slug": "engineering",
@@ -891,22 +891,22 @@
       },
       "author": "Lukas Kucinski",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A bounded development workflow that plans and ships a pull request, runs an independent Codex adversarial review, fixes blocking findings, and repeats.",
-      "useWhen": "Use this for a meaningful code change that benefits from an independent reviewer and may need several structured review-and-fix rounds.",
-      "prompt": "Run /clodex [task] think hard --max-iter 5 --threshold medium. Plan the task, implement it, ship a pull request, run the Codex adversarial-review code path, fix every finding above the configured threshold, and repeat. Persist the plan, branch, pull request, findings, verdict, and iteration state so the run can resume safely. Remember that threshold names the highest acceptable severity. Stop when Codex approves, only sub-threshold findings remain, or max-iter is reached. Never report a stalled, errored, or exhausted run as approved.",
+      "modified": "2026-06-19",
+      "description": "A bounded workflow that builds, independently reviews, and revises a code change until it meets an agreed severity bar.",
+      "useWhen": "Use this when a code change needs independent review and may require several bounded fix-and-review rounds.",
+      "prompt": "For [code change], have one agent implement and verify a reviewable patch, then have an independent reviewer inspect it against [acceptance criteria] and rank findings by severity. Fix findings above [accepted severity], rerun the relevant checks, and review again. Stop on approval, only explicitly accepted findings, no progress, or [iteration limit]. Never report an errored or exhausted run as approved. Finish with the patch, checks, verdict, remaining findings, and review link.",
       "verification": {
-        "title": "The pull request reaches the configured review bar.",
-        "detail": "Codex approves, only explicitly acceptable findings remain, or the final report truthfully discloses that the iteration cap or an error stopped the loop."
+        "title": "The change reaches the agreed review bar.",
+        "detail": "An independent reviewer approves it or only explicitly accepted findings remain; errors, stalls, and exhausted limits are reported as such."
       },
       "steps": [
-        "Choose the task, thinking level, maximum iterations, and highest acceptable finding severity.",
-        "Plan, implement, verify, and ship the pull request through the Clodex workflow.",
-        "Run the Codex adversarial review, fix every blocking finding, commit and push, then review again.",
-        "Persist state across rounds and finish with the verdict, remaining findings, checks, and pull-request link."
+        "Define the change, acceptance criteria, accepted severity, and iteration or no-progress limit.",
+        "Have the builder implement and verify one reviewable patch.",
+        "Have an independent reviewer rank findings, then fix blocking issues and rerun the checks.",
+        "Repeat until the review bar or another named stop is reached, then report the verdict and remaining findings."
       ],
-      "why": "Clodex separates the builder from the reviewer and turns review feedback into a bounded repair loop. Persisted state makes the work resumable without pretending an interrupted run was approved.",
-      "implementationNote": "The threshold is a ceiling for acceptable findings, not a minimum severity to inspect. Use the strict approve setting for security-sensitive or production-critical changes.",
+      "why": "Separating the builder from the reviewer turns findings into a bounded repair loop. Persisted state keeps the work resumable without treating an interruption as approval.",
+      "implementationNote": "The source implementation uses Clodex with Codex as the adversarial reviewer. Treat the severity threshold as a ceiling for acceptable findings, not a minimum severity to inspect.",
       "keywords": [
         "Clodex",
         "Codex adversarial review",
@@ -931,7 +931,7 @@
     {
       "number": "020",
       "slug": "loop-harness-verification-loop",
-      "title": "The Loop Harness verification loop",
+      "title": "The second-agent verification loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/",
       "category": {
         "slug": "engineering",
@@ -939,22 +939,22 @@
       },
       "author": "Istasha",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A scheduled loop-engineering workflow that runs a coding agent in an isolated worktree and requires a second agent to verify staged output before anything ships.",
+      "modified": "2026-06-19",
+      "description": "A recurring repository workflow that publishes staged output only after a separate agent verifies it.",
       "useWhen": "Use this when a recurring repository task should run unattended but one agent must not be allowed to generate and approve the same output.",
-      "prompt": "On the configured cadence, wake the due loop. Give a Claude session the task-specific skill and let it work in an isolated git worktree. Stage the resulting commits or output files without shipping them. Have a second Claude session verify the staged work against explicit acceptance criteria. If verification fails, ship nothing; preserve the findings and retry on the next cycle. If verification passes, ship the configured output—a pull request, review comments, or Slack message—and update the loop state. Finish with the source revision, staged artifacts, verifier result, delivery status, and next scheduled run.",
+      "prompt": "At [cadence], run one bounded repository task in an isolated workspace and stage the result without publishing it. Have a separate agent verify the staged work against [acceptance criteria]. Publish the configured output only after a pass and any required approval. On failure, publish nothing, preserve the evidence, and retry only under [retry policy]. Finish with the source revision, staged artifacts, verifier result, delivery status, and next run.",
       "verification": {
         "title": "Only independently verified output ships.",
         "detail": "A second-agent pass releases the configured output; a failed verification preserves evidence and produces no external change."
       },
       "steps": [
-        "Wake the due loop on its cadence and create an isolated worktree from the approved source revision.",
-        "Give the primary Claude session its task-specific skill and let it stage one bounded output.",
-        "Have a second Claude session inspect the staged work against explicit acceptance criteria.",
-        "Ship on a pass; on a failure, preserve the findings, ship nothing, and retry according to the next-cycle policy."
+        "Start the due task from the approved source revision in an isolated workspace.",
+        "Have the primary agent stage one bounded result without publishing it.",
+        "Have a separate agent inspect the staged work against explicit acceptance criteria.",
+        "Publish only after a pass and any required approval; otherwise preserve the findings and stop or retry under the agreed policy."
       ],
-      "why": "Worktree isolation limits interference, and the second-agent gate separates generation from approval. The result is a recurring loop that can wake, work, verify, and ship without relying on one session's confidence.",
-      "implementationNote": "This pattern runs an unattended model with shell access. Start with read-only loops, smoke-test with run-once, cap runtime and retries, and grant only the tools each loop needs.",
+      "why": "Workspace isolation limits interference, and the second-agent gate separates generation from approval. The result can run repeatedly without relying on one session's confidence.",
+      "implementationNote": "The source implementation uses Loop Harness, git worktrees, and separate model sessions. Start with read-only tasks, test one run first, cap runtime and retries, and grant only the tools each agent needs.",
       "keywords": [
         "Loop Harness",
         "scheduled coding agent",
@@ -965,7 +965,7 @@
       "related": [
         {
           "slug": "clodex-adversarial-review-loop",
-          "title": "The Clodex adversarial-review loop",
+          "title": "The adversarial code-review loop",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/"
         },
         {
@@ -979,7 +979,7 @@
     {
       "number": "021",
       "slug": "boeing-747-benchmark",
-      "title": "The Boeing 747 benchmark",
+      "title": "The visual reconstruction benchmark",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/",
       "category": {
         "slug": "design",
@@ -987,22 +987,22 @@
       },
       "author": "@victormustar",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A vision-guided Three.js workflow that builds, inspects, and improves a Boeing 747 from repeatable camera angles until the agent is 100% satisfied.",
-      "useWhen": "Use this as a visual benchmark for an agent that can build a complex Three.js scene, inspect its own renders, and improve the result through repeated vision feedback.",
-      "prompt": "/goal Create the most realistic Boeing 747 you can using Three.js. Use your vision capabilities to create a self-verifiable system, then enter a loop until you are 100% satisfied with the result. Build a repeatable camera system to inspect the aircraft from every required angle. After each significant change, render those same views, identify what looks least realistic, improve it, and inspect again. Preserve the best version as you iterate, and stop only when you are 100% satisfied that no visible issue remains worth fixing.",
+      "modified": "2026-06-19",
+      "description": "A visual workflow that improves a rendered subject by comparing repeatable views against references and a fixed quality bar.",
+      "useWhen": "Use this to test whether an agent can recreate and improve a visual subject through repeatable rendering and comparison.",
+      "prompt": "Recreate [reference subject] with [rendering tool]. Define the reference images, required views, and scoring rubric before building. After each bounded change, render the same views, compare them with the references, and fix the largest visible gap without regressing stronger areas. Keep the best verified version. Stop when every required view meets [quality threshold], progress stalls for [limit], or the budget ends. Finish with the artifact, comparison renders, scores, and remaining gaps.",
       "verification": {
-        "title": "You are 100% satisfied with the Boeing 747.",
-        "detail": "The camera system shows every required angle, and you cannot identify another visible issue worth improving."
+        "title": "Every required view meets the agreed visual threshold.",
+        "detail": "Repeatable renders meet the fixed rubric, or the run reports stagnation, budget exhaustion, and remaining gaps."
       },
       "steps": [
-        "Build the first Boeing 747 model in Three.js, starting with the silhouette, proportions, wings, engines, tail, and other major forms.",
-        "Create a repeatable camera system that renders the same required angles after every significant change.",
-        "Use vision to inspect those views, identify the least realistic part of the current build, and improve it without losing stronger work.",
-        "Render and inspect again, preserving the best version until you are 100% satisfied with the complete result."
+        "Define the subject, reference images, required views, scoring rubric, quality threshold, and limits.",
+        "Build the first version and create a repeatable camera or capture setup for every required view.",
+        "Compare the renders with the references, fix the largest gap, and confirm stronger areas did not regress.",
+        "Keep the best verified version and repeat until the threshold or another named stop is reached."
       ],
-      "why": "The camera system turns visual judgment into a repeatable feedback loop. Inspecting the same angles after every change makes improvement visible and gives the agent a concrete way to decide when it is fully satisfied.",
-      "implementationNote": "Choose the required camera angles before the run and preserve the final renders. The contributor's stop condition is 100% satisfaction, so the images should make that judgment reviewable afterward.",
+      "why": "Fixed references, views, and scores turn visual judgment into a repeatable comparison. Keeping the best verified version prevents later changes from erasing stronger work.",
+      "implementationNote": "The source example rebuilds a Boeing 747 in Three.js. For another subject or renderer, define the references, views, and threshold before the run and preserve the final comparisons.",
       "keywords": [
         "Boeing 747 benchmark",
         "Three.js agent workflow",
@@ -1027,7 +1027,7 @@
     {
       "number": "022",
       "slug": "war-loops-frontend-designer",
-      "title": "War Loops: Autonomous Frontend Designer",
+      "title": "The frontend reconstruction loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/",
       "category": {
         "slug": "design",
@@ -1035,22 +1035,22 @@
       },
       "author": "Swayam",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A judge-gated frontend workflow that captures a reference, builds static and moving versions, measures fidelity, and surgically repairs the weakest gaps.",
-      "useWhen": "Use this when a frontend must be reconstructed from a URL or image and fidelity needs to be measured across appearance, motion, and responsive behavior instead of judged from one screenshot.",
-      "prompt": "Point War Loops at a URL or image. Capture the page with a genuine browser, extract a ground-truth design spec, and produce two self-correcting builds: a polished static mirror in Pencil and a moving code build in Forge. Judge each build against the original across static design, experiential motion, and responsive reflow. After each evaluation, use the surgical critic to target the weakest signals. Repair, do not rebuild: keep what already matches and change only the highest-impact gaps. Repeat until the measures say it matches, fidelity passes, progress stagnates, or the source capture is blocked. Return the best build with its spec, renders, scores, findings, and run metrics.",
+      "modified": "2026-06-19",
+      "description": "A workflow that rebuilds an authorized interface and improves it against repeatable checks for appearance, motion, and responsive behavior.",
+      "useWhen": "Use this when an authorized interface must be rebuilt from a URL or image and checked beyond a single screenshot.",
+      "prompt": "Rebuild [authorized page or image] with [available design and code tools]. Capture a reliable reference and record its layout, styles, content, motion, and responsive behavior. Compare the same viewports and interactions after each bounded change. Fix the largest measured mismatch while preserving what already passes. Stop when every agreed fidelity check passes, progress stalls, or the reference cannot be captured. Finish with the best build, reference spec, comparisons, scores, and remaining gaps.",
       "verification": {
-        "title": "The build matches the reference across every measured fidelity axis.",
-        "detail": "Static design, experiential motion, and responsive reflow pass their gates, or the best result stops honestly on stagnation or a blocked capture."
+        "title": "The build meets every agreed fidelity check.",
+        "detail": "Appearance, motion, and responsive behavior pass under repeatable conditions, or the run reports stagnation or a blocked reference."
       },
       "steps": [
-        "Capture the reference with a genuine browser and extract the ground-truth design spec, including layout, tokens, content, motion, and responsive behavior.",
-        "Produce the static Pencil mirror and moving Forge code build from the verified spec.",
-        "Judge the builds across static design, experiential motion, and responsive reflow, then identify the weakest signals.",
-        "Use surgical repair to fix the highest-impact gaps, preserve what already matches, and repeat until a terminal fidelity decision is reached."
+        "Capture a reliable reference and record its layout, styles, content, motion, responsive behavior, and target viewports.",
+        "Build the first working reconstruction with the available tools.",
+        "Compare the same views and interactions, then identify the largest measured mismatch.",
+        "Fix that mismatch, preserve what already passes, and repeat until a fidelity gate or another named stop is reached."
       ],
-      "why": "War Loops separates a page's still appearance from how it moves and reflows. Multiple judges and targeted repairs let the system improve weak dimensions without churning parts that already match.",
-      "implementationNote": "Confirm authorization to reproduce the reference. If the genuine-browser capture reaches a bot wall, login gate, or wrong page, stop instead of building from a bad source.",
+      "why": "Separating appearance, motion, and responsive behavior prevents one good screenshot from hiding a weak implementation. Targeted fixes reduce churn in areas that already match.",
+      "implementationNote": "The source implementation uses War Loops with Pencil and Forge. Confirm authorization to reproduce the reference, and stop on a bot wall, login gate, or unreliable capture.",
       "keywords": [
         "War Loops",
         "autonomous frontend designer",
@@ -1075,7 +1075,7 @@
     {
       "number": "023",
       "slug": "self-improving-champion-loop",
-      "title": "The self-improving champion loop",
+      "title": "The champion-challenger loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/",
       "category": {
         "slug": "evaluation",
@@ -1083,22 +1083,22 @@
       },
       "author": "Jose C. Munoz",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A bounded optimization loop that tests targeted challengers, protects an independently evaluated champion, and rejects suspiciously easy wins.",
+      "modified": "2026-06-19",
+      "description": "A bounded workflow that tests targeted changes on fresh evidence and keeps only improvements that pass every guard check.",
       "useWhen": "Use this to improve a prompt, policy, configuration, or other testable artifact when cheap iteration is useful but final acceptance must use fresh evidence.",
-      "prompt": "Keep three pieces of state in memory: the champion (the best current genome plus its gate score), a budget starting at [N], and a log of every tried genome and score. Each cycle, if the budget is zero, stop and return the champion. Otherwise, reduce the budget by one, read the latest failure in the log, and propose one targeted change to the champion that addresses it. Skip any change already tried. Score the challenger on a working signal: a cheap measure you may tune against. If it is not better than the champion, log it and continue. If it is better, freeze the challenger and run the gate on fresh examples you did not inspect while editing, plus the guard checks in [safety]. Accept the challenger only if its gate score beats the champion by [minimum margin] and no guard regresses; otherwise keep the champion. Log the attempt and repeat. Keep the working signal and gate separate. Treat a suspiciously easy win as Goodhart's law in action and reject it. If you are uncertain, keep the champion.",
+      "prompt": "Improve [artifact] against [objective] within [budget]. Save the current best version and its score. Each round, make one untried change based on a recorded failure, test it on the working set, and evaluate promising candidates on fresh holdout cases plus [guard checks]. Replace the current best only when the holdout score improves by [margin] and no guard regresses. Stop on success, budget exhaustion, or no progress. Finish with the best version, scores, experiment log, and remaining failures.",
       "verification": {
-        "title": "The budget is exhausted and the best verified champion is returned.",
-        "detail": "Every challenger is logged, the final champion has the strongest accepted gate score, and no accepted change regresses a guard check."
+        "title": "The strongest verified version is returned.",
+        "detail": "Every candidate is logged, and accepted changes beat the previous version on fresh cases without a guard regression."
       },
       "steps": [
-        "Initialize the champion, independent working and gate signals, guard checks, improvement margin, budget, and experiment log.",
-        "Use the latest failure to propose one untried targeted challenger, then score it on the cheap working signal.",
-        "Freeze promising challengers and evaluate them on fresh gate examples plus every required guard check.",
-        "Promote only a meaningful, regression-free gate win; log every outcome and return the champion when the budget reaches zero."
+        "Save the current best version, working set, fresh holdout set, guard checks, improvement margin, budget, and experiment log.",
+        "Use a recorded failure to propose one untried change and test it on the working set.",
+        "Evaluate promising candidates on the untouched holdout cases and every guard check.",
+        "Keep only a meaningful, regression-free win; log every result and return the best version at the stop condition."
       ],
-      "why": "Separating the tunable working signal from a fresh acceptance gate limits overfitting. The champion rule makes regression the default-safe outcome, while a fixed budget keeps the search bounded.",
-      "implementationNote": "Define [N], [minimum margin], the working signal, gate examples, and [safety] before starting. Do not reuse gate examples for editing or silently weaken a guard after a failed challenger.",
+      "why": "Separating the working set from fresh holdout cases limits overfitting. Keeping the current best by default prevents regressions, while a fixed budget bounds the search.",
+      "implementationNote": "Define the budget, improvement margin, working set, holdout cases, and guard checks before starting. Do not edit against the holdout cases or weaken a guard after a failed candidate.",
       "keywords": [
         "self-improving loop",
         "champion challenger evaluation",
@@ -1130,22 +1130,22 @@
       },
       "author": "Anonymous contributor",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
+      "modified": "2026-06-19",
       "description": "A critic-and-builder workflow that attacks a design, tracks every objection, and requires evidence before an objection can be closed.",
       "useWhen": "Use this before committing to an architecture, interface, rollout plan, or other consequential design that benefits from structured adversarial review.",
-      "prompt": "Argue against your own design until it survives. In each round, a critic sub-agent writes the strongest case that the current approach is wrong and records every objection in /tmp/redteam-{projectname}.md with its evidence, impact, and status. The builder must either fix the weakness and verify the result or record why accepting it is reasonable under the project's stated criteria. The critic then reviews the change or acceptance rationale and may reopen anything that is not supported. Repeat until no new high-impact objection appears and every logged objection is either verified as resolved or explicitly accepted with evidence. Merely answering an objection in the log does not resolve it. If the same unresolved objections repeat for two rounds without new evidence or progress, stop and report the stalemate instead of claiming the design survived.",
+      "prompt": "Challenge [design] against [acceptance criteria]. Have a critic record the strongest evidence-backed objections in [shared log] and rank them by impact. For each high-impact objection, have the builder either fix it and verify the result or document why it is accepted. Let the critic reopen unsupported closures. Repeat until no high-impact objection remains or the same unresolved issues show no new evidence or progress for [limit]. Finish with the decision, resolved and accepted objections, evidence, and any stalemate.",
       "verification": {
         "title": "No high-impact objection remains open.",
         "detail": "Every logged objection is verified as resolved or explicitly accepted with evidence, or the final report truthfully records a two-round stalemate."
       },
       "steps": [
-        "Write the design goals and acceptance criteria, then initialize the objection log at /tmp/redteam-{projectname}.md.",
+        "Write the design goals and acceptance criteria, then initialize a shared objection log.",
         "Have the critic present the strongest evidence-backed case against the current design and rank each objection by impact.",
         "Have the builder repair the weakness or document an explicit acceptance rationale, then verify the result against the stated criteria.",
         "Let the critic reopen weak answers and repeat until the objections are closed with evidence or the loop reports a stalemate honestly."
       ],
       "why": "Separating critic and builder roles makes disagreement explicit. A persistent objection log prevents circular debate, while evidence-based closure stops the builder from declaring success by explanation alone.",
-      "implementationNote": "Give the critic and builder separate context where possible. Do not let the builder rewrite the acceptance criteria mid-run simply to close a difficult objection.",
+      "implementationNote": "Keep the critic independent where possible. Do not change the acceptance criteria mid-run simply to close a difficult objection.",
       "keywords": [
         "devil's advocate loop",
         "adversarial design review",
@@ -1161,7 +1161,7 @@
         },
         {
           "slug": "clodex-adversarial-review-loop",
-          "title": "The Clodex adversarial-review loop",
+          "title": "The adversarial code-review loop",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/"
         }
       ]
@@ -1177,19 +1177,19 @@
       },
       "author": "0xUmbra",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
+      "modified": "2026-06-19",
       "description": "A disposable-environment workflow that follows the README from scratch, fixes every hidden setup assumption, and restarts until onboarding works cleanly.",
-      "useWhen": "Use this to test whether a repository's onboarding instructions really work for a new contributor or a clean CI-style environment.",
-      "prompt": "Clone the repository into a clean, empty environment with nothing preinstalled, then follow the README exactly as written to get the project running. Every time a step fails, is missing, or quietly assumes something the README never states, record the gap, fix the setup or documentation to remove that assumption, discard the environment, and start again from a fresh clone. Do not carry dependencies, configuration, credentials, or manual fixes from one attempt into the next. Keep a short log of each gap and how you closed it so it does not return. Stop when a brand-new environment goes from clone to running app in one uninterrupted pass using only the documented steps and no outside fix. Finish with the gaps closed and the exact commands a new contributor now runs from scratch.",
+      "useWhen": "Use this to test whether a repository's onboarding instructions work in a clean environment without undocumented help.",
+      "prompt": "Test [repository] from a clean disposable environment. Follow only its onboarding documentation. When a step fails or assumes missing knowledge, record the gap, fix the smallest documentation or setup issue, discard the environment, and start again. Carry no dependencies, configuration, credentials, or manual repairs between attempts. Stop when one uninterrupted run reaches [documented ready state], progress stalls, or [budget] ends. Finish with the verified commands, gaps closed, and remaining blockers.",
       "verification": {
-        "title": "A clean environment reaches a running app using only the README.",
-        "detail": "The final from-scratch run is uninterrupted and needs no unstated step, preinstalled tool, configuration, or manual repair."
+        "title": "A clean environment reaches the documented ready state.",
+        "detail": "The final run uses only the onboarding guide and needs no unstated dependency, configuration, or manual repair."
       },
       "steps": [
         "Create a disposable environment with no project dependencies or configuration carried over from another checkout.",
         "Fresh-clone the repository and follow only the README, recording every missing step, hidden assumption, and failure.",
         "Fix the smallest setup or documentation gap, discard the environment completely, and begin again.",
-        "Repeat until one clean run reaches the running app without intervention, then report the final command sequence and every gap closed."
+        "Repeat until one clean run reaches the documented ready state without intervention, then report the commands and gaps closed."
       ],
       "why": "Destroying the environment after each repair prevents local state from hiding the next problem. The final uninterrupted run is direct evidence that the README, not the operator's memory, is sufficient.",
       "implementationNote": "Use an isolated disposable environment and review the repository before executing it. Never copy personal credentials into the test environment or run untrusted setup scripts on a production host.",
@@ -1216,7 +1216,7 @@
     {
       "number": "026",
       "slug": "infinite-clickbait-loop",
-      "title": "The Infinite Clickbait loop",
+      "title": "The thumbnail iteration loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/infinite-clickbait-loop/",
       "category": {
         "slug": "design",
@@ -1224,21 +1224,21 @@
       },
       "author": "@Alex_FF",
       "published": "2026-06-18",
-      "modified": "2026-06-18",
-      "description": "A thumbnail ideation workflow that generates ten concepts, scores the strongest candidates, and iterates until the winning image is click-baity enough.",
+      "modified": "2026-06-19",
+      "description": "A workflow that generates, scores, and refines thumbnail concepts until one clears an agreed quality bar without misleading viewers.",
       "useWhen": "Use this when a video topic and asset set are ready but the thumbnail needs several structured ideation and critique rounds before production.",
-      "prompt": "The video is about [video subject]. Using [assets], make ten thumbnail concepts and score each one against [inspiration channel]'s YouTube thumbnails using a consistent rubric: clarity at small size, curiosity, emotional pull, visual contrast, and accuracy to the video. Select the top three, identify the weakest part of each concept, improve them, and rescore them with the same rubric. Continue iterating the strongest concept until you're satisfied it's click-baity enough without promising something the video does not deliver. Return the winning concept, two runners-up, their final scores, and the reasoning behind the choice.",
+      "prompt": "For [video], create [number] distinct thumbnail concepts from [approved assets]. Score each at realistic display sizes using a fixed rubric for clarity, curiosity, emotional pull, contrast, and accuracy. Improve the weakest dimension of the top candidates and rescore them under the same conditions. Stop when one concept meets [quality threshold], progress stalls, or [budget] ends. Reject misleading concepts. Finish with the winner, runners-up, final previews, scores, and rationale.",
       "verification": {
-        "title": "You are satisfied the winning thumbnail is click-baity enough.",
-        "detail": "The winner outperforms the alternatives on the fixed rubric, remains legible at thumbnail size, and accurately represents the video."
+        "title": "One accurate thumbnail clears the fixed quality threshold.",
+        "detail": "The winner outscores the alternatives under the same conditions, remains legible at realistic sizes, and represents the video accurately."
       },
       "steps": [
-        "Define the video subject, available assets, inspiration channel, and a fixed five-part scoring rubric.",
-        "Create ten distinct thumbnail concepts, inspect them at realistic YouTube sizes, and score each one.",
-        "Select the top three, improve the weakest dimension of each, and rescore them under the same conditions.",
-        "Keep iterating the strongest concept until it is click-baity enough, then return the winner, runners-up, scores, and rationale."
+        "Define the video subject, approved assets, concept count, quality threshold, limits, and fixed scoring rubric.",
+        "Create distinct concepts, inspect them at realistic display sizes, and score each one under the same conditions.",
+        "Improve the weakest dimension of the top candidates and rescore them.",
+        "Stop at the quality bar or another named limit, reject misleading concepts, and return the winner and runners-up."
       ],
-      "why": "Generating a wide first set creates real options, while a fixed rubric makes later rounds comparable. Keeping accuracy in the score prevents curiosity from drifting into a promise the video cannot keep.",
+      "why": "A varied first set creates real options, while a fixed rubric makes later rounds comparable. Scoring accuracy prevents curiosity from becoming a promise the video cannot keep.",
       "implementationNote": "Choose an inspiration channel whose audience and visual language are relevant. Evaluate the actual thumbnail crop at desktop and mobile sizes, and reject concepts that misrepresent the video's substance.",
       "keywords": [
         "Infinite Clickbait",
@@ -1250,7 +1250,7 @@
       "related": [
         {
           "slug": "boeing-747-benchmark",
-          "title": "The Boeing 747 benchmark",
+          "title": "The visual reconstruction benchmark",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/"
         },
         {
@@ -1263,7 +1263,7 @@
     {
       "number": "027",
       "slug": "autonomy-loop",
-      "title": "The autonomy-loop builder-reviewer loop",
+      "title": "The independent builder-reviewer loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/autonomy-loop/",
       "category": {
         "slug": "engineering",
@@ -1272,21 +1272,21 @@
       "author": "@inferencegod",
       "published": "2026-06-19",
       "modified": "2026-06-19",
-      "description": "A two-worktree coding loop that pairs a builder with an independent adversarial reviewer and proves each new test can catch the change it protects.",
-      "useWhen": "Use this for a repository task that benefits from continuous builder-reviewer handoffs and has strong deterministic gates plus real infrastructure-level branch protection.",
-      "prompt": "Use autonomy-loop for [task] in a repository with deterministic test, build, and lint gates. Run /autonomy-loop:autonomy-init once, configure the protected production branch, read-only control plane, builder and reviewer worktrees, maximum epochs, and no-progress limit, then approve the first task. In the builder terminal, run /autonomy-loop:builder followed by /loop 600. In the independent reviewer worktree, run /autonomy-loop:reviewer followed by /loop 600. Each wave, the builder reads LOOP-STATE.md, makes the smallest credible change, adds a falsifiable acceptance test that is red before the fix and green after it, runs the frozen-invariant gate, commits, and hands off. The reviewer independently reruns the gates, audits correctness, honesty, regressions, security, and UX, then proves the test by reverting or mutating the fix and requiring the test to fail. If the test stays green, the wave fails. Advance only when the deterministic gate and independent reviewer pass. Park for a human when an irreversible or protected path changes, an invariant drifts, the reviewer is unavailable, the trust tier is insufficient, failures repeat, or a budget is exhausted. Finish with the reviewed commit, gate evidence, test proof, trust tier, and remaining risks.",
+      "description": "A coding workflow that pairs an isolated builder with an independent reviewer who proves each new test detects the change it protects.",
+      "useWhen": "Use this when a repository task benefits from repeated builder-reviewer handoffs and has reliable automated checks.",
+      "prompt": "For [repository task], separate builder and reviewer into isolated workspaces. The builder makes one bounded change, adds a test that fails before the fix and passes after it, runs the checks, and hands off. The reviewer reruns the checks, audits the change, and proves the test detects the fix by reverting or mutating it. Accept only on both passes. Stop for protected changes, repeated failure, no progress, or budget exhaustion. Finish with the change, test proof, checks, and risks.",
       "verification": {
-        "title": "Every accepted wave passes an independent proof-of-test gate.",
-        "detail": "The acceptance test fails without the change, passes with it, all configured gates pass, and protected production changes remain human- or forge-gated."
+        "title": "Every accepted change passes independent test proof.",
+        "detail": "The new test fails without the change and passes with it, all agreed checks pass, and protected changes remain approval-gated."
       },
       "steps": [
-        "Initialize the plugin, separate builder and reviewer worktrees, configure deterministic gates and frozen invariants, and verify the hardened production rails.",
-        "Have the builder implement one bounded change with a red-before-green acceptance test, run the gates, commit, and update the git-backed baton.",
-        "Have the reviewer rerun every gate, conduct the adversarial audit, and use revert-or-mutate proof to show that the new test catches the change.",
-        "Accept and continue only on independent proof; otherwise return the findings to the builder or park for a human when a circuit breaker fires."
+        "Separate builder and reviewer workspaces, define the checks, protect sensitive paths, and set the stop limits.",
+        "Have the builder make one bounded change with a test that fails before the fix and passes after it.",
+        "Have the reviewer rerun the checks, audit the change, and use revert-or-mutate proof on the new test.",
+        "Accept only on both passes; otherwise return the findings or request help when a stop condition is reached."
       ],
-      "why": "The separate worktree and reviewer reduce self-approval, while the revert-or-mutate check catches tests that execute code without proving the fix. A committed baton makes the loop resumable after process or context loss.",
-      "implementationNote": "Treat local hooks as tripwires, not a security boundary. Review and pin the plugin version, use server-enforced branch protection and separate principals for unattended promotion, and expect two continuously running agents to consume substantial tokens.",
+      "why": "Separate workspaces reduce self-approval, while the revert-or-mutate check catches tests that execute code without proving the fix. A durable handoff keeps the loop resumable.",
+      "implementationNote": "The source implementation uses autonomy-loop commands, separate worktrees, and a git-backed baton. Treat local hooks as tripwires, not a security boundary, and keep protected changes behind enforced approval.",
       "keywords": [
         "autonomy-loop",
         "adversarial code review",
@@ -1297,12 +1297,12 @@
       "related": [
         {
           "slug": "clodex-adversarial-review-loop",
-          "title": "The Clodex adversarial-review loop",
+          "title": "The adversarial code-review loop",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/"
         },
         {
           "slug": "loop-harness-verification-loop",
-          "title": "The Loop Harness verification loop",
+          "title": "The second-agent verification loop",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/loop-harness-verification-loop/"
         }
       ],
@@ -1311,7 +1311,7 @@
     {
       "number": "028",
       "slug": "codex-completion-contract-loop",
-      "title": "The Codex completion-contract loop",
+      "title": "The completion-contract loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/",
       "category": {
         "slug": "engineering",
@@ -1320,21 +1320,21 @@
       "author": "3goblack (@Dis_Trackted)",
       "published": "2026-06-19",
       "modified": "2026-06-19",
-      "description": "A Codex Goal workflow that defines completion up front, tracks proof for every requirement, and prevents partial or weak evidence from being reported as done.",
-      "useWhen": "Use this for long-running Codex work, external state changes, pull requests, runtime checks, or user-visible artifacts where a plausible-looking partial result could be mistaken for completion.",
-      "prompt": "Run $goal-planner-codex [task] when the task has a durable, verifiable end state and false completion is a real risk. Inspect the active Goal, then classify the work as simple, standard, or evidence-led. If done is fuzzy, recover the definition before acting: inspect the relevant code or documentation, test concrete edge cases, propose measurable success criteria, and ask only the next necessary question. Keep the native Goal compact. For evidence-led work, create a durable completion contract at ~/.codex/goals/[repo-slug]/[goal-slug]/contract.md with the requirements, scope, non-goals, evidence plan, decisions, and contract changes, and maintain a live plan against it. After each meaningful action, record Requirement -> Evidence -> Status using proved, weak, missing, or contradicted. Continue only while current evidence closes a requirement and the agreed budget remains. Mark the Goal complete only when every explicit requirement is proved. If work is blocked, evidence stagnates, or the budget is exhausted, keep the unproved requirements open and stop with an honest blocked or exhausted audit instead of claiming success. Do not create a native Goal unless the user explicitly requested one. Finish with the complete requirement-to-evidence table, current Goal status, and any remaining owner or next action.",
+      "description": "A workflow that defines completion up front, tracks proof for every requirement, and prevents partial work from being reported as done.",
+      "useWhen": "Use this for long-running or high-risk work where a plausible partial result could be mistaken for completion.",
+      "prompt": "For [task], define the requirements, scope, non-goals, and evidence needed for completion before acting. After each bounded action, record each requirement as proved, weak, missing, or contradicted using current evidence. Continue only while the evidence closes a requirement and [budget] remains. Mark complete only when every required item is proved. Otherwise stop as blocked, exhausted, or stalled without claiming success. Ask before creating persistent goal state. Finish with the requirement-to-evidence table, status, owner, and next action.",
       "verification": {
-        "title": "Every explicit requirement has current, adequate proof.",
-        "detail": "The final audit contains no weak, missing, or contradicted required item; otherwise the Goal remains open, blocked, or exhausted rather than complete."
+        "title": "Every required item has current, adequate proof.",
+        "detail": "The final audit contains no weak, missing, or contradicted required item; otherwise the work remains open, blocked, or exhausted."
       },
       "steps": [
-        "Inspect the active Goal, classify the rigor needed, and recover a measurable definition of done for any ambiguous requirement.",
-        "Create the compact Goal, optional durable contract, and live plan without expanding the user's requested scope.",
+        "Recover a measurable definition of done for every ambiguous requirement.",
+        "Record the requirements, scope, non-goals, evidence plan, and current status without expanding the requested work.",
         "Execute one bounded action at a time and attach current evidence to each affected requirement.",
-        "Audit every requirement before closure, completing only fully proved work and preserving honest blocked, exhausted, or contradicted states."
+        "Audit every requirement before closure and preserve honest blocked, exhausted, stalled, or contradicted states."
       ],
-      "why": "A separate completion contract survives long sessions and keeps the definition of done visible. Mapping every requirement to evidence makes false completion easy to detect before the Goal is closed.",
-      "implementationNote": "Use native Codex Goal tools only after an explicit Goal request. Evidence must prove the current state, not merely show that a command once ran, and budget exhaustion never counts as successful completion.",
+      "why": "A durable completion contract keeps the definition of done visible across long sessions. Mapping every requirement to evidence makes false completion easy to detect.",
+      "implementationNote": "The source implementation uses a Codex goal-planner skill and optional native Goal state. Create persistent goal state only with approval; budget exhaustion never counts as success.",
       "keywords": [
         "Codex Goal",
         "completion contract",
@@ -1359,7 +1359,7 @@
     {
       "number": "029",
       "slug": "revolve-self-improvement-loop",
-      "title": "The Revolve self-improvement loop",
+      "title": "The evidence-based improvement loop",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/revolve-self-improvement-loop/",
       "category": {
         "slug": "evaluation",
@@ -1368,21 +1368,21 @@
       "author": "Agent Zero",
       "published": "2026-06-19",
       "modified": "2026-06-19",
-      "description": "A revisioned research workflow that checkpoints an incumbent, evaluates comparable candidates, and promotes improvements only with reproducible evidence and rollback.",
-      "useWhen": "Use this to improve a prompt, policy, workflow, model configuration, code path, or other testable artifact when experiments need durable research state and comparable evaluation across sessions.",
-      "prompt": "Use Revolve to improve [subject] toward [objective] within [iteration, time, or cost budget]. Create or resume the local revolve/ research state and record the subject, live artifact, constraints, permissions, regressions to prevent, evaluation method, and stop directive. Freeze one evaluation revision with its cases, fixtures, scoring rules, acceptance gates, and result format. Before changing anything, make a recoverable checkpoint of the incumbent and run the baseline. In each cycle, choose one evidence-backed failure, opportunity, or uncertainty; state one testable hypothesis; create a recoverable candidate checkpoint; and evaluate it under the same revision as the incumbent. Record the run, result, validity, tradeoffs, and decision. Promote a candidate to the internal incumbent only when comparable evidence shows a meaningful improvement and every guard passes; otherwise reject, repeat, revise, or branch from the strongest checkpoint. If cases, scoring, harness behavior, evaluator rubric, objective interpretation, or acceptance gates change, create a new revision and rerun the incumbent before comparing candidates. Keep the live artifact unchanged unless the user explicitly approves external promotion. After approval, apply the chosen checkpoint, run post-promotion verification, and record the rollback path. Stop on the verified objective, budget exhaustion, no measurable progress, a documented dead end, a blocker, or an explicit user stop. Finish with the best checkpoint, comparison evidence, failed branches, current revision, live-promotion status, rollback instructions, and next action.",
+      "description": "A research workflow that compares one change at a time under a fixed evaluation and keeps only improvements with a safe rollback.",
+      "useWhen": "Use this when improving a testable artifact across several experiments that must remain comparable, resumable, and reversible.",
+      "prompt": "Improve [artifact] toward [objective] within [budget]. Save a version, freeze the evaluation, and record a baseline. Test one change per cycle. Keep it only when it improves by [margin] without a guard regression; otherwise restore the best version. If the evaluation changes, create a revision and rerun the baseline. Ask before changing the live artifact. Stop on success, no progress, a blocker, or budget exhaustion. Finish with the best version, evidence, rollback, and next action.",
       "verification": {
-        "title": "The best checkpoint wins under one reproducible evaluation revision.",
-        "detail": "The incumbent and candidates have comparable recorded runs, no accepted guard regression, a recoverable rollback path, and no unapproved live-file promotion."
+        "title": "The best version wins under one unchanged evaluation.",
+        "detail": "Every comparison uses the same evaluation, accepted changes pass all guards, rollback is available, and live changes have approval."
       },
       "steps": [
-        "Define the objective and permissions, freeze an evaluation revision, checkpoint the incumbent, and capture a baseline before editing.",
-        "Choose one evidence-backed hypothesis, create a recoverable candidate checkpoint, and run it under the unchanged revision.",
-        "Record and compare the result, promoting internally only on a meaningful guard-safe win and opening a new revision whenever evaluation comparability changes.",
-        "Stop on a named terminal state, and require explicit approval plus post-promotion verification before changing the live artifact."
+        "Define the objective, permissions, budget, evaluation, guards, and improvement margin; then save and score the current version.",
+        "Test one evidence-backed change under the unchanged evaluation.",
+        "Keep only a meaningful improvement with no guard regression, and start a new revision if the evaluation changes.",
+        "Stop on a named condition and require approval plus verification before changing the live artifact."
       ],
-      "why": "Revision boundaries prevent scores from different tests or rubrics from being compared as if they were equivalent. Checkpoints, branch records, and an internal-before-external promotion boundary keep long-running research resumable and reversible.",
-      "implementationNote": "Keep candidate work inside revolve/ until external promotion is explicitly approved. Set the budget and stop directive before searching, and do not improve the evaluator mid-revision to make a preferred candidate win.",
+      "why": "Revision boundaries prevent unlike scores from being compared as equivalent. Saved versions and an approval boundary keep the work resumable and reversible.",
+      "implementationNote": "The source implementation uses Revolve for durable research state and checkpoints. Set the budget before searching, and do not change the evaluator mid-revision to make a preferred candidate win.",
       "keywords": [
         "Revolve",
         "agent self improvement",
@@ -1393,7 +1393,7 @@
       "related": [
         {
           "slug": "self-improving-champion-loop",
-          "title": "The self-improving champion loop",
+          "title": "The champion-challenger loop",
           "url": "https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/"
         },
         {

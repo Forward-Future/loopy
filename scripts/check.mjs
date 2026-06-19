@@ -108,6 +108,10 @@ function pngSize(buffer) {
   };
 }
 
+function wordCount(value) {
+  return value.trim().split(/\s+/).length;
+}
+
 assert(structuredDataMatch);
 const structuredData = JSON.parse(structuredDataMatch[1]);
 const collection = structuredData["@graph"].find(
@@ -154,6 +158,10 @@ assert.equal(loops.length, 29);
 assert.equal(slugs.size, loops.length);
 assert.equal(titles.size, loops.length);
 assert.equal(prompts.size, loops.length);
+assert(
+  loops.every((loop) => wordCount(loop.prompt) < 80),
+  "Published loop prompts must stay under 80 words.",
+);
 assert.match(siteMeta.socialImageVersion, /^\d{8}(?:-\d+)?$/);
 assert.equal(siteMeta.socialImageExtension, "png");
 assert.equal(siteMeta.socialImageMimeType, "image/png");

@@ -38,18 +38,18 @@
     <meta property="og:title" content="Devil&#39;s-Advocate Design Review Loop | Loop Library" />
     <meta property="og:description" content="A critic-and-builder workflow that attacks a design, tracks every objection, and requires evidence before an objection can be closed." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/devils-advocate-design-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-2.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-2.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-3.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-3.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The devil&#39;s-advocate loop — Forward Future Loop Library" />
     <meta property="article:published_time" content="2026-06-18" />
-    <meta property="article:modified_time" content="2026-06-18" />
+    <meta property="article:modified_time" content="2026-06-19" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Devil&#39;s-Advocate Design Review Loop | Loop Library" />
     <meta name="twitter:description" content="A critic-and-builder workflow that attacks a design, tracks every objection, and requires evidence before an objection can be closed." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-2.png" />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-3.png" />
     <meta name="twitter:image:alt" content="The devil&#39;s-advocate loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/devils-advocate-design-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -88,7 +88,7 @@
       "url": "https://signals.forwardfuture.ai/loop-library/loops/devils-advocate-design-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/devils-advocate-design-loop/",
       "datePublished": "2026-06-18",
-      "dateModified": "2026-06-18",
+      "dateModified": "2026-06-19",
       "articleSection": "AI product evaluation workflow",
       "keywords": [
         "devil's advocate loop",
@@ -99,7 +99,7 @@
       ],
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-2.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/devils-advocate-design-loop-20260619-3.png",
         "width": 1200,
         "height": 630
       },
@@ -217,7 +217,7 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Argue against your own design until it survives. In each round, a critic sub-agent writes the strongest case that the current approach is wrong and records every objection in /tmp/redteam-{projectname}.md with its evidence, impact, and status. The builder must either fix the weakness and verify the result or record why accepting it is reasonable under the project&#39;s stated criteria. The critic then reviews the change or acceptance rationale and may reopen anything that is not supported. Repeat until no new high-impact objection appears and every logged objection is either verified as resolved or explicitly accepted with evidence. Merely answering an objection in the log does not resolve it. If the same unresolved objections repeat for two rounds without new evidence or progress, stop and report the stalemate instead of claiming the design survived.</p>
+            <p data-prompt>Challenge [design] against [acceptance criteria]. Have a critic record the strongest evidence-backed objections in [shared log] and rank them by impact. For each high-impact objection, have the builder either fix it and verify the result or document why it is accepted. Let the critic reopen unsupported closures. Repeat until no high-impact objection remains or the same unresolved issues show no new evidence or progress for [limit]. Finish with the decision, resolved and accepted objections, evidence, and any stalemate.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
@@ -242,7 +242,7 @@
                 </div>
                 <div>
                   <dt>Updated</dt>
-                  <dd><time datetime="2026-06-18">Jun 18, 2026</time></dd>
+                  <dd><time datetime="2026-06-19">Jun 19, 2026</time></dd>
                 </div>
               </dl>
 
@@ -254,7 +254,7 @@
               <section aria-labelledby="run-loop">
                 <h2 id="run-loop">How to run it</h2>
                 <ol class="detail-steps">
-                <li>Write the design goals and acceptance criteria, then initialize the objection log at /tmp/redteam-{projectname}.md.</li>
+                <li>Write the design goals and acceptance criteria, then initialize a shared objection log.</li>
                 <li>Have the critic present the strongest evidence-backed case against the current design and rank each objection by impact.</li>
                 <li>Have the builder repair the weakness or document an explicit acceptance rationale, then verify the result against the stated criteria.</li>
                 <li>Let the critic reopen weak answers and repeat until the objections are closed with evidence or the loop reports a stalemate honestly.</li>
@@ -268,7 +268,7 @@
 
               <section class="implementation-note" aria-labelledby="implementation-note">
                 <h2 id="implementation-note">Implementation note</h2>
-                <p>Give the critic and builder separate context where possible. Do not let the builder rewrite the acceptance criteria mid-run simply to close a difficult objection.</p>
+                <p>Keep the critic independent where possible. Do not change the acceptance criteria mid-run simply to close a difficult objection.</p>
               </section>
 
               <nav class="related-loops" aria-labelledby="related-heading">
@@ -279,7 +279,7 @@
                   The architecture satisfaction loop
                 </a>
                 <a class="related-loop-link" href="../clodex-adversarial-review-loop/">
-                  The Clodex adversarial-review loop
+                  The adversarial code-review loop
                 </a>
                 </div>
               </nav>
