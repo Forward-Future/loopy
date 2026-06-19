@@ -11,15 +11,15 @@
     <uri>https://forwardfuture.ai/</uri>
   </author>
   <entry>
-    <title>The overnight docs sweep</title>
+    <title>The docs sweep</title>
     <id>https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/</id>
     <link href="https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/" />
     <published>2026-06-12T00:00:00-07:00</published>
-    <updated>2026-06-17T00:00:00-07:00</updated>
+    <updated>2026-06-18T00:00:00-07:00</updated>
     <author>
       <name>Matthew Berman</name>
     </author>
-    <summary>A scheduled AI coding-agent workflow for comparing documentation with the current codebase, fixing drift, and opening a reviewable pull request.</summary>
+    <summary>A reusable AI coding-agent workflow for comparing documentation with the current codebase, fixing drift, and opening a reviewable pull request.</summary>
   </entry>
   <entry>
     <title>The architecture satisfaction loop</title>

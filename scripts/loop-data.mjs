@@ -5,7 +5,7 @@ export const site = {
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
   updated: "2026-06-18",
-  socialImageVersion: "20260618-5",
+  socialImageVersion: "20260618-6",
   socialImageExtension: "png",
   socialImageMimeType: "image/png",
 };
@@ -46,21 +46,20 @@ export const loops = [
   {
     number: "001",
     slug: "overnight-docs-sweep",
-    title: "The overnight docs sweep",
-    seoTitle:
-      "Overnight Documentation Audit for Coding Agents | Loop Library",
+    title: "The docs sweep",
+    seoTitle: "Documentation Sweep for Coding Agents | Loop Library",
     description:
-      "A scheduled AI coding-agent workflow for comparing documentation with the current codebase, fixing drift, and opening a reviewable pull request.",
+      "A reusable AI coding-agent workflow for comparing documentation with the current codebase, fixing drift, and opening a reviewable pull request.",
     categoryLabel: "AI coding agent workflow",
     author: "Matthew Berman",
     published: "2026-06-12",
-    modified: "2026-06-17",
+    modified: "2026-06-18",
     prompt:
-      "Each night, review the codebase in full and make sure all documentation reflects the latest changes from the previous day. Update the documentation as needed, then open a pull request with those changes.",
+      "Whenever a documentation pass is needed, review the codebase in full and make sure all documentation reflects the current implementation. Update stale documentation, verify the changes, then open a pull request.",
     verifyTitle: "Documentation matches the current implementation.",
     verifyDetail: "Finish with a reviewable pull request.",
     useWhen:
-      "Use this after active development days when implementation changes can leave READMEs, setup guides, API references, examples, or runbooks behind.",
+      "Use this whenever implementation changes may have left READMEs, setup guides, API references, examples, or runbooks behind.",
     steps: [
       "Review implementation changes since the last documentation pass.",
       "Compare the repository's documentation with the code, configuration, commands, and behavior that now ship.",
@@ -75,8 +74,8 @@ export const loops = [
       "AI coding agent",
       "documentation audit",
       "documentation drift",
+      "documentation maintenance",
       "pull request workflow",
-      "scheduled agent workflow",
     ],
     related: ["production-error-sweep", "architecture-satisfaction-loop"],
   },
