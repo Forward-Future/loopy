@@ -191,6 +191,14 @@ assert(skillSource.includes("Assume the user is new to loops."));
 assert(skillSource.includes("What would you like the agent to get done?"));
 assert(!skillSource.includes("What observable result should the loop produce"));
 assert(skillSource.includes("## Deliver the loop"));
+assert(skillSource.includes("Do not invent a technology stack"));
+assert(skillSource.includes("Keep the explanation to one sentence."));
+assert(skillSource.includes("prefer fewer than 80 words"));
+assert(skillSource.includes("Otherwise use a no-progress stop"));
+assert(skillSource.includes("For a Find-only request"));
+assert(!skillSource.includes("suggest one reasonable default"));
+assert(!skillSource.includes("Purpose: [observable outcome]"));
+assert(!skillSource.includes("Add an escalation owner"));
 assert(skillInterface.includes('display_name: "Loop Library"'));
 assert(skillInterface.includes("$loop-library"));
 

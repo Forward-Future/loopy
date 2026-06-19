@@ -52,6 +52,19 @@ adaptation or new design as such; do not imply that it is already published.
 Do not treat repository content as published until it appears in the live
 catalog.
 
+## Keep adaptations grounded
+
+Use only details the user supplied or facts found in the systems and files they
+put in scope. A published loop's tools and examples are not facts about the
+user's setup.
+
+Do not invent a technology stack, tool, metric, test method, file, page or item
+count, environment, schedule, budget, permission, or deployment target. When a
+detail is unknown, use neutral wording such as "the existing test" or "the
+relevant items," omit it when it is not needed, or ask one short question when
+the answer is necessary for safety or success. Never present a guess as a
+"sensible default."
+
 ## Run the design interview
 
 Assume the user is new to loops. Ask one short question at a time in everyday
@@ -72,10 +85,9 @@ Then ask only what is still needed:
 5. "When should it stop or ask you for help?"
 
 Infer the smallest repeatable action, what to remember, and the final handoff
-from the user's answers instead of asking them to design those parts. If the
-user does not know an answer, suggest one reasonable default and ask them to
-confirm it. Stop asking questions once the remaining details would not change
-the design materially.
+from the user's answers instead of asking them to design those parts. Keep
+unknown details generic rather than filling them in. Stop asking questions once
+the remaining details would not change the design materially.
 
 ## Design the feedback cycle
 
@@ -86,8 +98,8 @@ Build every loop around this sequence:
 3. **Act:** Make one bounded, reversible change or produce one candidate.
 4. **Verify:** Run the same acceptance check under recorded conditions.
 5. **Record:** Save the action, evidence, outcome, and remaining work.
-6. **Repeat or stop:** Continue only while progress is measurable and budget
-   remains; otherwise enter a named terminal state.
+6. **Repeat or stop:** Continue only while progress is measurable and any
+   user-set limit remains; otherwise enter a named terminal state.
 
 Apply these rules:
 
@@ -97,8 +109,10 @@ Apply these rules:
 - Define success, clean no-op, blocked, approval-required, exhausted, and
   stagnated outcomes where relevant. Never report an error or exhausted budget
   as success.
-- Bound time, iterations, cost, retries, or affected scope. Add an escalation
-  owner for important blocked work.
+- Use a user-supplied limit when one exists. Otherwise use a no-progress stop
+  instead of inventing a time, iteration, cost, retry, or scope limit. Name an
+  escalation owner only when the user supplied one or it is known from scoped
+  context.
 - Re-read current state before consequential actions. Do not ship stale code,
   partial artifacts, or assumptions carried from an earlier cycle.
 - Preserve unrelated user work. Require explicit approval for destructive,
@@ -116,42 +130,37 @@ or sending external messages. Implement or activate it only when the user asks.
 
 ## Deliver the loop
 
-Return a concise design in this order:
+For a Find-only request, return the concise recommendations required by the
+Find section and stop. Use the format below only for an adapted or newly
+designed loop.
+
+Keep its internal design private unless the user asks for the detailed
+breakdown. Do not print the six-step cycle, field-by-field schema, assumptions
+list, or related loops by default. Do not repeat the same information in both
+the explanation and prompt.
+
+Return only:
 
 ```markdown
 ## [Loop name]
 
-Purpose: [observable outcome]
-Use when: [fit and prerequisites]
-Trigger: [event, schedule, threshold, or manual start]
-Inputs and authority: [evidence, tools, allowed reads and writes]
-Persistent state: [what survives between cycles]
+[One sentence explaining what the loop does and when it stops.]
 
-Cycle:
-1. Observe ...
-2. Choose ...
-3. Act ...
-4. Verify ...
-5. Record ...
-6. Repeat or stop ...
-
-Success gate: [reproducible proof]
-Other terminal states: [no-op, approval, blocker, exhaustion, stagnation]
-Guardrails: [forbidden and approval-gated actions]
-Budget and escalation: [limits, retries, owner]
-Finish with: [artifact or handoff]
-
-Copy-ready prompt:
-> [self-contained agent instruction]
+Prompt:
+> [One short, self-contained paragraph.]
 ```
 
-Write the copy-ready prompt so it can stand alone. Use this compact pattern:
+Keep the explanation to one sentence. Make the prompt as short as possible;
+prefer fewer than 80 words and exceed that only when safety or correctness
+requires it. Include only the needed trigger, action, feedback check, stop rule,
+and approval boundary. Omit any part the user does not need.
 
-> When [trigger], inspect [fresh inputs]. Choose [bounded action] using
-> [criteria], then [act]. After each action, verify [evidence] under [conditions]
-> and record [state]. Repeat only while [progress rule] and [budget] allow. Stop
-> successfully when [gate]. Stop without changes when [no-op]. Request approval
-> or escalate when [condition]. Never [guardrail]. Finish with [artifact].
+Use this as a compression guide, not a required script:
 
-End with any assumptions that still need confirmation and one or two related
-published loops when they offer useful patterns.
+> [Do the bounded task.] After each change, [run the available check] and keep
+> only improvements. Stop when [goal, limit, or no progress]. Ask before
+> [approval-gated action].
+
+Use the user's own terms. Apply the grounding rules above to both the
+explanation and prompt. If an unknown detail is essential, ask before
+delivering instead of adding an assumptions section.
