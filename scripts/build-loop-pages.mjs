@@ -6,6 +6,7 @@ import { loops, site } from "./loop-data.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputRoot = path.join(root, "site");
+const loopBySlug = new Map(loops.map((loop) => [loop.slug, loop]));
 
 function escapeHtml(value) {
   return String(value)
@@ -37,10 +38,19 @@ function socialImageUrl(loop) {
   return `${site.baseUrl}assets/social/${loop.slug}-${site.socialImageVersion}.${site.socialImageExtension}`;
 }
 
+function relatedLoop(loop, slug) {
+  const related = loopBySlug.get(slug);
+
+  if (!related) {
+    throw new Error(`${loop.slug} references unknown related loop: ${slug}`);
+  }
+
+  return related;
+}
+
 function relatedLinks(loop) {
   return loop.related
-    .map((slug) => loops.find((candidate) => candidate.slug === slug))
-    .filter(Boolean)
+    .map((slug) => relatedLoop(loop, slug))
     .map(
       (related) => `
                 <a class="related-loop-link" href="../${escapeHtml(related.slug)}/">
