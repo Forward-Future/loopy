@@ -5,7 +5,7 @@ export const site = {
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
   updated: "2026-06-20",
-  socialImageVersion: "20260620-2",
+  socialImageVersion: "20260620-3",
   socialImageExtension: "png",
   socialImageMimeType: "image/png",
 };

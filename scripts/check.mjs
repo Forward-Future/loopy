@@ -473,7 +473,7 @@ for (const [index, loop] of loops.entries()) {
   assert(page.includes('data-copy-social-post'));
   assert(page.includes(`data-post-text="${escapeHtml(postText)}"`));
   assert(page.includes(`data-post-url="${url}"`));
-  assert(page.includes(`<span>Copy social post</span>`));
+  assert(page.includes(`<span>Share on social</span>`));
   assert(!page.includes("twitter.com/intent/tweet"));
   assert(!page.includes("Share on X"));
   assert(!page.includes(`<span>Copy link</span>`));

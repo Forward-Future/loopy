@@ -54,7 +54,7 @@ function shareActions(loop, url) {
                 <rect x="8" y="8" width="11" height="11"></rect>
                 <path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path>
               </svg>
-              <span>Copy social post</span>
+              <span>Share on social</span>
             </button>
           </div>`;
 }
