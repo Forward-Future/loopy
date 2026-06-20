@@ -1,4 +1,4 @@
 interface:
   display_name: "Loop Library"
-  short_description: "Find and design reliable agent loops"
-  default_prompt: "Use $loop-library to find an existing agent loop or help me design one for my goal."
+  short_description: "Find, audit, and design reliable agent loops"
+  default_prompt: "Use $loop-library to find, audit, repair, or design a reliable agent loop for my goal."

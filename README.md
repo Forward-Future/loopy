@@ -1,8 +1,9 @@
 # Loop Library
 
 The Loop Library skill is an installable guide for your AI agent. Tell it what
-you want to get done and it can find a published loop, adapt one to your
-situation, or help you design a new one through a short conversation.
+you want to get done and it can find a published loop, audit and repair an
+existing one, adapt one to your situation, or help you design a new one through
+a short conversation.
 
 Loop Library is a collection of reusable ways to get better work from AI
 agents. Each loop tells an agent what to do, how to check its work, what to try
@@ -59,6 +60,8 @@ The Loop Library skill gives your agent direct access to the ideas in the
 library. You can use it to:
 
 - Find a published loop that fits what you are trying to get done.
+- Audit an existing loop for weak checks, unsafe actions, or unclear stopping
+  behavior, then repair only the material problems.
 - Adapt a useful loop to your tools, limits, and definition of success.
 - Design a new loop through a short, plain-language conversation.
 - Turn the result into a compact prompt you can use right away.
@@ -80,6 +83,11 @@ The `-g` flag makes the skill available across your projects.
 Once it is installed, try asking your agent:
 
 > Use $loop-library to find a loop for keeping our documentation current.
+
+Or ask Loop Doctor to check a loop you already have:
+
+> Use $loop-library to audit this loop and repair only material problems:
+> [paste the loop]
 
 Or start with an outcome and let the skill help shape it:
 

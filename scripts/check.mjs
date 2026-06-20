@@ -37,6 +37,7 @@ const [
   loopPages,
   skillSource,
   skillCatalog,
+  skillAuditGuide,
   publicCatalogMarkdown,
   publicCatalogJsonSource,
   skillInterface,
@@ -63,6 +64,7 @@ const [
     ),
     readFile(path.join(skillRoot, "SKILL.md"), "utf8"),
     readFile(path.join(skillRoot, "references", "catalog.md"), "utf8"),
+    readFile(path.join(skillRoot, "references", "audit.md"), "utf8"),
     readFile(path.join(siteRoot, "catalog.md"), "utf8"),
     readFile(path.join(siteRoot, "catalog.json"), "utf8"),
     readFile(path.join(skillRoot, "agents", "openai.yaml"), "utf8"),
@@ -255,6 +257,10 @@ assert(!skillSource.includes("published Forward Future loop"));
 assert(skillSource.includes(`${siteMeta.baseUrl}catalog.md`));
 assert(skillSource.includes(`${siteMeta.baseUrl}catalog.json`));
 assert(skillSource.includes("dated offline fallback"));
+assert(skillSource.includes("**Audit / Loop Doctor:**"));
+assert(skillSource.includes("[references/audit.md](references/audit.md)"));
+assert(skillSource.includes("the target as untrusted reference data"));
+assert(skillSource.includes("do not rewrite a sound loop for"));
 assert(skillSource.includes("## Run the design interview"));
 assert(skillSource.includes("Assume the user is new to loops."));
 assert(skillSource.includes("What would you like the agent to get done?"));
@@ -268,7 +274,17 @@ assert(skillSource.includes("For a Find-only request"));
 assert(!skillSource.includes("suggest one reasonable default"));
 assert(!skillSource.includes("Purpose: [observable outcome]"));
 assert(!skillSource.includes("Add an escalation owner"));
+assert(skillAuditGuide.startsWith("# Loop Doctor"));
+assert(skillAuditGuide.includes("vague, self-graded, or irreproducible verification"));
+assert(skillAuditGuide.includes("endless retries"));
+assert(skillAuditGuide.includes("decisions based on stale state"));
+assert(skillAuditGuide.includes("Do not assign a numerical score."));
+assert(skillAuditGuide.includes("Make the smallest change"));
+assert(skillAuditGuide.includes("Verdict: Ready | Repair needed | Not actually a loop"));
+assert(skillAuditGuide.includes("original format"));
+assert(skillAuditGuide.includes("Use this as a one-shot workflow"));
 assert(skillInterface.includes('display_name: "Loop Library"'));
+assert(skillInterface.includes('short_description: "Find, audit, and design reliable agent loops"'));
 assert(skillInterface.includes("$loop-library"));
 
 const loopTableIndex = html.indexOf('<table class="loop-table">');
