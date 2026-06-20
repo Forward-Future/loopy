@@ -1614,6 +1614,107 @@ code {
   margin: 0;
 }
 
+.agent-start-card {
+  margin-bottom: clamp(64px, 8vw, 96px);
+}
+
+.agent-start-card [data-prompt] {
+  max-width: 820px;
+}
+
+.agent-steps {
+  display: grid;
+  max-width: 820px;
+  padding: 0;
+  margin: 0;
+  counter-reset: agent-step;
+  list-style: none;
+}
+
+.agent-steps li {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  line-height: 1.65;
+  counter-increment: agent-step;
+}
+
+.agent-steps li::before {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  color: var(--ink);
+  content: counter(agent-step);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.agent-resource-grid {
+  display: grid;
+  max-width: 820px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--ink);
+}
+
+.agent-resource {
+  display: grid;
+  gap: 8px;
+  min-height: 150px;
+  align-content: start;
+  padding: 24px;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  transition:
+    color 150ms ease,
+    background 150ms ease;
+}
+
+.agent-resource:hover,
+.agent-resource:focus-visible {
+  color: var(--solid-foreground);
+  background: var(--solid-background);
+}
+
+.agent-resource strong {
+  font-size: 1.05rem;
+}
+
+.agent-resource span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.agent-resource:hover span,
+.agent-resource:focus-visible span {
+  color: inherit;
+}
+
+.agent-install-block {
+  max-width: 820px;
+  padding: 20px 22px;
+  margin: 24px 0;
+  overflow-x: auto;
+  border: 1px solid var(--ink);
+  background: var(--surface-muted);
+}
+
+.agent-install-block code {
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
 .site-footer {
   padding: 24px 0;
   color: var(--light);
@@ -1849,6 +1950,20 @@ code {
     padding-top: 48px;
     padding-bottom: 64px;
     margin-top: 48px;
+  }
+
+  .agent-resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .agent-steps li {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .agent-steps li::before {
+    width: 28px;
+    height: 28px;
   }
 }
 

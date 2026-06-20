@@ -11,6 +11,13 @@ next, and when to stop.
 
 [Browse the Loop Library](https://signals.forwardfuture.ai/loop-library/)
 
+Agents can use the published site without installing anything. Send them to the
+[agent guide](https://signals.forwardfuture.ai/loop-library/agents/) or the
+[agent instructions](https://signals.forwardfuture.ai/loop-library/llms.txt).
+The live catalog is available as
+[JSON](https://signals.forwardfuture.ai/loop-library/catalog.json) and
+[plain text](https://signals.forwardfuture.ai/loop-library/catalog.txt).
+
 ## What is a loop?
 
 Most prompts ask an agent to do something once. A loop gives the agent a way to

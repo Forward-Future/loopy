@@ -3,6 +3,8 @@
 Generated from `scripts/loop-data.mjs` (catalog updated 2026-06-20).
 Live catalog: https://signals.forwardfuture.ai/loop-library/catalog.md
 Machine-readable catalog: https://signals.forwardfuture.ai/loop-library/catalog.json
+Plain-text catalog: https://signals.forwardfuture.ai/loop-library/catalog.txt
+Agent instructions: https://signals.forwardfuture.ai/loop-library/llms.txt
 
 Search by outcome, trigger, artifact, evidence, category, or keyword. Treat
 adaptations and new designs as unpublished unless they appear at the live catalog

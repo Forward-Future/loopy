@@ -72,10 +72,15 @@ const learningPage = await readFile(
   path.join(siteRoot, "learn", "index.html"),
   "utf8",
 );
+const agentPage = await readFile(
+  path.join(siteRoot, "agents", "index.html"),
+  "utf8",
+);
 const sitemap = await readFile(path.join(siteRoot, "sitemap.xml"), "utf8");
 const pages = new Map([
   ["index.html", homepage],
   ["learn/index.html", learningPage],
+  ["agents/index.html", agentPage],
 ]);
 
 await Promise.all(
@@ -91,6 +96,7 @@ await Promise.all(
 const expectedUrls = [
   site.baseUrl,
   `${site.baseUrl}learn/`,
+  `${site.baseUrl}agents/`,
   ...loops.map((loop) => `${site.baseUrl}loops/${loop.slug}/`),
 ];
 const siteUrl = new URL(site.baseUrl);

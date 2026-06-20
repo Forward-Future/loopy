@@ -244,12 +244,15 @@ function renderLoopPage(loop) {
     <link rel="alternate" type="application/atom+xml" title="${escapeHtml(site.name)} updates" href="${escapeHtml(site.baseUrl)}feed.xml" />
     <link rel="alternate" type="application/json" title="${escapeHtml(site.name)} catalog" href="${escapeHtml(site.baseUrl)}catalog.json" />
     <link rel="alternate" type="text/markdown" title="${escapeHtml(site.name)} catalog in Markdown" href="${escapeHtml(site.baseUrl)}catalog.md" />
+    <link rel="alternate" type="text/plain" title="${escapeHtml(site.name)} agent instructions" href="${escapeHtml(site.baseUrl)}llms.txt" />
+    <link rel="alternate" type="text/plain" title="${escapeHtml(site.name)} plain-text catalog" href="${escapeHtml(site.baseUrl)}catalog.txt" />
+    <link rel="help" href="${escapeHtml(site.baseUrl)}agents/" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260620-social-copy" />
+    <link rel="stylesheet" href="../../styles.css?v=20260620-agent-guide" />
     <script type="application/ld+json">
 ${structuredData(loop)}
     </script>
-    <script src="../../script.js?v=20260620-social-copy" defer></script>
+    <script src="../../script.js?v=20260620-agent-guide" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
   </head>
   <body>
@@ -415,6 +418,10 @@ function renderSitemap() {
     },
     {
       url: `${site.baseUrl}learn/`,
+      modified: site.updated,
+    },
+    {
+      url: `${site.baseUrl}agents/`,
       modified: site.updated,
     },
     ...loops.map((loop) => ({
