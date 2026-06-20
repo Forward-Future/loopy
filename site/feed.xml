@@ -5,7 +5,7 @@
   <id>https://signals.forwardfuture.ai/loop-library/</id>
   <link href="https://signals.forwardfuture.ai/loop-library/" />
   <link href="https://signals.forwardfuture.ai/loop-library/feed.xml" rel="self" type="application/atom+xml" />
-  <updated>2026-06-19T00:00:00-07:00</updated>
+  <updated>2026-06-20T00:00:00-07:00</updated>
   <author>
     <name>Forward Future</name>
     <uri>https://forwardfuture.ai/</uri>
@@ -350,5 +350,126 @@
       <name>Matthew Berman</name>
     </author>
     <summary>A project audit that turns recent user-reported problems into reusable failure patterns, fixes every confirmed match, and verifies a clean final sweep.</summary>
+  </entry>
+  <entry>
+    <title>The promise-to-proof loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/promise-to-proof-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/promise-to-proof-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Felix Haeberle (@felixhaberle)</name>
+    </author>
+    <summary>An evidence-based product trust workflow that audits public claims, fixes the highest-risk proof gap, and repeats until unsupported promises are resolved.</summary>
+  </entry>
+  <entry>
+    <title>The propagation compliance loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>@iamTristan</name>
+    </author>
+    <summary>A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.</summary>
+  </entry>
+  <entry>
+    <title>The multi-LLM convergence loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Donn Felker (@donnfelker)</name>
+    </author>
+    <summary>A cross-model review workflow that alternates two different model families, applies verified findings, and stops only on shared clearance or an honest stall.</summary>
+  </entry>
+  <entry>
+    <title>The Goal Forge loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/goal-forge-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/goal-forge-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>michael Guo (@michaelzsguo)</name>
+    </author>
+    <summary>A specification workflow that interviews, tightens, and compiles a rough coding idea into a measurable SPEC.md and Codex GOAL.md contract.</summary>
+  </entry>
+  <entry>
+    <title>The UI/UX Score Loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Hayden Cassar (@hcassar93)</name>
+    </author>
+    <summary>A browser-based UI and UX improvement workflow that captures complete flows, scores meaningful states, and keeps only regression-free gains.</summary>
+  </entry>
+  <entry>
+    <title>The cold-load trimmer loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/cold-load-trimmer-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/cold-load-trimmer-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Christian Katzmann</name>
+    </author>
+    <summary>A first-load optimization workflow that establishes tests, visual baselines, and transferred-byte measurements before keeping one safe reduction at a time.</summary>
+  </entry>
+  <entry>
+    <title>The pixel-safe CSS trim loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Christian Katzmann</name>
+    </author>
+    <summary>A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.</summary>
+  </entry>
+  <entry>
+    <title>The easy onboarding loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/easy-onboarding-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/easy-onboarding-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Eric Lott</name>
+    </author>
+    <summary>An onboarding workflow that starts from clean state, fixes one confirmed barrier, and reruns the complete experience while preserving every real requirement.</summary>
+  </entry>
+  <entry>
+    <title>The accessibility repair loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/accessibility-repair-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/accessibility-repair-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Eric Lott</name>
+    </author>
+    <summary>An accessibility workflow that confirms issues against an agreed target, fixes one high-impact blocker, and reruns the same checks and user flow.</summary>
+  </entry>
+  <entry>
+    <title>The housekeeper loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/housekeeper-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/housekeeper-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Eric Lott</name>
+    </author>
+    <summary>A conservative cleanup workflow that confirms one low-risk opportunity, makes the smallest coherent change, and retains it only after existing checks pass.</summary>
+  </entry>
+  <entry>
+    <title>The Axelrod subagent arena loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Kan Yuenyong (@sikkha)</name>
+    </author>
+    <summary>A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring.</summary>
   </entry>
 </feed>

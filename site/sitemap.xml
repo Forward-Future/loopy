@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
   </url>
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/learn/</loc>
-    <lastmod>2026-06-19</lastmod>
+    <lastmod>2026-06-20</lastmod>
   </url>
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/</loc>
@@ -131,5 +131,49 @@
   <url>
     <loc>https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/</loc>
     <lastmod>2026-06-19</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/promise-to-proof-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/goal-forge-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/cold-load-trimmer-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/easy-onboarding-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/accessibility-repair-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/housekeeper-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
+  </url>
+  <url>
+    <loc>https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/</loc>
+    <lastmod>2026-06-20</lastmod>
   </url>
 </urlset>

@@ -6,8 +6,8 @@
   "url": "https://signals.forwardfuture.ai/loop-library/",
   "catalogUrl": "https://signals.forwardfuture.ai/loop-library/catalog.json",
   "markdownUrl": "https://signals.forwardfuture.ai/loop-library/catalog.md",
-  "updated": "2026-06-19",
-  "loopCount": 31,
+  "updated": "2026-06-20",
+  "loopCount": 42,
   "categories": [
     {
       "slug": "engineering",
@@ -1498,6 +1498,529 @@
           "url": "https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/"
         }
       ]
+    },
+    {
+      "number": "032",
+      "slug": "promise-to-proof-loop",
+      "title": "The promise-to-proof loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/promise-to-proof-loop/",
+      "category": {
+        "slug": "evaluation",
+        "label": "Evaluation"
+      },
+      "author": "Felix Haeberle (@felixhaberle)",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "An evidence-based product trust workflow that audits public claims, fixes the highest-risk proof gap, and repeats until unsupported promises are resolved.",
+      "useWhen": "Use this when product behavior, marketing, documentation, demos, or AI-generated answers may have drifted apart and trust depends on reconciling the promises with current evidence.",
+      "prompt": "Audit every public or customer-facing promise in [product]. Classify each claim as proven, partially proven, misleading, unsupported, stale, or missing proof using current product evidence. Rank gaps by trust risk, fix the highest-leverage one, and rerun the affected checks. Repeat until no high-risk unsupported promise remains or progress needs approval. Ask before changing production or publishing customer-facing material. Return the inventory, fixes, evidence, and open decisions.",
+      "verification": {
+        "title": "No high-risk customer promise lacks current proof.",
+        "detail": "Every claim has an evidence-backed status, the highest-risk gaps are resolved or approval-gated, and affected surfaces pass the same checks again."
+      },
+      "steps": [
+        "Inventory public and customer-facing promises across the agreed surfaces, then express each one as a concrete user expectation.",
+        "Check each claim against current product behavior, code, tests, documentation, examples, logs, and other available evidence; classify the result without guessing.",
+        "Rank unsupported or weakly supported claims by trust risk, fix the highest-leverage gap, and ask before production changes or publication.",
+        "Rerun the affected checks under the same evidence standard and repeat until no high-risk unsupported promise remains or progress reaches a named terminal state."
+      ],
+      "why": "A claim inventory turns vague trust concerns into reviewable evidence. Fixing one high-risk gap at a time keeps product, proof, and public language aligned without letting a broad audit become an uncontrolled rewrite.",
+      "implementationNote": "Preserve the submitted distinctions: proven, partially proven, misleading, unsupported, stale, and missing proof. A claim can be narrowed or supported instead of forcing the product to change, but deployment and customer-facing publication still require approval.",
+      "keywords": [
+        "product promise audit",
+        "customer trust",
+        "claim verification",
+        "evidence based product review",
+        "marketing product alignment"
+      ],
+      "related": [
+        {
+          "slug": "full-product-evaluation-loop",
+          "title": "The full product evaluation loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+        },
+        {
+          "slug": "recent-feedback-sweep",
+          "title": "The recent-feedback sweep",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/"
+        }
+      ]
+    },
+    {
+      "number": "033",
+      "slug": "propagation-compliance-loop",
+      "title": "The propagation compliance loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/",
+      "category": {
+        "slug": "engineering",
+        "label": "Engineering"
+      },
+      "author": "@iamTristan",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.",
+      "useWhen": "Use this after changing a version, count, rule, configuration value, identifier, or other state that is duplicated across code, documentation, memory, or operational files.",
+      "prompt": "After changing a version, count, rule, or configuration, update every affected file. Search for the old value and related stale references; distinguish real discrepancies from intentional history, examples, migrations, or compatibility rules. Fix every confirmed discrepancy and rerun the same searches until zero stale values remain. If the same discrepancy survives two rounds, stop and report what appears to be regenerating it. Return the changes and verification output.",
+      "verification": {
+        "title": "The affected repository contains zero confirmed stale values.",
+        "detail": "The original and related search terms return only intentional matches, and the final search output records why each remaining match is valid."
+      },
+      "steps": [
+        "Map the state change to every affected file and cascade the new value through the known dependency surface.",
+        "Search for the old value and related stale forms, treating each match as a candidate rather than automatically rewriting history or compatibility examples.",
+        "Fix every confirmed discrepancy, rerun the same searches, and record intentional matches with their justification.",
+        "Continue until zero stale values remain; if the same discrepancy survives two rounds, stop and identify the process that may be regenerating it."
+      ],
+      "why": "The second search is the important part: it catches propagation gaps that a single update pass misses. Candidate classification also prevents the loop from corrupting intentional historical or compatibility references.",
+      "implementationNote": "The submitted example updates a daily note, HEARTBEAT, TOOLS, and a procedure file, then re-greps old versions until no discrepancy remains. Keep that proof discipline, but adapt the search terms and affected surface to the actual state change.",
+      "keywords": [
+        "configuration propagation",
+        "version update audit",
+        "stale value search",
+        "repository consistency",
+        "grep verification loop"
+      ],
+      "related": [
+        {
+          "slug": "overnight-docs-sweep",
+          "title": "The docs sweep",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/"
+        },
+        {
+          "slug": "recent-feedback-sweep",
+          "title": "The recent-feedback sweep",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/recent-feedback-sweep/"
+        }
+      ]
+    },
+    {
+      "number": "034",
+      "slug": "multi-llm-convergence-loop",
+      "title": "The multi-LLM convergence loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/",
+      "category": {
+        "slug": "evaluation",
+        "label": "Evaluation"
+      },
+      "author": "Donn Felker (@donnfelker)",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A cross-model review workflow that alternates two different model families, applies verified findings, and stops only on shared clearance or an honest stall.",
+      "useWhen": "Use this for a specification, plan, design document, code change, or proposed review when genuine cross-model agreement is more useful than one reviewer's opinion.",
+      "prompt": "Run multi-LLM convergence on [artifact] with [quality bar] and [pass limit]. Alternate two genuinely different model families sequentially. Verify and apply valid above-bar findings, then give the updated artifact to the other reviewer. Converge only after both independently clear the same unchanged version. Stop at the limit, oscillation, unavailable review, or approval-required work; never call a one-model result consensus. Return the artifact, round log, verdict, and disagreements.",
+      "verification": {
+        "title": "Two model families clear the same unchanged artifact.",
+        "detail": "Consecutive clean passes come from different model families, no edit separates them, and any cap, oscillation, unavailable reviewer, or approval gate is reported as a stall."
+      },
+      "steps": [
+        "Confirm the artifact, quality bar, pass limit, and source-of-truth material before recording the baseline.",
+        "Send the current artifact to one model family, verify its findings, apply only valid above-bar changes, and record the round.",
+        "Send the updated artifact to the other model family and continue sequentially; any edit resets the clean-pass streak.",
+        "Declare convergence only after both families clear the same unchanged artifact, otherwise stop on the cap, oscillation, reviewer failure, or an approval boundary."
+      ],
+      "why": "Alternating model families reduces correlated blind spots, while the unchanged-artifact rule prevents a clean review of one version from being paired with a clean review of another. The round log makes consensus auditable.",
+      "implementationNote": "This loop depends on access to two genuinely different model families and a way to supervise each review. If only one family is available, the run may continue only as a clearly labeled single-model review and must not claim cross-model convergence.",
+      "keywords": [
+        "multi LLM review",
+        "cross model consensus",
+        "artifact convergence",
+        "alternating reviewers",
+        "independent AI review"
+      ],
+      "related": [
+        {
+          "slug": "clodex-adversarial-review-loop",
+          "title": "The Clodex adversarial-review loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/clodex-adversarial-review-loop/"
+        },
+        {
+          "slug": "devils-advocate-design-loop",
+          "title": "The devil's-advocate loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/devils-advocate-design-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/donnfelker/loop-skills"
+    },
+    {
+      "number": "035",
+      "slug": "goal-forge-loop",
+      "title": "The Goal Forge loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/goal-forge-loop/",
+      "category": {
+        "slug": "engineering",
+        "label": "Engineering"
+      },
+      "author": "michael Guo (@michaelzsguo)",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A specification workflow that interviews, tightens, and compiles a rough coding idea into a measurable SPEC.md and Codex GOAL.md contract.",
+      "useWhen": "Use this when a coding idea is still too ambiguous for long-running autonomous implementation and needs explicit scope, scoring, working memory, verification, and human controls first.",
+      "prompt": "Turn [rough coding idea] into a /goal-ready execution contract before implementation. Interview until scope, constraints, risks, edge cases, non-goals, and user-approved measurable done_when criteria are explicit. Write SPEC.md, tighten ambiguities, then compile GOAL.md with a scorecard, fast and final checks, working memory, approval boundaries, and evidence requirements. Stop as not ready if any essential decision or environment requirement remains unresolved. Do not run the goal without approval.",
+      "verification": {
+        "title": "SPEC.md and GOAL.md are measurable, runnable, and user-approved.",
+        "detail": "Every done_when item names observable evidence, the scorecard and feedback checks are executable, the environment is ready, and unresolved decisions stop as not ready."
+      },
+      "steps": [
+        "Interview the user until intended behavior, non-goals, constraints, edge cases, risks, and user-approved measurable done_when criteria are explicit in SPEC.md.",
+        "Challenge ambiguities with distinct interpretations and resolve product decisions without silently adding scope.",
+        "Compile GOAL.md with the objective, scorecard, fast feedback loop, slower final check, working memory, approval boundaries, and evidence contract.",
+        "Check environment readiness and stop as not ready when any required decision, capability, permission, or verification path is missing; run the goal only after explicit approval."
+      ],
+      "why": "Goal Forge separates product decisions from autonomous execution. A measurable contract, fast feedback, durable working memory, and honest not-ready state reduce the chance that a long run optimizes the wrong objective or mistakes activity for completion.",
+      "implementationNote": "The submitted workflow is specifically for Codex /goal work and uses SPEC.md, GOAL.md, PLAN.md, ATTEMPTS.md, and NOTES.md. Keep those names when the environment supports them; otherwise adapt the artifacts without weakening the user-approval and evidence gates.",
+      "keywords": [
+        "Goal Forge",
+        "Codex goal planning",
+        "SPEC.md",
+        "GOAL.md",
+        "autonomous coding contract"
+      ],
+      "related": [
+        {
+          "slug": "codex-completion-contract-loop",
+          "title": "The Codex completion-contract loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/"
+        },
+        {
+          "slug": "ticket-to-pr-ready-loop",
+          "title": "The ticket-to-PR-ready loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/ticket-to-pr-ready-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/michaelpersonal/goal-forge"
+    },
+    {
+      "number": "036",
+      "slug": "ui-ux-score-loop",
+      "title": "The UI/UX Score Loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/",
+      "category": {
+        "slug": "design",
+        "label": "Design"
+      },
+      "author": "Hayden Cassar (@hcassar93)",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A browser-based UI and UX improvement workflow that captures complete flows, scores meaningful states, and keeps only regression-free gains.",
+      "useWhen": "Use this to improve signup, login, onboarding, checkout, create-edit-delete, sharing, or another named product flow that can be exercised in a real browser and judged with a stable rubric.",
+      "prompt": "Run UI/UX Score Loop on [flow] at [URL] with [completion criterion]. Use a real browser and fresh state for every breakpoint and mode. Capture and score each meaningful view, improve the lowest safe scores, then rerun the complete flow under the same conditions. Keep only regression-free improvements. Stop when the criterion is met, two full passes stall, access is blocked, or approval is required. Return the dashboard and evidence.",
+      "verification": {
+        "title": "The complete flow improves under the same fresh-state evidence matrix.",
+        "detail": "Every retained change raises the selected target without lowering another important view, and the final dashboard records browser, state, breakpoint, mode, scores, screenshots, and stop reason."
+      },
+      "steps": [
+        "Confirm the flow boundary, exact entry point, completion criterion, browser, fresh-state policy, viewports, modes, view granularity, intensity, exclusions, and approval boundaries.",
+        "Run iteration zero without editing, capture every meaningful view under the full evidence matrix, score each one from the user's perspective, and build the dashboard.",
+        "Improve the lowest safe scores, then rerun the complete flow from fresh browser state under the same conditions and record every delta.",
+        "Keep only regression-free gains and repeat until the criterion is met, two complete passes stall, access is blocked, or the next useful change requires approval."
+      ],
+      "why": "Fresh browser state prevents retained sessions from hiding onboarding and authentication friction. A complete flow matrix and fixed rubric turn visual judgment into comparable evidence while still respecting the product's real requirements.",
+      "implementationNote": "A flow is a user goal, not a guessed route. Start at the supplied URL exactly, or at the discoverable app root when no URL is supplied, and follow visible navigation. Capture only user-meaningful states, and do not infer quality from console output the user cannot see.",
+      "keywords": [
+        "UI UX score",
+        "browser flow audit",
+        "responsive design review",
+        "fresh browser state",
+        "user experience improvement"
+      ],
+      "related": [
+        {
+          "slug": "war-loops-frontend-designer",
+          "title": "War Loops: frontend reconstruction",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/war-loops-frontend-designer/"
+        },
+        {
+          "slug": "full-product-evaluation-loop",
+          "title": "The full product evaluation loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/hcassar93/ui-ux-score-loop"
+    },
+    {
+      "number": "037",
+      "slug": "cold-load-trimmer-loop",
+      "title": "The cold-load trimmer loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/cold-load-trimmer-loop/",
+      "category": {
+        "slug": "engineering",
+        "label": "Engineering"
+      },
+      "author": "Christian Katzmann",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A first-load optimization workflow that establishes tests, visual baselines, and transferred-byte measurements before keeping one safe reduction at a time.",
+      "useWhen": "Use this when a web application ships too many compressed bytes on first load and the initial screen can be protected by repeatable tests, screenshots, and transfer measurements.",
+      "prompt": "Reduce first-load transferred bytes without changing the first screen. Before deleting anything, establish passing tests, representative screenshots, and a repeatable byte baseline. Treat analyzer findings as candidates. Make one deferral, lazy-load, compression, or removal change; rebuild and rerun every gate. Keep it only if tests pass, screenshots remain pixel-identical, and transferred bytes decrease; otherwise revert. Repeat until no viable candidate remains or attempts stall. Ask before deployment or uncertain dependency removal. Return measurements, changes, and coverage gaps.",
+      "verification": {
+        "title": "Transferred bytes decrease without a covered behavior or pixel changing.",
+        "detail": "The same production-shaped measurement shows a smaller first load, existing tests pass, every representative screenshot is pixel-identical, and any uncertain dependency removal remains approval-gated."
+      },
+      "steps": [
+        "Before deleting anything, establish green tests, representative mobile and desktop first-screen screenshots, image hashes, and a repeatable compressed transferred-byte baseline.",
+        "Run the bundle analyzer and production build report to generate candidates, then choose one safe deferral, lazy-load, compression, inlining, or removal hypothesis.",
+        "Rebuild and rerun tests, every screenshot hash, and the same byte measurement; keep the change only when all gates pass and bytes decrease, otherwise revert it completely.",
+        "Repeat until no viable candidate remains, several attempts fail to improve the baseline, measurement is unreliable, or the next change requires approval."
+      ],
+      "why": "Putting the behavioral and visual gate before the first deletion prevents static-analysis false positives from becoming the new baseline. One change per round preserves causality and makes every accepted byte reduction reversible.",
+      "implementationNote": "Measure compressed transferred bytes rather than unminified source. The gate covers only the states it captures: add missing logged-out, logged-in, empty, error, or other representative states before trusting a change that could affect them.",
+      "keywords": [
+        "first load bytes",
+        "bundle size optimization",
+        "pixel identical screenshots",
+        "lazy loading",
+        "web performance loop"
+      ],
+      "related": [
+        {
+          "slug": "sub-50ms-page-load-loop",
+          "title": "The sub-50 ms page-load loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/sub-50ms-page-load-loop/"
+        },
+        {
+          "slug": "pixel-safe-css-trim-loop",
+          "title": "The pixel-safe CSS trim loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/Christian-Katzmann"
+    },
+    {
+      "number": "038",
+      "slug": "pixel-safe-css-trim-loop",
+      "title": "The pixel-safe CSS trim loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/",
+      "category": {
+        "slug": "design",
+        "label": "Design"
+      },
+      "author": "Christian Katzmann",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.",
+      "useWhen": "Use this when a stylesheet that ships to users contains likely dead declarations, redundant rules, or order-dependent overrides and the complete visual surface can be captured repeatably.",
+      "prompt": "Reduce shipped CSS without changing any covered visual state. Before deleting anything, capture a representative screenshot matrix and record built CSS size; treat coverage findings as candidates. Remove one declaration or rule, rebuild, and rerun the full matrix and project checks. Keep it only if every screenshot is pixel-identical and the built CSS is smaller; otherwise revert. Repeat until no supported candidate remains or attempts plateau. Return the reduction, evidence, and uncovered browser or state risks.",
+      "verification": {
+        "title": "Built CSS shrinks while every covered visual state remains pixel-identical.",
+        "detail": "The complete screenshot matrix and project checks pass after each retained deletion, the shipped artifact is smaller, and uncovered browsers or states remain explicit risks."
+      },
+      "steps": [
+        "Before deleting anything, list representative pages, templates, viewports, modes, conditional states, hover and focus states, and variants; capture and hash the full screenshot matrix and record built CSS size.",
+        "Run CSS coverage to generate candidates, then remove one declaration or complete rule in the maintainable source of truth.",
+        "Rebuild, rerun project checks, render the entire matrix, and keep the deletion only when every screenshot is pixel-identical and the built CSS is smaller; otherwise revert it.",
+        "Repeat until no supported candidate remains, repeated deletions plateau, the gate cannot cover the affected behavior, or approval is required."
+      ],
+      "why": "Capturing the visual specification before cleanup prevents missing styles from being normalized into the baseline. Exact image equality and one deletion per round expose order-dependent CSS that coverage tools alone cannot judge.",
+      "implementationNote": "The gate cannot protect a browser, interaction, animation, or conditional state it never renders. Add uncertain states before deleting their CSS, make maintainable changes in source, and measure the built artifact users actually download.",
+      "keywords": [
+        "CSS cleanup",
+        "pixel safe CSS",
+        "visual regression testing",
+        "dead CSS removal",
+        "stylesheet optimization"
+      ],
+      "related": [
+        {
+          "slug": "cold-load-trimmer-loop",
+          "title": "The cold-load trimmer loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/cold-load-trimmer-loop/"
+        },
+        {
+          "slug": "ui-ux-score-loop",
+          "title": "The UI/UX Score Loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/Christian-Katzmann"
+    },
+    {
+      "number": "039",
+      "slug": "easy-onboarding-loop",
+      "title": "The easy onboarding loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/easy-onboarding-loop/",
+      "category": {
+        "slug": "evaluation",
+        "label": "Evaluation"
+      },
+      "author": "Eric Lott",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "An onboarding workflow that starts from clean state, fixes one confirmed barrier, and reruns the complete experience while preserving every real requirement.",
+      "useWhen": "Use this when onboarding may contain unclear instructions, hidden assumptions, agent-hostile interactions, or excessive barriers that only appear from a genuinely new session.",
+      "prompt": "Start [product] from a clean session and complete the entire onboarding flow using only what a new user or agent can see. Record each confirmed barrier, make the smallest improvement that preserves every onboarding, security, access, and product requirement, then discard the session and rerun from the real entry point. Repeat until one uninterrupted fresh pass succeeds, no safe improvement remains, progress is blocked, or approval is required. Return the path, changes, evidence, and blockers.",
+      "verification": {
+        "title": "One uninterrupted fresh session completes onboarding using only provided guidance.",
+        "detail": "The complete flow succeeds from the real entry point without retained state or undocumented repairs, and every requirement remains intact."
+      },
+      "steps": [
+        "Create a clean session with no retained authentication, storage, remembered routes, undocumented setup, or repair from an earlier attempt.",
+        "Complete onboarding from the real entry point and record every confirmed unclear, unexplained, unnecessarily difficult, or unrecoverable step.",
+        "Fix the highest-impact barrier with the smallest change that preserves onboarding, security, access, and product requirements.",
+        "Discard the session and rerun the complete flow until one uninterrupted fresh pass succeeds or the loop reaches no progress, blocked, or approval-required state."
+      ],
+      "why": "Fresh-state reruns expose assumptions that experienced users and retained sessions hide. Requiring one uninterrupted pass makes onboarding quality observable while the requirement-preservation rule prevents convenience from weakening real controls.",
+      "implementationNote": "Do not infer a deep route from the flow name or reuse a working session after a fix. Start where a real newcomer starts, follow only visible guidance, and record barriers that require a product decision instead of silently removing them.",
+      "keywords": [
+        "onboarding improvement",
+        "fresh session testing",
+        "new user experience",
+        "agent friendly onboarding",
+        "onboarding friction"
+      ],
+      "related": [
+        {
+          "slug": "fresh-clone-loop",
+          "title": "The fresh-clone loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/fresh-clone-loop/"
+        },
+        {
+          "slug": "full-product-evaluation-loop",
+          "title": "The full product evaluation loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+        }
+      ]
+    },
+    {
+      "number": "040",
+      "slug": "accessibility-repair-loop",
+      "title": "The accessibility repair loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/accessibility-repair-loop/",
+      "category": {
+        "slug": "design",
+        "label": "Design"
+      },
+      "author": "Eric Lott",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "An accessibility workflow that confirms issues against an agreed target, fixes one high-impact blocker, and reruns the same checks and user flow.",
+      "useWhen": "Use this when a defined product surface and accessibility target can be checked repeatedly and the highest-impact barriers should be repaired before lower-impact polish.",
+      "prompt": "Audit [scope] against [accessibility standard] using the available automated and manual checks. Confirm and rank issues by user impact, fix the highest-impact blocker, then rerun the same checks, affected flow, and relevant regressions. Keep only verified fixes and repeat until no confirmed blocker remains, progress stalls, verification is unavailable, or approval is required. Never silence checks or weaken the target. Return findings, fixes, before-and-after evidence, exceptions, and coverage limits.",
+      "verification": {
+        "title": "No confirmed accessibility blocker remains in the agreed scope.",
+        "detail": "The same automated and manual evidence, affected user flow, and relevant regression checks pass after each retained fix without weakening the target."
+      },
+      "steps": [
+        "Define the pages, flows, or components in scope, the applicable accessibility target, available checks, and representative user flows before editing.",
+        "Run the baseline, confirm findings rather than trusting automated warnings blindly, and rank verified issues by affected users and impact.",
+        "Fix the highest-impact blocker with the smallest underlying change, then rerun the same accessibility evidence, affected flow, and relevant regressions.",
+        "Keep only verified fixes and repeat until no blocker remains or the loop reaches no progress, unverifiable, blocked, or approval-required state."
+      ],
+      "why": "A fixed scope and repeated evidence prevent accessibility work from becoming an unbounded score chase. Confirming findings and repairing one blocker at a time keeps the work focused on real user impact.",
+      "implementationNote": "Automated tools are inputs, not proof. Do not silence checks, hide warnings, weaken the target, or claim success from a single score; document remaining exceptions and coverage limits explicitly.",
+      "keywords": [
+        "accessibility audit",
+        "accessibility repair",
+        "WCAG workflow",
+        "inclusive design testing",
+        "accessibility regression"
+      ],
+      "related": [
+        {
+          "slug": "ui-ux-score-loop",
+          "title": "The UI/UX Score Loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/ui-ux-score-loop/"
+        },
+        {
+          "slug": "full-product-evaluation-loop",
+          "title": "The full product evaluation loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+        }
+      ]
+    },
+    {
+      "number": "041",
+      "slug": "housekeeper-loop",
+      "title": "The housekeeper loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/housekeeper-loop/",
+      "category": {
+        "slug": "engineering",
+        "label": "Engineering"
+      },
+      "author": "Eric Lott",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A conservative cleanup workflow that confirms one low-risk opportunity, makes the smallest coherent change, and retains it only after existing checks pass.",
+      "useWhen": "Use this for conservative codebase hygiene when small accumulations of dead code, stale files, unused dependencies, duplication, broken links, naming drift, or confusing structure are slowing maintenance.",
+      "prompt": "Review [repository] for dead code, stale files, unused dependencies, duplicate logic, broken links, outdated comments, inconsistent naming, and confusing structure. Preserve unrelated and uncertain work. Confirm one low-risk cleanup, make the smallest coherent change, and rerun the existing build, tests, and runtime checks. Keep only verified improvements and repeat until no confirmed low-risk cleanup remains, progress stalls, or approval is required. Return changes, evidence, and deferred candidates.",
+      "verification": {
+        "title": "Only confirmed low-risk cleanup remains, and existing behavior still passes.",
+        "detail": "Every retained change is supported by direct evidence, the relevant project checks pass, unrelated work is untouched, and uncertain candidates are deferred rather than deleted."
+      },
+      "steps": [
+        "Inspect the current repository state and preserve unrelated, uncommitted, active, or uncertain work before collecting cleanup candidates.",
+        "Confirm one low-risk opportunity through references, configuration, tests, or other direct evidence, then make the smallest coherent change.",
+        "Run the existing build, tests, runtime checks, and diff review; keep the cleanup only when behavior remains intact and no unrelated change slipped in.",
+        "Repeat until no confirmed low-risk cleanup remains, progress stalls, verification is unavailable, or the next change requires approval."
+      ],
+      "why": "One confirmed cleanup at a time keeps housekeeping reversible and reviewable. Evidence requirements and explicit protection for uncertain work prevent a tidy-up pass from deleting active or poorly understood code.",
+      "implementationNote": "This is codebase housekeeping, not the published repository cleanup loop for branches, pull requests, commits, and worktrees. Do not remove uncertain source, dependencies, generated assets, configuration, or user work merely because it looks unused.",
+      "keywords": [
+        "codebase housekeeping",
+        "dead code cleanup",
+        "unused dependency review",
+        "repository hygiene",
+        "incremental cleanup"
+      ],
+      "related": [
+        {
+          "slug": "repository-cleanup-loop",
+          "title": "The repository cleanup loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/repository-cleanup-loop/"
+        },
+        {
+          "slug": "overnight-docs-sweep",
+          "title": "The docs sweep",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/overnight-docs-sweep/"
+        }
+      ]
+    },
+    {
+      "number": "042",
+      "slug": "axelrod-subagent-arena-loop",
+      "title": "The Axelrod subagent arena loop",
+      "url": "https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/",
+      "category": {
+        "slug": "evaluation",
+        "label": "Evaluation"
+      },
+      "author": "Kan Yuenyong (@sikkha)",
+      "published": "2026-06-20",
+      "modified": "2026-06-20",
+      "description": "A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner's Dilemma matches against deterministic anchors with verified scoring.",
+      "useWhen": "Use this to study whether live reasoning subagents cooperate, retaliate, forgive, exploit, adapt strategies, and preserve pairwise memory under controlled repeated interaction.",
+      "prompt": "Run a bounded Axelrod-style Iterated Prisoner's Dilemma tournament with two reasoning subagents plus always-defect and always-cooperate anchors: three cycles, six pairings per cycle, and ten rounds per pairing. Hide opponent type and private reasoning, collect simultaneous C/D moves, score deterministically, and persist pairwise histories. Code may validate and score but never choose live-agent moves. Finish only after validating all 18 matches and 180 rounds; return payoff and ecological rankings, reasoning summaries, violations, and the complete record.",
+      "verification": {
+        "title": "All 18 matches and 180 rounds validate against the payoff matrix.",
+        "detail": "Every live move is recorded before scoring, deterministic totals reproduce from the complete history, invalid responses are logged, and partial or invalid tournaments remain explicitly incomplete."
+      },
+      "steps": [
+        "Create deterministic validation, scoring, anchor, scheduling, pair-keyed memory, strategy-brief, and reporting components without giving code control of live-agent moves.",
+        "At each of three cycles, have the two live agents commit to one bounded strategy using only their permitted prior pairwise histories.",
+        "Run six ten-round pairings with simultaneous C or D moves, hidden opponent type and reasoning, deterministic anchors, strict move validation, and complete persistent records.",
+        "Recompute all 18 matches and 180 rounds, then publish separate payoff and ecological rankings, strategy and reasoning summaries, violations, divergences, and the reproducible record."
+      ],
+      "why": "Deterministic anchors expose exploitation and cooperation behavior while live subagents still choose every strategic move. Hidden types, simultaneous moves, pairwise memory, and recomputed scores keep the experiment controlled and auditable.",
+      "implementationNote": "The submitted experiment uses C/C=3/3, C/D=0/5, D/C=5/0, and D/D=1/1; one anchor always defects and one always cooperates. Run offline with local files when following the source, and never fit the result to the expected raw-payoff or cooperative-stability winner.",
+      "keywords": [
+        "Axelrod tournament",
+        "Iterated Prisoner's Dilemma",
+        "multi agent benchmark",
+        "agent cooperation",
+        "reasoning subagent evaluation"
+      ],
+      "related": [
+        {
+          "slug": "boeing-747-benchmark",
+          "title": "The Boeing 747 benchmark",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/"
+        },
+        {
+          "slug": "full-product-evaluation-loop",
+          "title": "The full product evaluation loop",
+          "url": "https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/"
+        }
+      ],
+      "sourceUrl": "https://github.com/sikkha/axelrod-loop-engineering"
     }
   ]
 }

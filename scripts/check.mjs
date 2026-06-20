@@ -163,6 +163,17 @@ const requestedConceptSlugs = [
   "revolve-self-improvement-loop",
   "five-minute-repository-maintainer-loop",
   "recent-feedback-sweep",
+  "promise-to-proof-loop",
+  "propagation-compliance-loop",
+  "multi-llm-convergence-loop",
+  "goal-forge-loop",
+  "ui-ux-score-loop",
+  "cold-load-trimmer-loop",
+  "pixel-safe-css-trim-loop",
+  "easy-onboarding-loop",
+  "accessibility-repair-loop",
+  "housekeeper-loop",
+  "axelrod-subagent-arena-loop",
 ];
 const submissionPromptAnchors = new Map([
   ["ticket-to-pr-ready-loop", ["bug report", "customer complaint"]],
@@ -183,6 +194,20 @@ const submissionPromptAnchors = new Map([
     "five-minute-repository-maintainer-loop",
     ["every five minutes", "one thread per repository", "autoreview"],
   ],
+  ["promise-to-proof-loop", ["customer-facing promise", "proven", "trust risk"]],
+  ["propagation-compliance-loop", ["old value", "zero stale values", "two rounds"]],
+  [
+    "multi-llm-convergence-loop",
+    ["two genuinely different model families", "same unchanged version", "oscillation"],
+  ],
+  ["goal-forge-loop", ["SPEC.md", "GOAL.md", "done_when"]],
+  ["ui-ux-score-loop", ["UI/UX Score Loop", "fresh state", "two full passes"]],
+  ["cold-load-trimmer-loop", ["transferred bytes", "pixel-identical", "revert"]],
+  ["pixel-safe-css-trim-loop", ["one declaration or rule", "pixel-identical", "built CSS"]],
+  ["easy-onboarding-loop", ["clean session", "onboarding", "product requirement"]],
+  ["accessibility-repair-loop", ["highest-impact blocker", "same checks", "weaken the target"]],
+  ["housekeeper-loop", ["dead code", "unused dependencies", "runtime checks"]],
+  ["axelrod-subagent-arena-loop", ["Axelrod", "always-defect", "180 rounds"]],
 ]);
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
@@ -200,7 +225,7 @@ assert.deepEqual(agentLoopTerm.sameAs, [
   "https://code.claude.com/docs/en/agent-sdk/agent-loop",
   "https://arxiv.org/abs/2210.03629",
 ]);
-assert.equal(loops.length, 31);
+assert.equal(loops.length, 42);
 assert.equal(slugs.size, loops.length);
 assert.equal(featuredLoopSlugs.length, 3);
 assert.equal(new Set(featuredLoopSlugs).size, featuredLoopSlugs.length);
