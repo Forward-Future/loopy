@@ -1511,21 +1511,21 @@
       "author": "Felix Haeberle (@felixhaberle)",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "An evidence-based product trust workflow that audits public claims, fixes the highest-risk proof gap, and repeats until unsupported promises are resolved.",
-      "useWhen": "Use this when product behavior, marketing, documentation, demos, or AI-generated answers may have drifted apart and trust depends on reconciling the promises with current evidence.",
-      "prompt": "Audit every public or customer-facing promise in [product]. Classify each claim as proven, partially proven, misleading, unsupported, stale, or missing proof using current product evidence. Rank gaps by trust risk, fix the highest-leverage one, and rerun the affected checks. Repeat until no high-risk unsupported promise remains or progress needs approval. Ask before changing production or publishing customer-facing material. Return the inventory, fixes, evidence, and open decisions.",
+      "description": "A product review that compares claims in marketing, documentation, demos, and AI answers with current evidence, then fixes or narrows unsupported promises.",
+      "useWhen": "Use this when what a product says it does may no longer match what it actually does across marketing, documentation, demos, support answers, or the live product.",
+      "prompt": "List every customer-facing promise [product] makes in marketing, documentation, demos, and AI answers. Compare each promise with current product behavior and evidence, then label it proven, partly proven, misleading, unsupported, outdated, or missing evidence. Fix or narrow the riskiest mismatch and rerun the affected check. Repeat until no high-risk unsupported promise remains. Ask before changing production or public copy. Return the promises, evidence, fixes, and decisions needed.",
       "verification": {
-        "title": "No high-risk customer promise lacks current proof.",
-        "detail": "Every claim has an evidence-backed status, the highest-risk gaps are resolved or approval-gated, and affected surfaces pass the same checks again."
+        "title": "Every high-risk customer promise is supported, narrowed, or waiting on an explicit decision.",
+        "detail": "Each promise links to current evidence, and every high-risk mismatch is fixed, narrowed to what the product can prove, or clearly approval-gated."
       },
       "steps": [
-        "Inventory public and customer-facing promises across the agreed surfaces, then express each one as a concrete user expectation.",
-        "Check each claim against current product behavior, code, tests, documentation, examples, logs, and other available evidence; classify the result without guessing.",
-        "Rank unsupported or weakly supported claims by trust risk, fix the highest-leverage gap, and ask before production changes or publication.",
-        "Rerun the affected checks under the same evidence standard and repeat until no high-risk unsupported promise remains or progress reaches a named terminal state."
+        "List the promises customers can see and rewrite each one as a concrete expectation, such as a feature working, a limit being honored, or an answer being accurate.",
+        "Compare each expectation with current product behavior, code, tests, documentation, examples, logs, or other direct evidence; do not guess.",
+        "Rank mismatches by the harm they could do to customer trust, then fix the riskiest one or narrow the public promise to what the product can prove.",
+        "Rerun the same check and repeat until no high-risk unsupported promise remains, progress is blocked, or the next action needs approval."
       ],
-      "why": "A claim inventory turns vague trust concerns into reviewable evidence. Fixing one high-risk gap at a time keeps product, proof, and public language aligned without letting a broad audit become an uncontrolled rewrite.",
-      "implementationNote": "Preserve the submitted distinctions: proven, partially proven, misleading, unsupported, stale, and missing proof. A claim can be narrowed or supported instead of forcing the product to change, but deployment and customer-facing publication still require approval.",
+      "why": "This turns a vague question—can customers trust what we say?—into a list of promises that can each be checked. Fixing one risky mismatch at a time keeps the product and its public explanation aligned without turning the audit into an uncontrolled rewrite.",
+      "implementationNote": "Evidence can include live product behavior, tests, documentation, logs, screenshots, or reproducible examples. A promise may be supported, narrowed, or removed; the product does not always need to change. Production changes and public publication still require approval.",
       "keywords": [
         "product promise audit",
         "customer trust",
@@ -1558,21 +1558,21 @@
       "author": "@iamTristan",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.",
-      "useWhen": "Use this after changing a version, count, rule, configuration value, identifier, or other state that is duplicated across code, documentation, memory, or operational files.",
-      "prompt": "After changing a version, count, rule, or configuration, update every affected file. Search for the old value and related stale references; distinguish real discrepancies from intentional history, examples, migrations, or compatibility rules. Fix every confirmed discrepancy and rerun the same searches until zero stale values remain. If the same discrepancy survives two rounds, stop and report what appears to be regenerating it. Return the changes and verification output.",
+      "description": "A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain.",
+      "useWhen": "Use this after changing something that appears in several files—such as a version number, feature name, count, rule, setting, or identifier—and every copy must stay consistent.",
+      "prompt": "After changing a version, count, rule, name, or configuration, list where the new value belongs and update it. Search the project for the old value and related forms. Review each match: fix real stale values, but keep intentional history, examples, migrations, or compatibility rules. Repeat until zero stale values remain. If one returns for two rounds, stop and identify what may be regenerating it. Return changes, intentional matches, and search output.",
       "verification": {
-        "title": "The affected repository contains zero confirmed stale values.",
-        "detail": "The original and related search terms return only intentional matches, and the final search output records why each remaining match is valid."
+        "title": "No unintended copy of the old value remains.",
+        "detail": "The final searches find only references that are intentionally historical or required for examples, migrations, or compatibility, with a reason recorded for each one."
       },
       "steps": [
-        "Map the state change to every affected file and cascade the new value through the known dependency surface.",
-        "Search for the old value and related stale forms, treating each match as a candidate rather than automatically rewriting history or compatibility examples.",
-        "Fix every confirmed discrepancy, rerun the same searches, and record intentional matches with their justification.",
-        "Continue until zero stale values remain; if the same discrepancy survives two rounds, stop and identify the process that may be regenerating it."
+        "List the files, documentation, settings, generated outputs, or operational notes that are expected to copy the changed value.",
+        "Update the known copies, then search the whole project for the old value, old spelling, and other likely leftover forms.",
+        "Decide whether each match is truly stale or intentionally preserved history, an example, a migration, or a compatibility rule; fix only the stale matches.",
+        "Repeat the same searches until no stale match remains; if one comes back for two rounds, stop and identify the generator or process restoring it."
       ],
-      "why": "The second search is the important part: it catches propagation gaps that a single update pass misses. Candidate classification also prevents the loop from corrupting intentional historical or compatibility references.",
-      "implementationNote": "The submitted example updates a daily note, HEARTBEAT, TOOLS, and a procedure file, then re-greps old versions until no discrepancy remains. Keep that proof discipline, but adapt the search terms and affected surface to the actual state change.",
+      "why": "The repeat search is the important part: it catches copies missed by the first update. Reviewing each match also prevents a broad replacement from corrupting historical notes, migration code, or examples that intentionally show the old value.",
+      "implementationNote": "The exact files depend on the change. The original submission used several operational notes and procedure files; another project might need code, tests, documentation, deployment settings, generated files, or all of them.",
       "keywords": [
         "configuration propagation",
         "version update audit",
@@ -1605,21 +1605,21 @@
       "author": "Donn Felker (@donnfelker)",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A cross-model review workflow that alternates two different model families, applies verified findings, and stops only on shared clearance or an honest stall.",
-      "useWhen": "Use this for a specification, plan, design document, code change, or proposed review when genuine cross-model agreement is more useful than one reviewer's opinion.",
-      "prompt": "Run multi-LLM convergence on [artifact] with [quality bar] and [pass limit]. Alternate two genuinely different model families sequentially. Verify and apply valid above-bar findings, then give the updated artifact to the other reviewer. Converge only after both independently clear the same unchanged version. Stop at the limit, oscillation, unavailable review, or approval-required work; never call a one-model result consensus. Return the artifact, round log, verdict, and disagreements.",
+      "description": "Alternates two AI systems from different providers to review a plan, document, or code change until both approve the exact same version.",
+      "useWhen": "Use this when an important plan, specification, design, document, or code change benefits from two independent AI perspectives rather than one model reviewing its own blind spots.",
+      "prompt": "Review [plan, specification, document, or code change] against [quality bar] for at most [pass limit] rounds. Have one of two genuinely different model families—AI systems from separate providers—review it. Verify each finding and apply only necessary fixes, then give the revised version to the other reviewer. Succeed only when both approve the same unchanged version. Stop at the limit, repeating disagreement (oscillation), unavailable review, or required approval. Return the final work, round log, verdict, and disagreements.",
       "verification": {
-        "title": "Two model families clear the same unchanged artifact.",
-        "detail": "Consecutive clean passes come from different model families, no edit separates them, and any cap, oscillation, unavailable reviewer, or approval gate is reported as a stall."
+        "title": "Two different AI model families approve the exact same version.",
+        "detail": "The final two clean reviews come from different model families with no edit between them; a pass limit, repeating disagreement, unavailable reviewer, or approval boundary is reported as a stall instead of consensus."
       },
       "steps": [
-        "Confirm the artifact, quality bar, pass limit, and source-of-truth material before recording the baseline.",
-        "Send the current artifact to one model family, verify its findings, apply only valid above-bar changes, and record the round.",
-        "Send the updated artifact to the other model family and continue sequentially; any edit resets the clean-pass streak.",
-        "Declare convergence only after both families clear the same unchanged artifact, otherwise stop on the cap, oscillation, reviewer failure, or an approval boundary."
+        "Choose the work being reviewed, define what counts as acceptable, set a maximum number of rounds, and gather the source material reviewers should trust.",
+        "Give the current version to the first AI model family, check whether each finding is valid, apply only necessary fixes, and record the round.",
+        "Give the resulting version to the other model family; if either reviewer causes another edit, both must review the new version again.",
+        "Finish only when both independently approve one unchanged version; otherwise stop at the round limit, repeated back-and-forth, reviewer failure, or an approval boundary."
       ],
-      "why": "Alternating model families reduces correlated blind spots, while the unchanged-artifact rule prevents a clean review of one version from being paired with a clean review of another. The round log makes consensus auditable.",
-      "implementationNote": "This loop depends on access to two genuinely different model families and a way to supervise each review. If only one family is available, the run may continue only as a clearly labeled single-model review and must not claim cross-model convergence.",
+      "why": "Different model families can notice different problems. Requiring both to approve the exact same version prevents a clean review of an older draft from being counted as approval of a newer one, and the round log shows how the agreement was reached.",
+      "implementationNote": "A model family means a genuinely separate model lineage, such as a Codex/OpenAI reviewer and a Claude/Anthropic reviewer—not two prompts sent to the same underlying model. With only one family, label the result a single-model review and do not claim consensus.",
       "keywords": [
         "multi LLM review",
         "cross model consensus",
@@ -1653,21 +1653,21 @@
       "author": "michael Guo (@michaelzsguo)",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A specification workflow that interviews, tightens, and compiles a rough coding idea into a measurable SPEC.md and Codex GOAL.md contract.",
-      "useWhen": "Use this when a coding idea is still too ambiguous for long-running autonomous implementation and needs explicit scope, scoring, working memory, verification, and human controls first.",
-      "prompt": "Turn [rough coding idea] into a /goal-ready execution contract before implementation. Interview until scope, constraints, risks, edge cases, non-goals, and user-approved measurable done_when criteria are explicit. Write SPEC.md, tighten ambiguities, then compile GOAL.md with a scorecard, fast and final checks, working memory, approval boundaries, and evidence requirements. Stop as not ready if any essential decision or environment requirement remains unresolved. Do not run the goal without approval.",
+      "description": "A planning workflow that interviews the user, writes what should be built in SPEC.md, and writes how Codex should execute and verify it in GOAL.md.",
+      "useWhen": "Use this when a rough coding idea is too vague to hand to Codex for a long autonomous run and the user first needs to settle scope, completion checks, safety boundaries, and required tools.",
+      "prompt": "Turn [rough coding idea] into two planning files before Codex starts /goal, its long-running task mode. Interview the user, then write SPEC.md: what to build, exclude, and consider, plus measurable done_when completion checks. Write GOAL.md: the work plan, progress scorecard, quick and final checks, memory files, evidence, and approval boundaries. If any key decision, permission, tool, environment requirement, or test is missing, stop as not ready. Do not start implementation without approval.",
       "verification": {
-        "title": "SPEC.md and GOAL.md are measurable, runnable, and user-approved.",
-        "detail": "Every done_when item names observable evidence, the scorecard and feedback checks are executable, the environment is ready, and unresolved decisions stop as not ready."
+        "title": "The planning files say what to build, how to judge it, and when to stop.",
+        "detail": "Every done_when completion check names observable evidence, the quick and final checks can actually run, the environment is ready, and unresolved decisions are clearly marked not ready."
       },
       "steps": [
-        "Interview the user until intended behavior, non-goals, constraints, edge cases, risks, and user-approved measurable done_when criteria are explicit in SPEC.md.",
-        "Challenge ambiguities with distinct interpretations and resolve product decisions without silently adding scope.",
-        "Compile GOAL.md with the objective, scorecard, fast feedback loop, slower final check, working memory, approval boundaries, and evidence contract.",
-        "Check environment readiness and stop as not ready when any required decision, capability, permission, or verification path is missing; run the goal only after explicit approval."
+        "Ask the user what the finished feature should do, what is out of scope, which edge cases matter, what could go wrong, and what evidence would prove completion; write those decisions in SPEC.md.",
+        "Point out ambiguous requirements with concrete interpretations and have the user resolve product decisions instead of letting the coding agent silently choose.",
+        "Write GOAL.md with the ordered work, a progress scorecard, quick checks for each iteration, slower final checks, memory files for long runs, approval boundaries, and required evidence.",
+        "Confirm that the tools, permissions, environment, and tests exist; stop as not ready when anything essential is missing, and start the long-running task only after approval."
       ],
-      "why": "Goal Forge separates product decisions from autonomous execution. A measurable contract, fast feedback, durable working memory, and honest not-ready state reduce the chance that a long run optimizes the wrong objective or mistakes activity for completion.",
-      "implementationNote": "The submitted workflow is specifically for Codex /goal work and uses SPEC.md, GOAL.md, PLAN.md, ATTEMPTS.md, and NOTES.md. Keep those names when the environment supports them; otherwise adapt the artifacts without weakening the user-approval and evidence gates.",
+      "why": "Goal Forge makes the user decide what success means before an agent spends hours coding. The two files give Codex a stable target, repeatable checks, memory across a long run, and an honest not-ready state when important information is missing.",
+      "implementationNote": "In the source workflow, /goal is Codex's long-running task mode. SPEC.md describes the product decision; GOAL.md tells Codex how to execute and verify it; PLAN.md, ATTEMPTS.md, and NOTES.md preserve progress and learning across the run.",
       "keywords": [
         "Goal Forge",
         "Codex goal planning",
@@ -1701,21 +1701,21 @@
       "author": "Hayden Cassar (@hcassar93)",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A browser-based UI and UX improvement workflow that captures complete flows, scores meaningful states, and keeps only regression-free gains.",
-      "useWhen": "Use this to improve signup, login, onboarding, checkout, create-edit-delete, sharing, or another named product flow that can be exercised in a real browser and judged with a stable rubric.",
-      "prompt": "Run UI/UX Score Loop on [flow] at [URL] with [completion criterion]. Use a real browser and fresh state for every breakpoint and mode. Capture and score each meaningful view, improve the lowest safe scores, then rerun the complete flow under the same conditions. Keep only regression-free improvements. Stop when the criterion is met, two full passes stall, access is blocked, or approval is required. Return the dashboard and evidence.",
+      "description": "A browser-based review that completes a real user task, scores each meaningful screen with the same checklist, improves weak spots, and retests the whole task.",
+      "useWhen": "Use this for a real task such as signup, login, onboarding, checkout, sharing, or creating and editing an item when the entire experience can be exercised in a browser and scored consistently.",
+      "prompt": "Improve [user flow, such as signup] at [URL] until [completion criterion]. In a real browser, start each pass from fresh state—no saved login, cookies, or site data. Capture meaningful screens at the agreed sizes and modes, score them with one checklist, and improve the weakest safe area. Rerun the whole flow and keep only regression-free changes. Stop on success, two full passes with no gain, blocked access, or required approval. Return scores, screenshots, changes, and stop reason.",
       "verification": {
-        "title": "The complete flow improves under the same fresh-state evidence matrix.",
-        "detail": "Every retained change raises the selected target without lowering another important view, and the final dashboard records browser, state, breakpoint, mode, scores, screenshots, and stop reason."
+        "title": "The complete user task scores better without making another important screen worse.",
+        "detail": "The final dashboard shows the same entry point, fresh browser state, screen sizes, modes, scoring rubric, screenshots, score changes, and stop reason for every retained improvement."
       },
       "steps": [
-        "Confirm the flow boundary, exact entry point, completion criterion, browser, fresh-state policy, viewports, modes, view granularity, intensity, exclusions, and approval boundaries.",
-        "Run iteration zero without editing, capture every meaningful view under the full evidence matrix, score each one from the user's perspective, and build the dashboard.",
-        "Improve the lowest safe scores, then rerun the complete flow from fresh browser state under the same conditions and record every delta.",
-        "Keep only regression-free gains and repeat until the criterion is met, two complete passes stall, access is blocked, or the next useful change requires approval."
+        "Choose the user task, starting URL, success target, browser, clean-session rule, screen sizes, light or dark modes, screens to capture, and anything the agent must not change.",
+        "Complete the task once without editing; capture normal screens plus meaningful loading, error, recovery, and success states, then score each with the same user-focused rubric.",
+        "Improve the weakest safe area, start a new clean browser session, and repeat the entire task under the same conditions so before-and-after scores are comparable.",
+        "Keep only changes that improve the target without hurting another important screen; stop on success, two passes with no gain, blocked access, or required approval."
       ],
-      "why": "Fresh browser state prevents retained sessions from hiding onboarding and authentication friction. A complete flow matrix and fixed rubric turn visual judgment into comparable evidence while still respecting the product's real requirements.",
-      "implementationNote": "A flow is a user goal, not a guessed route. Start at the supplied URL exactly, or at the discoverable app root when no URL is supplied, and follow visible navigation. Capture only user-meaningful states, and do not infer quality from console output the user cannot see.",
+      "why": "A clean browser session exposes problems that saved logins, cookies, and remembered settings can hide. Repeating the same task with the same scoring rubric makes the result comparable instead of relying on a vague impression that the interface feels better.",
+      "implementationNote": "A flow means a user goal, such as signing up or checking out—not a guessed web address. A screen size is sometimes called a viewport; a mode may be light or dark. Judge what the user can see and do, not hidden console output.",
       "keywords": [
         "UI UX score",
         "browser flow audit",
@@ -1749,21 +1749,21 @@
       "author": "Christian Katzmann",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A first-load optimization workflow that establishes tests, visual baselines, and transferred-byte measurements before keeping one safe reduction at a time.",
-      "useWhen": "Use this when a web application ships too many compressed bytes on first load and the initial screen can be protected by repeatable tests, screenshots, and transfer measurements.",
-      "prompt": "Reduce first-load transferred bytes without changing the first screen. Before deleting anything, establish passing tests, representative screenshots, and a repeatable byte baseline. Treat analyzer findings as candidates. Make one deferral, lazy-load, compression, or removal change; rebuild and rerun every gate. Keep it only if tests pass, screenshots remain pixel-identical, and transferred bytes decrease; otherwise revert. Repeat until no viable candidate remains or attempts stall. Ask before deployment or uncertain dependency removal. Return measurements, changes, and coverage gaps.",
+      "description": "A web performance workflow that reduces the data downloaded before the first screen appears, while tests and screenshots protect behavior and appearance.",
+      "useWhen": "Use this when a web app feels heavy on its first visit because it downloads too much code, styling, media, or other data before showing the initial screen.",
+      "prompt": "Reduce the data [web app] downloads before its first screen appears. First record passing tests, mobile and desktop screenshots, and compressed transferred bytes—the data actually downloaded. Use the build report only to suggest candidates. Defer, compress, or remove one item, then rebuild and rerun every check. Keep it only if tests pass, screenshots are pixel-identical, and bytes decrease; otherwise revert. Stop when no safe candidate remains, progress stalls, or approval is needed. Return measurements, changes, and untested states.",
       "verification": {
-        "title": "Transferred bytes decrease without a covered behavior or pixel changing.",
-        "detail": "The same production-shaped measurement shows a smaller first load, existing tests pass, every representative screenshot is pixel-identical, and any uncertain dependency removal remains approval-gated."
+        "title": "The first screen downloads less data without a tested behavior or pixel changing.",
+        "detail": "The same production-like measurement reports fewer downloaded bytes, existing tests pass, every representative screenshot is pixel-identical, and uncertain dependency removal remains approval-gated."
       },
       "steps": [
-        "Before deleting anything, establish green tests, representative mobile and desktop first-screen screenshots, image hashes, and a repeatable compressed transferred-byte baseline.",
-        "Run the bundle analyzer and production build report to generate candidates, then choose one safe deferral, lazy-load, compression, inlining, or removal hypothesis.",
-        "Rebuild and rerun tests, every screenshot hash, and the same byte measurement; keep the change only when all gates pass and bytes decrease, otherwise revert it completely.",
-        "Repeat until no viable candidate remains, several attempts fail to improve the baseline, measurement is unreliable, or the next change requires approval."
+        "Before changing code, record passing tests, representative mobile and desktop screenshots of the first screen, and a repeatable baseline for compressed transferred bytes—the amount actually downloaded.",
+        "Use a build or bundle report to find large or early downloads, then choose one safe candidate to delay until needed, compress, inline, or remove.",
+        "Rebuild and rerun the same tests, screenshots, and download measurement; keep the change only when every gate passes and bytes decrease, otherwise revert it completely.",
+        "Repeat until no safe candidate remains, several attempts produce no improvement, the measurement is unreliable, or the next change needs approval."
       ],
-      "why": "Putting the behavioral and visual gate before the first deletion prevents static-analysis false positives from becoming the new baseline. One change per round preserves causality and makes every accepted byte reduction reversible.",
-      "implementationNote": "Measure compressed transferred bytes rather than unminified source. The gate covers only the states it captures: add missing logged-out, logged-in, empty, error, or other representative states before trusting a change that could affect them.",
+      "why": "Recording behavior and screenshots before the first change prevents a broken screen from becoming the new normal. One download change per round also makes it clear which edit saved bytes and makes a failed attempt easy to undo.",
+      "implementationNote": "Measure compressed transferred bytes—the amount sent over the network—not the larger source files developers read. Screenshots protect only the states they capture, so include logged-out, logged-in, empty, error, or other relevant first screens before trusting a risky change.",
       "keywords": [
         "first load bytes",
         "bundle size optimization",
@@ -1797,21 +1797,21 @@
       "author": "Christian Katzmann",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.",
-      "useWhen": "Use this when a stylesheet that ships to users contains likely dead declarations, redundant rules, or order-dependent overrides and the complete visual surface can be captured repeatably.",
-      "prompt": "Reduce shipped CSS without changing any covered visual state. Before deleting anything, capture a representative screenshot matrix and record built CSS size; treat coverage findings as candidates. Remove one declaration or rule, rebuild, and rerun the full matrix and project checks. Keep it only if every screenshot is pixel-identical and the built CSS is smaller; otherwise revert. Repeat until no supported candidate remains or attempts plateau. Return the reduction, evidence, and uncovered browser or state risks.",
+      "description": "A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical.",
+      "useWhen": "Use this when a website's styling files may contain unused declarations, duplicated rules, or old overrides and representative pages and interactions can be captured in repeatable screenshots.",
+      "prompt": "Reduce the CSS styling code [site] sends to users without changing tested screens. First capture representative pages, sizes, themes, and interactions, and record the built CSS size. Treat coverage reports only as suggestions. Remove one declaration or rule, rebuild, and rerun screenshots and project checks. Keep it only if every screenshot is pixel-identical and built CSS is smaller; otherwise revert. Stop when no supported candidate remains, progress stalls, or approval is required. Return reduction, evidence, and untested states.",
       "verification": {
-        "title": "Built CSS shrinks while every covered visual state remains pixel-identical.",
-        "detail": "The complete screenshot matrix and project checks pass after each retained deletion, the shipped artifact is smaller, and uncovered browsers or states remain explicit risks."
+        "title": "The delivered stylesheet is smaller while every tested screen remains pixel-identical.",
+        "detail": "The same project checks and screenshots pass after each retained deletion, the built CSS file sent to users is smaller, and untested browsers, screens, or interactions remain explicit risks."
       },
       "steps": [
-        "Before deleting anything, list representative pages, templates, viewports, modes, conditional states, hover and focus states, and variants; capture and hash the full screenshot matrix and record built CSS size.",
-        "Run CSS coverage to generate candidates, then remove one declaration or complete rule in the maintainable source of truth.",
-        "Rebuild, rerun project checks, render the entire matrix, and keep the deletion only when every screenshot is pixel-identical and the built CSS is smaller; otherwise revert it.",
-        "Repeat until no supported candidate remains, repeated deletions plateau, the gate cannot cover the affected behavior, or approval is required."
+        "Before deleting styling code, list representative pages, screen sizes, light and dark modes, conditional content, hover and keyboard-focus states, and other important variants; capture screenshots and record the final built CSS size.",
+        "Use a CSS coverage report to suggest declarations or rules that may be unused, then remove one candidate from the maintainable source file.",
+        "Rebuild, run project checks, and recreate every screenshot; keep the deletion only when all images are pixel-identical and the built CSS is smaller, otherwise revert it.",
+        "Repeat until no well-supported candidate remains, repeated attempts save nothing, the screenshots cannot cover the affected behavior, or approval is required."
       ],
-      "why": "Capturing the visual specification before cleanup prevents missing styles from being normalized into the baseline. Exact image equality and one deletion per round expose order-dependent CSS that coverage tools alone cannot judge.",
-      "implementationNote": "The gate cannot protect a browser, interaction, animation, or conditional state it never renders. Add uncertain states before deleting their CSS, make maintainable changes in source, and measure the built artifact users actually download.",
+      "why": "Screenshots taken before cleanup preserve the current appearance as the standard. Exact image comparison and one deletion per round catch visual changes that an automated coverage report cannot understand, including rules that matter only because of their order.",
+      "implementationNote": "CSS is the code that controls a page's appearance. A coverage report can suggest that a rule was not used during one visit, but it cannot prove the rule is unnecessary everywhere. Add uncertain browsers and interaction states before deleting their styles.",
       "keywords": [
         "CSS cleanup",
         "pixel safe CSS",
@@ -1845,21 +1845,21 @@
       "author": "Eric Lott",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "An onboarding workflow that starts from clean state, fixes one confirmed barrier, and reruns the complete experience while preserving every real requirement.",
-      "useWhen": "Use this when onboarding may contain unclear instructions, hidden assumptions, agent-hostile interactions, or excessive barriers that only appear from a genuinely new session.",
-      "prompt": "Start [product] from a clean session and complete the entire onboarding flow using only what a new user or agent can see. Record each confirmed barrier, make the smallest improvement that preserves every onboarding, security, access, and product requirement, then discard the session and rerun from the real entry point. Repeat until one uninterrupted fresh pass succeeds, no safe improvement remains, progress is blocked, or approval is required. Return the path, changes, evidence, and blockers.",
+      "description": "A first-time-user test that starts with no saved account or browser state, fixes one confirmed onboarding obstacle, and retries the entire experience.",
+      "useWhen": "Use this when new users may face unclear instructions, hidden assumptions, difficult recovery, or unnecessary steps that experienced users no longer notice because their accounts and browsers remember earlier setup.",
+      "prompt": "Act like a first-time user of [product]. Start at the real entry point in a clean session with no saved login, site data, remembered route, or hidden setup. Complete onboarding using only visible guidance and record obstacles. Fix the worst one with the smallest change that preserves every security, access, and product requirement. Discard the session and retry. Stop after one uninterrupted success, no safe fix, blocked access, or required approval. Return the path, changes, evidence, and blockers.",
       "verification": {
-        "title": "One uninterrupted fresh session completes onboarding using only provided guidance.",
-        "detail": "The complete flow succeeds from the real entry point without retained state or undocumented repairs, and every requirement remains intact."
+        "title": "A first-time user can complete onboarding in one uninterrupted clean session.",
+        "detail": "The full experience succeeds from the real starting point without saved browser state, secret setup, guessed routes, or manual repairs, and every real requirement remains intact."
       },
       "steps": [
-        "Create a clean session with no retained authentication, storage, remembered routes, undocumented setup, or repair from an earlier attempt.",
-        "Complete onboarding from the real entry point and record every confirmed unclear, unexplained, unnecessarily difficult, or unrecoverable step.",
-        "Fix the highest-impact barrier with the smallest change that preserves onboarding, security, access, and product requirements.",
-        "Discard the session and rerun the complete flow until one uninterrupted fresh pass succeeds or the loop reaches no progress, blocked, or approval-required state."
+        "Open a clean session with no saved login, cookies, site storage, remembered web address, secret setup, or repair left over from an earlier attempt.",
+        "Begin where a real newcomer begins, complete the onboarding steps using only visible guidance, and record anything unclear, unexplained, unnecessarily difficult, or impossible to recover from.",
+        "Fix the most harmful obstacle with the smallest change that preserves security, access, legal, onboarding, and product requirements.",
+        "Throw away the session and retry the entire experience until one uninterrupted clean pass succeeds or no safe progress is possible, access is blocked, or approval is required."
       ],
-      "why": "Fresh-state reruns expose assumptions that experienced users and retained sessions hide. Requiring one uninterrupted pass makes onboarding quality observable while the requirement-preservation rule prevents convenience from weakening real controls.",
-      "implementationNote": "Do not infer a deep route from the flow name or reuse a working session after a fix. Start where a real newcomer starts, follow only visible guidance, and record barriers that require a product decision instead of silently removing them.",
+      "why": "Saved logins and remembered setup hide problems from experienced users. Starting over after every fix shows whether the product itself now explains the path, while preserving real requirements prevents an easier experience from weakening security or access controls.",
+      "implementationNote": "A clean session means a new private browser or another isolated environment with no cookies, login, local storage, cache, or remembered route. Start where a newcomer would actually arrive and follow only the guidance the product exposes.",
       "keywords": [
         "onboarding improvement",
         "fresh session testing",
@@ -1892,21 +1892,21 @@
       "author": "Eric Lott",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "An accessibility workflow that confirms issues against an agreed target, fixes one high-impact blocker, and reruns the same checks and user flow.",
-      "useWhen": "Use this when a defined product surface and accessibility target can be checked repeatedly and the highest-impact barriers should be repaired before lower-impact polish.",
-      "prompt": "Audit [scope] against [accessibility standard] using the available automated and manual checks. Confirm and rank issues by user impact, fix the highest-impact blocker, then rerun the same checks, affected flow, and relevant regressions. Keep only verified fixes and repeat until no confirmed blocker remains, progress stalls, verification is unavailable, or approval is required. Never silence checks or weaken the target. Return findings, fixes, before-and-after evidence, exceptions, and coverage limits.",
+      "description": "An accessibility review that confirms barriers against an agreed standard, fixes the issue with the greatest user impact, and repeats the same checks.",
+      "useWhen": "Use this when a website or app has a defined accessibility target and you can repeatedly test the relevant pages, components, or tasks for people using keyboards, screen readers, zoom, or other access methods.",
+      "prompt": "Check [scope] against [accessibility standard, such as WCAG 2.2 AA] with automated scans and available keyboard, screen-reader, and other manual tests. Confirm each issue, rank it by harm, and fix the highest-impact blocker. Rerun the same checks, affected task, and regression tests. Keep only verified fixes. Stop when no blocker remains, progress stalls, verification is unavailable, or approval is required. Never silence a check or weaken the target. Return issues, fixes, evidence, exceptions, and untested needs.",
       "verification": {
-        "title": "No confirmed accessibility blocker remains in the agreed scope.",
-        "detail": "The same automated and manual evidence, affected user flow, and relevant regression checks pass after each retained fix without weakening the target."
+        "title": "No confirmed accessibility barrier remains in the agreed pages, components, or user tasks.",
+        "detail": "The same automated scans, available manual checks, affected user task, and regression tests pass after each retained fix without lowering the chosen accessibility standard."
       },
       "steps": [
-        "Define the pages, flows, or components in scope, the applicable accessibility target, available checks, and representative user flows before editing.",
-        "Run the baseline, confirm findings rather than trusting automated warnings blindly, and rank verified issues by affected users and impact.",
-        "Fix the highest-impact blocker with the smallest underlying change, then rerun the same accessibility evidence, affected flow, and relevant regressions.",
-        "Keep only verified fixes and repeat until no blocker remains or the loop reaches no progress, unverifiable, blocked, or approval-required state."
+        "Choose the pages, components, and user tasks to test; name the accessibility standard, such as WCAG 2.2 AA; and list the automated scans and manual checks that are actually available.",
+        "Run the baseline, reproduce each finding instead of trusting a tool warning by itself, and rank confirmed barriers by the number of people affected and how severely they are blocked.",
+        "Fix the most harmful barrier with the smallest underlying change, then repeat the same scan, manual check, user task, and relevant regression tests.",
+        "Keep only verified fixes and repeat until no confirmed barrier remains or progress stalls, evidence cannot be collected, work is blocked, or approval is required."
       ],
-      "why": "A fixed scope and repeated evidence prevent accessibility work from becoming an unbounded score chase. Confirming findings and repairing one blocker at a time keeps the work focused on real user impact.",
-      "implementationNote": "Automated tools are inputs, not proof. Do not silence checks, hide warnings, weaken the target, or claim success from a single score; document remaining exceptions and coverage limits explicitly.",
+      "why": "A fixed scope and repeated checks keep accessibility work tied to real people and reproducible evidence instead of an endless score chase. Fixing the most harmful confirmed barrier first directs effort to the users who are blocked most severely.",
+      "implementationNote": "Automated tools can find likely problems but cannot prove a product is accessible. Manual keyboard use, screen-reader checks, zoom, contrast review, and real user testing may still be needed. Record anything the available test setup could not cover.",
       "keywords": [
         "accessibility audit",
         "accessibility repair",
@@ -1939,21 +1939,21 @@
       "author": "Eric Lott",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A conservative cleanup workflow that confirms one low-risk opportunity, makes the smallest coherent change, and retains it only after existing checks pass.",
-      "useWhen": "Use this for conservative codebase hygiene when small accumulations of dead code, stale files, unused dependencies, duplication, broken links, naming drift, or confusing structure are slowing maintenance.",
-      "prompt": "Review [repository] for dead code, stale files, unused dependencies, duplicate logic, broken links, outdated comments, inconsistent naming, and confusing structure. Preserve unrelated and uncertain work. Confirm one low-risk cleanup, make the smallest coherent change, and rerun the existing build, tests, and runtime checks. Keep only verified improvements and repeat until no confirmed low-risk cleanup remains, progress stalls, or approval is required. Return changes, evidence, and deferred candidates.",
+      "description": "A conservative code-project cleanup that proves one small opportunity is safe, makes the smallest useful change, and keeps it only after existing checks pass.",
+      "useWhen": "Use this when a code project has accumulated small maintenance problems—unused code, stale files, duplicated logic, broken links, old comments, inconsistent names, or confusing organization—but broad deletion would be risky.",
+      "prompt": "Review [repository or code project] for dead code, meaning unreachable or unused code; stale files or comments; unused dependencies; duplication; broken links; inconsistent names; and confusing structure. Protect unrelated, active, uncommitted, generated, and uncertain work. Prove one low-risk cleanup, make the smallest coherent change, then rerun the build, tests, runtime checks, and diff review. Keep only verified improvements. Stop when none remain, progress stalls, verification is unavailable, or approval is required. Return changes, evidence, and deferred candidates.",
       "verification": {
-        "title": "Only confirmed low-risk cleanup remains, and existing behavior still passes.",
-        "detail": "Every retained change is supported by direct evidence, the relevant project checks pass, unrelated work is untouched, and uncertain candidates are deferred rather than deleted."
+        "title": "No confirmed low-risk cleanup remains, and existing behavior still passes.",
+        "detail": "Every retained cleanup is supported by direct evidence, relevant builds and tests pass, the application still runs where applicable, unrelated work is untouched, and uncertain candidates are deferred rather than deleted."
       },
       "steps": [
-        "Inspect the current repository state and preserve unrelated, uncommitted, active, or uncertain work before collecting cleanup candidates.",
-        "Confirm one low-risk opportunity through references, configuration, tests, or other direct evidence, then make the smallest coherent change.",
-        "Run the existing build, tests, runtime checks, and diff review; keep the cleanup only when behavior remains intact and no unrelated change slipped in.",
-        "Repeat until no confirmed low-risk cleanup remains, progress stalls, verification is unavailable, or the next change requires approval."
+        "Inspect the current code-project state and identify active branches, uncommitted edits, generated files, configuration, and other work that must not be disturbed.",
+        "Collect possible cleanups, then use code references, configuration, documentation, tests, or runtime behavior to prove one candidate is genuinely low risk.",
+        "Make the smallest useful change and run the existing build, tests, application checks, and diff review; keep it only when behavior stays intact and no unrelated work changes.",
+        "Repeat until no confirmed low-risk cleanup remains, progress stalls, verification is unavailable, or the next candidate needs approval."
       ],
-      "why": "One confirmed cleanup at a time keeps housekeeping reversible and reviewable. Evidence requirements and explicit protection for uncertain work prevent a tidy-up pass from deleting active or poorly understood code.",
-      "implementationNote": "This is codebase housekeeping, not the published repository cleanup loop for branches, pull requests, commits, and worktrees. Do not remove uncertain source, dependencies, generated assets, configuration, or user work merely because it looks unused.",
+      "why": "One proven cleanup at a time keeps the work easy to review and undo. Requiring evidence before deletion—and protecting uncertain files and edits—prevents a tidy-up pass from removing code that is active but poorly understood.",
+      "implementationNote": "Here, repository means the code project and its files. This loop cleans source and project structure; the separate repository cleanup loop handles Git branches, pull requests, commits, and worktrees. Never delete something merely because its purpose is not immediately obvious.",
       "keywords": [
         "codebase housekeeping",
         "dead code cleanup",
@@ -1986,21 +1986,21 @@
       "author": "Kan Yuenyong (@sikkha)",
       "published": "2026-06-20",
       "modified": "2026-06-20",
-      "description": "A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner's Dilemma matches against deterministic anchors with verified scoring.",
-      "useWhen": "Use this to study whether live reasoning subagents cooperate, retaliate, forgive, exploit, adapt strategies, and preserve pairwise memory under controlled repeated interaction.",
-      "prompt": "Run a bounded Axelrod-style Iterated Prisoner's Dilemma tournament with two reasoning subagents plus always-defect and always-cooperate anchors: three cycles, six pairings per cycle, and ten rounds per pairing. Hide opponent type and private reasoning, collect simultaneous C/D moves, score deterministically, and persist pairwise histories. Code may validate and score but never choose live-agent moves. Finish only after validating all 18 matches and 180 rounds; return payoff and ecological rankings, reasoning summaries, violations, and the complete record.",
+      "description": "A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice.",
+      "useWhen": "Use this as a controlled experiment to see whether AI agents learn repeated-interaction behaviors such as cooperation, retaliation after betrayal, forgiveness, exploitation, and different strategies for different opponents.",
+      "prompt": "Run a fixed Axelrod tournament with two reasoning AI agents. Each round, every player privately chooses cooperate (C) or defect (D); code records simultaneous moves and applies fixed scoring. Include always-defect and always-cooperate comparison players. Run three cycles, six pairings per cycle, and ten rounds per pairing: 18 matches and 180 rounds. Hide opponent type and private reasoning. Validate every move and total. Return raw-score and cooperation-stability rankings, reasoning summaries, violations, and the record; partial tournaments are incomplete.",
       "verification": {
-        "title": "All 18 matches and 180 rounds validate against the payoff matrix.",
-        "detail": "Every live move is recorded before scoring, deterministic totals reproduce from the complete history, invalid responses are logged, and partial or invalid tournaments remain explicitly incomplete."
+        "title": "All 18 matches and 180 rounds can be reproduced from the recorded moves and fixed scoring rules.",
+        "detail": "Each agent chooses before seeing the opponent's move, every move is recorded before scoring, totals reproduce from the full history, invalid responses are logged, and any partial or invalid tournament remains explicitly incomplete."
       },
       "steps": [
-        "Create deterministic validation, scoring, anchor, scheduling, pair-keyed memory, strategy-brief, and reporting components without giving code control of live-agent moves.",
-        "At each of three cycles, have the two live agents commit to one bounded strategy using only their permitted prior pairwise histories.",
-        "Run six ten-round pairings with simultaneous C or D moves, hidden opponent type and reasoning, deterministic anchors, strict move validation, and complete persistent records.",
-        "Recompute all 18 matches and 180 rounds, then publish separate payoff and ecological rankings, strategy and reasoning summaries, violations, divergences, and the reproducible record."
+        "Set up fixed scoring, move validation, the match schedule, stored history for each pair, two reasoning AI players, one player that always cooperates, and one that always defects; code may score moves but never choose for the reasoning agents.",
+        "Before each of three tournament cycles, have each reasoning agent choose a bounded strategy using only what happened in its own earlier matches with each opponent.",
+        "Run all six possible pairings for ten rounds, collecting cooperate or defect choices simultaneously while hiding opponent identity and private reasoning; record every move, score, and allowed explanation.",
+        "Recalculate all 18 matches and 180 rounds from the saved record, then report both total points and cooperation-stability measures, strategy changes, reasoning summaries, rule violations, and any incomplete data."
       ],
-      "why": "Deterministic anchors expose exploitation and cooperation behavior while live subagents still choose every strategic move. Hidden types, simultaneous moves, pairwise memory, and recomputed scores keep the experiment controlled and auditable.",
-      "implementationNote": "The submitted experiment uses C/C=3/3, C/D=0/5, D/C=5/0, and D/D=1/1; one anchor always defects and one always cooperates. Run offline with local files when following the source, and never fit the result to the expected raw-payoff or cooperative-stability winner.",
+      "why": "The always-cooperate and always-defect players provide simple comparison points: they reveal whether the reasoning agents exploit easy opponents, defend themselves, rebuild cooperation, or change strategy. Hidden identities, simultaneous choices, saved pair histories, and recalculated scores keep the experiment fair and auditable.",
+      "implementationNote": "The scoring rule is: both cooperate, 3 points each; one defects, the defector gets 5 and the cooperator gets 0; both defect, 1 point each. Total-points ranking rewards points earned, while cooperation-stability measures reward reciprocal cooperation, effective retaliation, forgiveness, and resistance to exploitation.",
       "keywords": [
         "Axelrod tournament",
         "Iterated Prisoner's Dilemma",

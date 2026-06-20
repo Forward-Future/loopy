@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring." />
+    <meta name="description" content="A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice." />
     <meta name="author" content="Kan Yuenyong (@sikkha)" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
@@ -36,10 +36,10 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
     <meta property="og:title" content="Axelrod Subagent Arena Benchmark | Loop Library" />
-    <meta property="og:description" content="A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring." />
+    <meta property="og:description" content="A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-3.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-3.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-4.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-4.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -48,8 +48,8 @@
     <meta property="article:modified_time" content="2026-06-20" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Axelrod Subagent Arena Benchmark | Loop Library" />
-    <meta name="twitter:description" content="A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-3.png" />
+    <meta name="twitter:description" content="A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice." />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-4.png" />
     <meta name="twitter:image:alt" content="The Axelrod subagent arena loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -84,7 +84,7 @@
       "@type": "Article",
       "@id": "https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/#article",
       "headline": "The Axelrod subagent arena loop",
-      "description": "A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner's Dilemma matches against deterministic anchors with verified scoring.",
+      "description": "A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice.",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/",
       "datePublished": "2026-06-20",
@@ -100,7 +100,7 @@
       "isBasedOn": "https://github.com/sikkha/axelrod-loop-engineering",
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-3.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/axelrod-subagent-arena-loop-20260620-4.png",
         "width": 1200,
         "height": 630
       },
@@ -201,7 +201,7 @@
         <header class="detail-hero">
           <p class="eyebrow">Loop 042</p>
           <h1>The Axelrod subagent arena loop</h1>
-          <p class="detail-lede">A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring.</p>
+          <p class="detail-lede">A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice.</p>
           <p class="detail-byline">
             Contributed by <strong>Kan Yuenyong (@sikkha)</strong> · <a class="detail-source-link" href="https://github.com/sikkha/axelrod-loop-engineering" target="_blank" rel="noopener noreferrer">Source</a>
           </p>
@@ -210,7 +210,7 @@
               class="share-action share-action-primary"
               type="button"
               data-copy-social-post
-              data-post-text="Try &quot;The Axelrod subagent arena loop&quot; from the Loop Library: Benchmarks reasoning agents through a bounded, deterministic Prisoner&#39;s Dilemma tournament."
+              data-post-text="Try &quot;The Axelrod subagent arena loop&quot; from the Loop Library: Tests whether AI agents learn to cooperate, retaliate, or forgive in a repeated two-choice game."
               data-post-url="https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/"
               aria-label="Copy a social post about The Axelrod subagent arena loop"
             >
@@ -234,14 +234,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Run a bounded Axelrod-style Iterated Prisoner&#39;s Dilemma tournament with two reasoning subagents plus always-defect and always-cooperate anchors: three cycles, six pairings per cycle, and ten rounds per pairing. Hide opponent type and private reasoning, collect simultaneous C/D moves, score deterministically, and persist pairwise histories. Code may validate and score but never choose live-agent moves. Finish only after validating all 18 matches and 180 rounds; return payoff and ecological rankings, reasoning summaries, violations, and the complete record.</p>
+            <p data-prompt>Run a fixed Axelrod tournament with two reasoning AI agents. Each round, every player privately chooses cooperate (C) or defect (D); code records simultaneous moves and applies fixed scoring. Include always-defect and always-cooperate comparison players. Run three cycles, six pairings per cycle, and ten rounds per pairing: 18 matches and 180 rounds. Hide opponent type and private reasoning. Validate every move and total. Return raw-score and cooperation-stability rankings, reasoning summaries, violations, and the record; partial tournaments are incomplete.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
-              <h2 id="verify-stop">All 18 matches and 180 rounds validate against the payoff matrix.</h2>
-              <p>Every live move is recorded before scoring, deterministic totals reproduce from the complete history, invalid responses are logged, and partial or invalid tournaments remain explicitly incomplete.</p>
+              <h2 id="verify-stop">All 18 matches and 180 rounds can be reproduced from the recorded moves and fixed scoring rules.</h2>
+              <p>Each agent chooses before seeing the opponent&#39;s move, every move is recorded before scoring, totals reproduce from the full history, invalid responses are logged, and any partial or invalid tournament remains explicitly incomplete.</p>
             </div>
           </section>
 
@@ -265,27 +265,27 @@
 
               <section aria-labelledby="use-when">
                 <h2 id="use-when">Use this when</h2>
-                <p>Use this to study whether live reasoning subagents cooperate, retaliate, forgive, exploit, adapt strategies, and preserve pairwise memory under controlled repeated interaction.</p>
+                <p>Use this as a controlled experiment to see whether AI agents learn repeated-interaction behaviors such as cooperation, retaliation after betrayal, forgiveness, exploitation, and different strategies for different opponents.</p>
               </section>
 
               <section aria-labelledby="run-loop">
                 <h2 id="run-loop">How to run it</h2>
                 <ol class="detail-steps">
-                <li>Create deterministic validation, scoring, anchor, scheduling, pair-keyed memory, strategy-brief, and reporting components without giving code control of live-agent moves.</li>
-                <li>At each of three cycles, have the two live agents commit to one bounded strategy using only their permitted prior pairwise histories.</li>
-                <li>Run six ten-round pairings with simultaneous C or D moves, hidden opponent type and reasoning, deterministic anchors, strict move validation, and complete persistent records.</li>
-                <li>Recompute all 18 matches and 180 rounds, then publish separate payoff and ecological rankings, strategy and reasoning summaries, violations, divergences, and the reproducible record.</li>
+                <li>Set up fixed scoring, move validation, the match schedule, stored history for each pair, two reasoning AI players, one player that always cooperates, and one that always defects; code may score moves but never choose for the reasoning agents.</li>
+                <li>Before each of three tournament cycles, have each reasoning agent choose a bounded strategy using only what happened in its own earlier matches with each opponent.</li>
+                <li>Run all six possible pairings for ten rounds, collecting cooperate or defect choices simultaneously while hiding opponent identity and private reasoning; record every move, score, and allowed explanation.</li>
+                <li>Recalculate all 18 matches and 180 rounds from the saved record, then report both total points and cooperation-stability measures, strategy changes, reasoning summaries, rule violations, and any incomplete data.</li>
                 </ol>
               </section>
 
               <section aria-labelledby="why-it-works">
                 <h2 id="why-it-works">Why it works</h2>
-                <p>Deterministic anchors expose exploitation and cooperation behavior while live subagents still choose every strategic move. Hidden types, simultaneous moves, pairwise memory, and recomputed scores keep the experiment controlled and auditable.</p>
+                <p>The always-cooperate and always-defect players provide simple comparison points: they reveal whether the reasoning agents exploit easy opponents, defend themselves, rebuild cooperation, or change strategy. Hidden identities, simultaneous choices, saved pair histories, and recalculated scores keep the experiment fair and auditable.</p>
               </section>
 
               <section class="implementation-note" aria-labelledby="implementation-note">
                 <h2 id="implementation-note">Implementation note</h2>
-                <p>The submitted experiment uses C/C=3/3, C/D=0/5, D/C=5/0, and D/D=1/1; one anchor always defects and one always cooperates. Run offline with local files when following the source, and never fit the result to the expected raw-payoff or cooperative-stability winner.</p>
+                <p>The scoring rule is: both cooperate, 3 points each; one defects, the defector gets 5 and the cooperator gets 0; both defect, 1 point each. Total-points ranking rewards points earned, while cooperation-stability measures reward reciprocal cooperation, effective retaliation, forgiveness, and resistance to exploitation.</p>
               </section>
 
               <nav class="related-loops" aria-labelledby="related-heading">

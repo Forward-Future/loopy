@@ -360,7 +360,7 @@
     <author>
       <name>Felix Haeberle (@felixhaberle)</name>
     </author>
-    <summary>An evidence-based product trust workflow that audits public claims, fixes the highest-risk proof gap, and repeats until unsupported promises are resolved.</summary>
+    <summary>A product review that compares claims in marketing, documentation, demos, and AI answers with current evidence, then fixes or narrows unsupported promises.</summary>
   </entry>
   <entry>
     <title>The propagation compliance loop</title>
@@ -371,7 +371,7 @@
     <author>
       <name>@iamTristan</name>
     </author>
-    <summary>A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.</summary>
+    <summary>A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain.</summary>
   </entry>
   <entry>
     <title>The multi-LLM convergence loop</title>
@@ -382,7 +382,7 @@
     <author>
       <name>Donn Felker (@donnfelker)</name>
     </author>
-    <summary>A cross-model review workflow that alternates two different model families, applies verified findings, and stops only on shared clearance or an honest stall.</summary>
+    <summary>Alternates two AI systems from different providers to review a plan, document, or code change until both approve the exact same version.</summary>
   </entry>
   <entry>
     <title>The Goal Forge loop</title>
@@ -393,7 +393,7 @@
     <author>
       <name>michael Guo (@michaelzsguo)</name>
     </author>
-    <summary>A specification workflow that interviews, tightens, and compiles a rough coding idea into a measurable SPEC.md and Codex GOAL.md contract.</summary>
+    <summary>A planning workflow that interviews the user, writes what should be built in SPEC.md, and writes how Codex should execute and verify it in GOAL.md.</summary>
   </entry>
   <entry>
     <title>The UI/UX Score Loop</title>
@@ -404,7 +404,7 @@
     <author>
       <name>Hayden Cassar (@hcassar93)</name>
     </author>
-    <summary>A browser-based UI and UX improvement workflow that captures complete flows, scores meaningful states, and keeps only regression-free gains.</summary>
+    <summary>A browser-based review that completes a real user task, scores each meaningful screen with the same checklist, improves weak spots, and retests the whole task.</summary>
   </entry>
   <entry>
     <title>The cold-load trimmer loop</title>
@@ -415,7 +415,7 @@
     <author>
       <name>Christian Katzmann</name>
     </author>
-    <summary>A first-load optimization workflow that establishes tests, visual baselines, and transferred-byte measurements before keeping one safe reduction at a time.</summary>
+    <summary>A web performance workflow that reduces the data downloaded before the first screen appears, while tests and screenshots protect behavior and appearance.</summary>
   </entry>
   <entry>
     <title>The pixel-safe CSS trim loop</title>
@@ -426,7 +426,7 @@
     <author>
       <name>Christian Katzmann</name>
     </author>
-    <summary>A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.</summary>
+    <summary>A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical.</summary>
   </entry>
   <entry>
     <title>The easy onboarding loop</title>
@@ -437,7 +437,7 @@
     <author>
       <name>Eric Lott</name>
     </author>
-    <summary>An onboarding workflow that starts from clean state, fixes one confirmed barrier, and reruns the complete experience while preserving every real requirement.</summary>
+    <summary>A first-time-user test that starts with no saved account or browser state, fixes one confirmed onboarding obstacle, and retries the entire experience.</summary>
   </entry>
   <entry>
     <title>The accessibility repair loop</title>
@@ -448,7 +448,7 @@
     <author>
       <name>Eric Lott</name>
     </author>
-    <summary>An accessibility workflow that confirms issues against an agreed target, fixes one high-impact blocker, and reruns the same checks and user flow.</summary>
+    <summary>An accessibility review that confirms barriers against an agreed standard, fixes the issue with the greatest user impact, and repeats the same checks.</summary>
   </entry>
   <entry>
     <title>The housekeeper loop</title>
@@ -459,7 +459,7 @@
     <author>
       <name>Eric Lott</name>
     </author>
-    <summary>A conservative cleanup workflow that confirms one low-risk opportunity, makes the smallest coherent change, and retains it only after existing checks pass.</summary>
+    <summary>A conservative code-project cleanup that proves one small opportunity is safe, makes the smallest useful change, and keeps it only after existing checks pass.</summary>
   </entry>
   <entry>
     <title>The Axelrod subagent arena loop</title>
@@ -470,6 +470,6 @@
     <author>
       <name>Kan Yuenyong (@sikkha)</name>
     </author>
-    <summary>A bounded multi-agent evaluation where reasoning subagents play repeated Prisoner&#39;s Dilemma matches against deterministic anchors with verified scoring.</summary>
+    <summary>A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice.</summary>
   </entry>
 </feed>

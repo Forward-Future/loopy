@@ -217,20 +217,33 @@ const submissionPromptAnchors = new Map([
     "five-minute-repository-maintainer-loop",
     ["every five minutes", "one thread per repository", "autoreview"],
   ],
-  ["promise-to-proof-loop", ["customer-facing promise", "proven", "trust risk"]],
+  ["promise-to-proof-loop", ["customer-facing promise", "proven", "riskiest mismatch"]],
   ["propagation-compliance-loop", ["old value", "zero stale values", "two rounds"]],
   [
     "multi-llm-convergence-loop",
     ["two genuinely different model families", "same unchanged version", "oscillation"],
   ],
   ["goal-forge-loop", ["SPEC.md", "GOAL.md", "done_when"]],
-  ["ui-ux-score-loop", ["UI/UX Score Loop", "fresh state", "two full passes"]],
+  ["ui-ux-score-loop", ["user flow", "fresh state", "two full passes"]],
   ["cold-load-trimmer-loop", ["transferred bytes", "pixel-identical", "revert"]],
   ["pixel-safe-css-trim-loop", ["one declaration or rule", "pixel-identical", "built CSS"]],
   ["easy-onboarding-loop", ["clean session", "onboarding", "product requirement"]],
   ["accessibility-repair-loop", ["highest-impact blocker", "same checks", "weaken the target"]],
   ["housekeeper-loop", ["dead code", "unused dependencies", "runtime checks"]],
   ["axelrod-subagent-arena-loop", ["Axelrod", "always-defect", "180 rounds"]],
+]);
+const beginnerClarityAnchors = new Map([
+  ["promise-to-proof-loop", ["marketing", "current product behavior", "customer trust"]],
+  ["propagation-compliance-loop", ["old value", "intentionally", "comes back for two rounds"]],
+  ["multi-llm-convergence-loop", ["plan, specification", "same unchanged version", "model family means"]],
+  ["goal-forge-loop", ["SPEC.md describes", "GOAL.md tells", "/goal is Codex's long-running task mode"]],
+  ["ui-ux-score-loop", ["flow means a user goal", "screen size is sometimes called a viewport", "no saved login"]],
+  ["cold-load-trimmer-loop", ["transferred bytes—the amount", "first screen", "screenshots protect only"]],
+  ["pixel-safe-css-trim-loop", ["CSS is the code that controls", "coverage report can suggest", "pixel-identical"]],
+  ["easy-onboarding-loop", ["clean session means", "first-time user", "visible guidance"]],
+  ["accessibility-repair-loop", ["keyboard", "screen-reader", "automated tools can find likely problems"]],
+  ["housekeeper-loop", ["repository means the code project", "dead code, meaning", "Never delete"]],
+  ["axelrod-subagent-arena-loop", ["cooperate (C) or defect (D)", "both cooperate, 3 points each", "cooperation-stability"]],
 ]);
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
@@ -287,6 +300,30 @@ for (const [slug, anchors] of submissionPromptAnchors) {
     assert(
       normalizedPrompt.includes(anchor.toLowerCase()),
       `${slug} must preserve the source-specific prompt anchor: ${anchor}`,
+    );
+  }
+}
+for (const [slug, anchors] of beginnerClarityAnchors) {
+  const loop = loopBySlug.get(slug);
+  const publicCopy = [
+    loop?.summary,
+    loop?.description,
+    loop?.prompt,
+    loop?.verifyTitle,
+    loop?.verifyDetail,
+    loop?.useWhen,
+    ...(loop?.steps ?? []),
+    loop?.why,
+    loop?.note,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  for (const anchor of anchors) {
+    assert(
+      publicCopy.includes(anchor.toLowerCase()),
+      `${slug} must keep the beginner-facing explanation: ${anchor}`,
     );
   }
 }

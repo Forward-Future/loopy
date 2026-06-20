@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output." />
+    <meta name="description" content="A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical." />
     <meta name="author" content="Christian Katzmann" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
@@ -36,10 +36,10 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
     <meta property="og:title" content="Pixel-Safe CSS Reduction Loop | Loop Library" />
-    <meta property="og:description" content="A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output." />
+    <meta property="og:description" content="A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-3.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-3.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-4.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-4.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -48,8 +48,8 @@
     <meta property="article:modified_time" content="2026-06-20" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Pixel-Safe CSS Reduction Loop | Loop Library" />
-    <meta name="twitter:description" content="A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-3.png" />
+    <meta name="twitter:description" content="A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical." />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-4.png" />
     <meta name="twitter:image:alt" content="The pixel-safe CSS trim loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -84,7 +84,7 @@
       "@type": "Article",
       "@id": "https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/#article",
       "headline": "The pixel-safe CSS trim loop",
-      "description": "A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.",
+      "description": "A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical.",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/",
       "datePublished": "2026-06-20",
@@ -100,7 +100,7 @@
       "isBasedOn": "https://github.com/Christian-Katzmann",
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-3.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/pixel-safe-css-trim-loop-20260620-4.png",
         "width": 1200,
         "height": 630
       },
@@ -201,7 +201,7 @@
         <header class="detail-hero">
           <p class="eyebrow">Loop 038</p>
           <h1>The pixel-safe CSS trim loop</h1>
-          <p class="detail-lede">A CSS cleanup workflow that captures the full visual-state matrix before deletion and keeps only changes that shrink built CSS with pixel-identical output.</p>
+          <p class="detail-lede">A stylesheet cleanup workflow that removes one piece of unused or redundant CSS at a time and keeps it removed only when every tested screen looks identical.</p>
           <p class="detail-byline">
             Contributed by <strong>Christian Katzmann</strong> · <a class="detail-source-link" href="https://github.com/Christian-Katzmann" target="_blank" rel="noopener noreferrer">Source</a>
           </p>
@@ -210,7 +210,7 @@
               class="share-action share-action-primary"
               type="button"
               data-copy-social-post
-              data-post-text="Try &quot;The pixel-safe CSS trim loop&quot; from the Loop Library: Removes shipped CSS one verified unit at a time without visual drift."
+              data-post-text="Try &quot;The pixel-safe CSS trim loop&quot; from the Loop Library: Shrinks styling code sent to users while keeping every tested screen visually identical."
               data-post-url="https://signals.forwardfuture.ai/loop-library/loops/pixel-safe-css-trim-loop/"
               aria-label="Copy a social post about The pixel-safe CSS trim loop"
             >
@@ -234,14 +234,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>Reduce shipped CSS without changing any covered visual state. Before deleting anything, capture a representative screenshot matrix and record built CSS size; treat coverage findings as candidates. Remove one declaration or rule, rebuild, and rerun the full matrix and project checks. Keep it only if every screenshot is pixel-identical and the built CSS is smaller; otherwise revert. Repeat until no supported candidate remains or attempts plateau. Return the reduction, evidence, and uncovered browser or state risks.</p>
+            <p data-prompt>Reduce the CSS styling code [site] sends to users without changing tested screens. First capture representative pages, sizes, themes, and interactions, and record the built CSS size. Treat coverage reports only as suggestions. Remove one declaration or rule, rebuild, and rerun screenshots and project checks. Keep it only if every screenshot is pixel-identical and built CSS is smaller; otherwise revert. Stop when no supported candidate remains, progress stalls, or approval is required. Return reduction, evidence, and untested states.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
-              <h2 id="verify-stop">Built CSS shrinks while every covered visual state remains pixel-identical.</h2>
-              <p>The complete screenshot matrix and project checks pass after each retained deletion, the shipped artifact is smaller, and uncovered browsers or states remain explicit risks.</p>
+              <h2 id="verify-stop">The delivered stylesheet is smaller while every tested screen remains pixel-identical.</h2>
+              <p>The same project checks and screenshots pass after each retained deletion, the built CSS file sent to users is smaller, and untested browsers, screens, or interactions remain explicit risks.</p>
             </div>
           </section>
 
@@ -265,27 +265,27 @@
 
               <section aria-labelledby="use-when">
                 <h2 id="use-when">Use this when</h2>
-                <p>Use this when a stylesheet that ships to users contains likely dead declarations, redundant rules, or order-dependent overrides and the complete visual surface can be captured repeatably.</p>
+                <p>Use this when a website&#39;s styling files may contain unused declarations, duplicated rules, or old overrides and representative pages and interactions can be captured in repeatable screenshots.</p>
               </section>
 
               <section aria-labelledby="run-loop">
                 <h2 id="run-loop">How to run it</h2>
                 <ol class="detail-steps">
-                <li>Before deleting anything, list representative pages, templates, viewports, modes, conditional states, hover and focus states, and variants; capture and hash the full screenshot matrix and record built CSS size.</li>
-                <li>Run CSS coverage to generate candidates, then remove one declaration or complete rule in the maintainable source of truth.</li>
-                <li>Rebuild, rerun project checks, render the entire matrix, and keep the deletion only when every screenshot is pixel-identical and the built CSS is smaller; otherwise revert it.</li>
-                <li>Repeat until no supported candidate remains, repeated deletions plateau, the gate cannot cover the affected behavior, or approval is required.</li>
+                <li>Before deleting styling code, list representative pages, screen sizes, light and dark modes, conditional content, hover and keyboard-focus states, and other important variants; capture screenshots and record the final built CSS size.</li>
+                <li>Use a CSS coverage report to suggest declarations or rules that may be unused, then remove one candidate from the maintainable source file.</li>
+                <li>Rebuild, run project checks, and recreate every screenshot; keep the deletion only when all images are pixel-identical and the built CSS is smaller, otherwise revert it.</li>
+                <li>Repeat until no well-supported candidate remains, repeated attempts save nothing, the screenshots cannot cover the affected behavior, or approval is required.</li>
                 </ol>
               </section>
 
               <section aria-labelledby="why-it-works">
                 <h2 id="why-it-works">Why it works</h2>
-                <p>Capturing the visual specification before cleanup prevents missing styles from being normalized into the baseline. Exact image equality and one deletion per round expose order-dependent CSS that coverage tools alone cannot judge.</p>
+                <p>Screenshots taken before cleanup preserve the current appearance as the standard. Exact image comparison and one deletion per round catch visual changes that an automated coverage report cannot understand, including rules that matter only because of their order.</p>
               </section>
 
               <section class="implementation-note" aria-labelledby="implementation-note">
                 <h2 id="implementation-note">Implementation note</h2>
-                <p>The gate cannot protect a browser, interaction, animation, or conditional state it never renders. Add uncertain states before deleting their CSS, make maintainable changes in source, and measure the built artifact users actually download.</p>
+                <p>CSS is the code that controls a page&#39;s appearance. A coverage report can suggest that a rule was not used during one visit, but it cannot prove the rule is unnecessary everywhere. Add uncertain browsers and interaction states before deleting their styles.</p>
               </section>
 
               <nav class="related-loops" aria-labelledby="related-heading">

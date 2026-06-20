@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved." />
+    <meta name="description" content="A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain." />
     <meta name="author" content="@iamTristan" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="theme-color" content="#faf8f7" />
@@ -36,10 +36,10 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Loop Library" />
     <meta property="og:title" content="Repository Propagation Compliance Loop | Loop Library" />
-    <meta property="og:description" content="A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved." />
+    <meta property="og:description" content="A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain." />
     <meta property="og:url" content="https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/" />
-    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-3.png" />
-    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-3.png" />
+    <meta property="og:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-4.png" />
+    <meta property="og:image:secure_url" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-4.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -48,8 +48,8 @@
     <meta property="article:modified_time" content="2026-06-20" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Repository Propagation Compliance Loop | Loop Library" />
-    <meta name="twitter:description" content="A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved." />
-    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-3.png" />
+    <meta name="twitter:description" content="A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain." />
+    <meta name="twitter:image" content="https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-4.png" />
     <meta name="twitter:image:alt" content="The propagation compliance loop — Forward Future Loop Library" />
     <link rel="canonical" href="https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/" />
     <link rel="sitemap" type="application/xml" href="https://signals.forwardfuture.ai/loop-library/sitemap.xml" />
@@ -84,7 +84,7 @@
       "@type": "Article",
       "@id": "https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/#article",
       "headline": "The propagation compliance loop",
-      "description": "A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.",
+      "description": "A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain.",
       "url": "https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/",
       "mainEntityOfPage": "https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/",
       "datePublished": "2026-06-20",
@@ -99,7 +99,7 @@
       ],
       "image": {
         "@type": "ImageObject",
-        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-3.png",
+        "url": "https://signals.forwardfuture.ai/loop-library/assets/social/propagation-compliance-loop-20260620-4.png",
         "width": 1200,
         "height": 630
       },
@@ -200,7 +200,7 @@
         <header class="detail-hero">
           <p class="eyebrow">Loop 033</p>
           <h1>The propagation compliance loop</h1>
-          <p class="detail-lede">A repository consistency workflow that cascades state changes, searches for stale references, and proves that every confirmed discrepancy is resolved.</p>
+          <p class="detail-lede">A consistency check for values copied across a code project: update every affected copy, find leftovers, and prove that only intentional old references remain.</p>
           <p class="detail-byline">
             Contributed by <strong>@iamTristan</strong>
           </p>
@@ -209,7 +209,7 @@
               class="share-action share-action-primary"
               type="button"
               data-copy-social-post
-              data-post-text="Try &quot;The propagation compliance loop&quot; from the Loop Library: Finds and fixes stale references after versions, rules, counts, or configurations change."
+              data-post-text="Try &quot;The propagation compliance loop&quot; from the Loop Library: After one value changes, finds every other place that still shows the old value."
               data-post-url="https://signals.forwardfuture.ai/loop-library/loops/propagation-compliance-loop/"
               aria-label="Copy a social post about The propagation compliance loop"
             >
@@ -233,14 +233,14 @@
                 <span>Copy</span>
               </button>
             </div>
-            <p data-prompt>After changing a version, count, rule, or configuration, update every affected file. Search for the old value and related stale references; distinguish real discrepancies from intentional history, examples, migrations, or compatibility rules. Fix every confirmed discrepancy and rerun the same searches until zero stale values remain. If the same discrepancy survives two rounds, stop and report what appears to be regenerating it. Return the changes and verification output.</p>
+            <p data-prompt>After changing a version, count, rule, name, or configuration, list where the new value belongs and update it. Search the project for the old value and related forms. Review each match: fix real stale values, but keep intentional history, examples, migrations, or compatibility rules. Repeat until zero stale values remain. If one returns for two rounds, stop and identify what may be regenerating it. Return changes, intentional matches, and search output.</p>
           </section>
 
           <section class="verification-card" aria-labelledby="verify-stop">
             <p class="eyebrow">Verify / stop</p>
             <div>
-              <h2 id="verify-stop">The affected repository contains zero confirmed stale values.</h2>
-              <p>The original and related search terms return only intentional matches, and the final search output records why each remaining match is valid.</p>
+              <h2 id="verify-stop">No unintended copy of the old value remains.</h2>
+              <p>The final searches find only references that are intentionally historical or required for examples, migrations, or compatibility, with a reason recorded for each one.</p>
             </div>
           </section>
 
@@ -264,27 +264,27 @@
 
               <section aria-labelledby="use-when">
                 <h2 id="use-when">Use this when</h2>
-                <p>Use this after changing a version, count, rule, configuration value, identifier, or other state that is duplicated across code, documentation, memory, or operational files.</p>
+                <p>Use this after changing something that appears in several files—such as a version number, feature name, count, rule, setting, or identifier—and every copy must stay consistent.</p>
               </section>
 
               <section aria-labelledby="run-loop">
                 <h2 id="run-loop">How to run it</h2>
                 <ol class="detail-steps">
-                <li>Map the state change to every affected file and cascade the new value through the known dependency surface.</li>
-                <li>Search for the old value and related stale forms, treating each match as a candidate rather than automatically rewriting history or compatibility examples.</li>
-                <li>Fix every confirmed discrepancy, rerun the same searches, and record intentional matches with their justification.</li>
-                <li>Continue until zero stale values remain; if the same discrepancy survives two rounds, stop and identify the process that may be regenerating it.</li>
+                <li>List the files, documentation, settings, generated outputs, or operational notes that are expected to copy the changed value.</li>
+                <li>Update the known copies, then search the whole project for the old value, old spelling, and other likely leftover forms.</li>
+                <li>Decide whether each match is truly stale or intentionally preserved history, an example, a migration, or a compatibility rule; fix only the stale matches.</li>
+                <li>Repeat the same searches until no stale match remains; if one comes back for two rounds, stop and identify the generator or process restoring it.</li>
                 </ol>
               </section>
 
               <section aria-labelledby="why-it-works">
                 <h2 id="why-it-works">Why it works</h2>
-                <p>The second search is the important part: it catches propagation gaps that a single update pass misses. Candidate classification also prevents the loop from corrupting intentional historical or compatibility references.</p>
+                <p>The repeat search is the important part: it catches copies missed by the first update. Reviewing each match also prevents a broad replacement from corrupting historical notes, migration code, or examples that intentionally show the old value.</p>
               </section>
 
               <section class="implementation-note" aria-labelledby="implementation-note">
                 <h2 id="implementation-note">Implementation note</h2>
-                <p>The submitted example updates a daily note, HEARTBEAT, TOOLS, and a procedure file, then re-greps old versions until no discrepancy remains. Keep that proof discipline, but adapt the search terms and affected surface to the actual state change.</p>
+                <p>The exact files depend on the change. The original submission used several operational notes and procedure files; another project might need code, tests, documentation, deployment settings, generated files, or all of them.</p>
               </section>
 
               <nav class="related-loops" aria-labelledby="related-heading">
