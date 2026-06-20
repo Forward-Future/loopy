@@ -58,11 +58,11 @@
     />
     <meta
       property="og:image"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-4.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-7.png"
     />
     <meta
       property="og:image:secure_url"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-4.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-7.png"
     />
     <meta property="og:image:type" content="image/png" />
     <meta
@@ -82,7 +82,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-4.png"
+      content="https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-7.png"
     />
     <meta
       name="twitter:image:alt"
@@ -168,7 +168,7 @@
             "dateModified": "2026-06-20",
             "primaryImageOfPage": {
               "@type": "ImageObject",
-              "url": "https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-4.png",
+              "url": "https://signals.forwardfuture.ai/loop-library/assets/social/loop-library-20260620-7.png",
               "width": 1200,
               "height": 630
             },
@@ -180,7 +180,7 @@
             },
             "mainEntity": {
               "@type": "ItemList",
-              "numberOfItems": 42,
+              "numberOfItems": 44,
               "itemListElement": [
                 {
                   "@type": "ListItem",
@@ -433,6 +433,18 @@
                   "position": 42,
                   "name": "The Axelrod subagent arena loop",
                   "url": "https://signals.forwardfuture.ai/loop-library/loops/axelrod-subagent-arena-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 43,
+                  "name": "The prepare-a-new-project loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/prepare-new-project-loop/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 44,
+                  "name": "The test stabilizer loop",
+                  "url": "https://signals.forwardfuture.ai/loop-library/loops/test-stabilizer-loop/"
                 }
               ]
             }
@@ -664,7 +676,7 @@
         </div>
 
         <div class="results-line">
-          <p id="results-count" aria-live="polite">Showing 42 loops</p>
+          <p id="results-count" aria-live="polite">Showing 44 loops</p>
           <time datetime="2026-06-20">Updated June 20, 2026</time>
         </div>
 
@@ -2122,6 +2134,78 @@
                     and total. Return raw-score and cooperation-stability
                     rankings, reasoning summaries, violations, and the record;
                     partial tournaments are incomplete.
+                  </p>
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy loop</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-category="engineering"
+                data-search="prepare new project planning prd technical design tasks acceptance criteria test strategy documentation requirements convergence brad shannon bradshannon"
+              >
+                <td class="cell-loop">
+                  <div class="loop-meta">
+                    <span class="loop-category">Engineering</span>
+                    <span class="loop-attribution">By Brad Shannon (@bradshannon)</span>
+                  </div>
+                  <h3>
+                    <a class="loop-title-link" href="./loops/prepare-new-project-loop/">
+                      The prepare-a-new-project loop
+                    </a>
+                  </h3>
+                  <p class="loop-summary">Strengthens project documents until independent engineers would build substantially the same system.</p>
+                  <p data-prompt>
+                    Prepare [project] for implementation. Ensure its documents
+                    cover requirements, technical design, tasks with acceptance
+                    criteria, and test strategy. Each round, fix the largest gap
+                    or contradiction that could make two competent engineers
+                    build different systems. Keep details traceable, record
+                    assumptions, and ask before product forks. Recheck
+                    consistency, then have two independent reviewers describe
+                    the components, data model, dependencies, and definition of
+                    done. Stop when they materially agree and every artifact is
+                    testable, or a decision needs the user.
+                  </p>
+                </td>
+                <td class="cell-action">
+                  <button class="copy-button" type="button">
+                    <span>Copy loop</span>
+                  </button>
+                </td>
+              </tr>
+
+              <tr
+                class="loop-row"
+                data-copy-root
+                data-category="engineering"
+                data-search="test stabilizer flaky tests repeated suite runs shared state timing ordering external dependency root cause hungtv27 cafeincode"
+              >
+                <td class="cell-loop">
+                  <div class="loop-meta">
+                    <span class="loop-category">Engineering</span>
+                    <span class="loop-attribution">By hungtv27 (@hungtv27)</span>
+                  </div>
+                  <h3>
+                    <a class="loop-title-link" href="./loops/test-stabilizer-loop/">
+                      The test stabilizer loop
+                    </a>
+                  </h3>
+                  <p class="loop-summary">Finds flaky tests, fixes their root causes, and proves stability with repeated full-suite runs.</p>
+                  <p data-prompt>
+                    Run [test suite] [N] times under the same conditions and
+                    list tests whose result changes. Fix the most frequent
+                    flake at its root cause—shared state, timing, ordering, or
+                    an external dependency—never with a blind sleep or retry.
+                    Run that test [N] times, then rerun the full suite. Repeat
+                    until [N] consecutive full-suite runs pass, progress stalls,
+                    or approval is required. Return each flake, root cause, fix,
+                    evidence, and justified quarantine.
                   </p>
                 </td>
                 <td class="cell-action">

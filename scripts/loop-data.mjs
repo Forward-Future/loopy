@@ -7,7 +7,7 @@ export const site = {
   description:
     "Practical AI agent workflows for engineering, research, editorial work, evaluation, and operations.",
   updated: "2026-06-20",
-  socialImageVersion: "20260620-4",
+  socialImageVersion: "20260620-7",
   socialImageExtension: "png",
   socialImageMimeType: "image/png",
 };
@@ -1718,6 +1718,90 @@ export const loops = [
       "reasoning subagent evaluation",
     ],
     related: ["boeing-747-benchmark", "full-product-evaluation-loop"],
+  },
+  {
+    number: "043",
+    slug: "prepare-new-project-loop",
+    title: "The prepare-a-new-project loop",
+    summary:
+      "Strengthens project documents until independent engineers would build substantially the same system.",
+    seoTitle: "Prepare a New Project Documentation Loop | Loop Library",
+    description:
+      "A planning workflow that closes documentation gaps until requirements, technical design, acceptance criteria, and test strategy describe one buildable system.",
+    categoryLabel: "AI coding agent workflow",
+    author: "Brad Shannon (@bradshannon)",
+    published: "2026-06-20",
+    modified: "2026-06-20",
+    prompt:
+      "Prepare [project] for implementation. Ensure its documents cover requirements, technical design, tasks with acceptance criteria, and test strategy. Each round, fix the largest gap or contradiction that could make two competent engineers build different systems. Keep details traceable, record assumptions, and ask before product forks. Recheck consistency, then have two independent reviewers describe the components, data model, dependencies, and definition of done. Stop when they materially agree and every artifact is testable, or a decision needs the user.",
+    verifyTitle:
+      "Two independent reviewers derive substantially the same build from the project documents.",
+    verifyDetail:
+      "Their descriptions agree on the components, data model, dependencies, and definition of done, and every required artifact is specific, consistent, traceable, and testable.",
+    useWhen:
+      "Use this before building a new software project when its idea or early documents still leave important implementation decisions open to interpretation.",
+    steps: [
+      "Inventory the current project documents and identify the missing requirements, technical design, task breakdown, acceptance criteria, or test strategy needed before implementation.",
+      "Find the single largest gap, contradiction, or vague requirement that could make competent engineers build different systems, then close it with concrete detail traceable to a stated requirement.",
+      "Record assumptions that can be made safely, ask the user about genuine product forks, and recheck every edited document against the others for consistency.",
+      "Have two independent reviewers describe the intended components, data model, dependencies, and definition of done; repeat until their descriptions materially agree or a required decision blocks progress.",
+    ],
+    why:
+      "A concrete convergence test exposes ambiguity that a single author may read past. Fixing one divergence at a time keeps the documents coherent and turns project preparation into evidence that another engineer can follow rather than a pile of planning text.",
+    note:
+      "Do not add detail merely to make the documents longer or invent product requirements to force agreement. Keep every claim tied to a stated requirement, record assumptions, and return unresolved product choices to the user.",
+    keywords: [
+      "project planning loop",
+      "build ready documentation",
+      "technical design review",
+      "requirements convergence",
+      "software project preparation",
+    ],
+    related: [
+      "goal-forge-loop",
+      "multi-llm-convergence-loop",
+      "codex-completion-contract-loop",
+    ],
+  },
+  {
+    number: "044",
+    slug: "test-stabilizer-loop",
+    title: "The test stabilizer loop",
+    summary:
+      "Finds flaky tests, fixes their root causes, and proves stability with repeated full-suite runs.",
+    seoTitle: "Flaky Test Stabilizer Loop | Loop Library",
+    description:
+      "A flaky-test repair workflow that measures inconsistent results, fixes one root cause at a time, and stops after a defined streak of stable full-suite runs.",
+    categoryLabel: "AI coding agent workflow",
+    author: "hungtv27 (@hungtv27)",
+    published: "2026-06-20",
+    modified: "2026-06-20",
+    prompt:
+      "Run [test suite] [N] times under the same conditions and list tests whose result changes. Fix the most frequent flake at its root cause—shared state, timing, ordering, or an external dependency—never with a blind sleep or retry. Run that test [N] times, then rerun the full suite. Repeat until [N] consecutive full-suite runs pass, progress stalls, or approval is required. Return each flake, root cause, fix, evidence, and justified quarantine.",
+    verifyTitle:
+      "The full test suite passes for the required consecutive-run streak.",
+    verifyDetail:
+      "The repaired test passes repeatedly, [N] consecutive full-suite runs are green under the recorded conditions, and no blind sleep or retry hides an unresolved cause.",
+    useWhen:
+      "Use this when a test suite produces inconsistent results across otherwise comparable runs and the failures may come from shared state, timing, ordering, or external dependencies.",
+    steps: [
+      "Choose the test suite, the required run count, and the conditions that must stay fixed, then run the complete suite repeatedly and record every inconsistent test.",
+      "Select the most frequent flake, reproduce it as narrowly as practical, and identify the underlying shared-state, timing, ordering, or dependency failure.",
+      "Fix the test or product code without adding a blind sleep or retry, then run the affected test repeatedly before returning to the complete suite.",
+      "Repeat until the required number of consecutive full-suite runs pass, progress stalls, or approval is needed, and report every root cause, fix, quarantine, and remaining blocker.",
+    ],
+    why:
+      "Repeated runs turn intermittent failures into measurable evidence. Repairing the most frequent flake first and requiring a full-suite streak prevents a local fix from hiding another source of instability.",
+    note:
+      "Choose [N] before the first run and keep the environment comparable. Quarantine is a visible temporary containment step, not proof of repair; record its reason and do not report the suite as fully stabilized while unresolved tests remain quarantined.",
+    keywords: [
+      "flaky test repair",
+      "test suite stabilization",
+      "intermittent test failures",
+      "test reliability loop",
+      "root cause testing",
+    ],
+    related: ["quality-streak-loop", "test-suite-speed-loop"],
   },
 ];
 

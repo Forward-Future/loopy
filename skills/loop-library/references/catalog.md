@@ -387,3 +387,21 @@ URL above.
 - Verify: All 18 matches and 180 rounds can be reproduced from the recorded moves and fixed scoring rules. Each agent chooses before seeing the opponent's move, every move is recorded before scoring, totals reproduce from the full history, invalid responses are logged, and any partial or invalid tournament remains explicitly incomplete.
 - Keywords: Axelrod tournament, Iterated Prisoner's Dilemma, multi agent benchmark, agent cooperation, reasoning subagent evaluation
 - Related: [The Boeing 747 benchmark](https://signals.forwardfuture.ai/loop-library/loops/boeing-747-benchmark/), [The full product evaluation loop](https://signals.forwardfuture.ai/loop-library/loops/full-product-evaluation-loop/)
+
+## 043 — [The prepare-a-new-project loop](https://signals.forwardfuture.ai/loop-library/loops/prepare-new-project-loop/)
+
+- Category: Engineering
+- Use when: Use this before building a new software project when its idea or early documents still leave important implementation decisions open to interpretation.
+- Prompt: Prepare [project] for implementation. Ensure its documents cover requirements, technical design, tasks with acceptance criteria, and test strategy. Each round, fix the largest gap or contradiction that could make two competent engineers build different systems. Keep details traceable, record assumptions, and ask before product forks. Recheck consistency, then have two independent reviewers describe the components, data model, dependencies, and definition of done. Stop when they materially agree and every artifact is testable, or a decision needs the user.
+- Verify: Two independent reviewers derive substantially the same build from the project documents. Their descriptions agree on the components, data model, dependencies, and definition of done, and every required artifact is specific, consistent, traceable, and testable.
+- Keywords: project planning loop, build ready documentation, technical design review, requirements convergence, software project preparation
+- Related: [The Goal Forge loop](https://signals.forwardfuture.ai/loop-library/loops/goal-forge-loop/), [The multi-LLM convergence loop](https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/), [The Codex completion-contract loop](https://signals.forwardfuture.ai/loop-library/loops/codex-completion-contract-loop/)
+
+## 044 — [The test stabilizer loop](https://signals.forwardfuture.ai/loop-library/loops/test-stabilizer-loop/)
+
+- Category: Engineering
+- Use when: Use this when a test suite produces inconsistent results across otherwise comparable runs and the failures may come from shared state, timing, ordering, or external dependencies.
+- Prompt: Run [test suite] [N] times under the same conditions and list tests whose result changes. Fix the most frequent flake at its root cause—shared state, timing, ordering, or an external dependency—never with a blind sleep or retry. Run that test [N] times, then rerun the full suite. Repeat until [N] consecutive full-suite runs pass, progress stalls, or approval is required. Return each flake, root cause, fix, evidence, and justified quarantine.
+- Verify: The full test suite passes for the required consecutive-run streak. The repaired test passes repeatedly, [N] consecutive full-suite runs are green under the recorded conditions, and no blind sleep or retry hides an unresolved cause.
+- Keywords: flaky test repair, test suite stabilization, intermittent test failures, test reliability loop, root cause testing
+- Related: [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/), [The test-suite speed loop](https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/)

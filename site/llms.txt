@@ -35,4 +35,4 @@ For guided finding, auditing, repairing, adapting, and designing loops:
 
 `npx skills add Forward-Future/loop-library --skill loop-library -g`
 
-Catalog updated 2026-06-20. Published loops: 42.
+Catalog updated 2026-06-20. Published loops: 44.

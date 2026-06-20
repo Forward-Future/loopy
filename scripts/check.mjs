@@ -204,6 +204,8 @@ const requestedConceptSlugs = [
   "accessibility-repair-loop",
   "housekeeper-loop",
   "axelrod-subagent-arena-loop",
+  "prepare-new-project-loop",
+  "test-stabilizer-loop",
 ];
 const submissionPromptAnchors = new Map([
   ["ticket-to-pr-ready-loop", ["bug report", "customer complaint"]],
@@ -238,6 +240,8 @@ const submissionPromptAnchors = new Map([
   ["accessibility-repair-loop", ["highest-impact blocker", "same checks", "weaken the target"]],
   ["housekeeper-loop", ["dead code", "unused dependencies", "runtime checks"]],
   ["axelrod-subagent-arena-loop", ["Axelrod", "always-defect", "180 rounds"]],
+  ["prepare-new-project-loop", ["two competent engineers", "traceable", "product forks"]],
+  ["test-stabilizer-loop", ["[N] times", "root cause", "blind sleep or retry"]],
 ]);
 const beginnerClarityAnchors = new Map([
   ["promise-to-proof-loop", ["marketing", "current product behavior", "customer trust"]],
@@ -251,6 +255,8 @@ const beginnerClarityAnchors = new Map([
   ["accessibility-repair-loop", ["keyboard", "screen-reader", "automated tools can find likely problems"]],
   ["housekeeper-loop", ["repository means the code project", "dead code, meaning", "Never delete"]],
   ["axelrod-subagent-arena-loop", ["cooperate (C) or defect (D)", "both cooperate, 3 points each", "cooperation-stability"]],
+  ["prepare-new-project-loop", ["requirements", "independent reviewers", "decision needs the user"]],
+  ["test-stabilizer-loop", ["shared state", "consecutive full-suite runs", "justified quarantine"]],
 ]);
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
@@ -268,7 +274,7 @@ assert.deepEqual(agentLoopTerm.sameAs, [
   "https://code.claude.com/docs/en/agent-sdk/agent-loop",
   "https://arxiv.org/abs/2210.03629",
 ]);
-assert.equal(loops.length, 42);
+assert.equal(loops.length, 44);
 assert.equal(slugs.size, loops.length);
 assert.equal(featuredLoopSlugs.length, 3);
 assert.equal(new Set(featuredLoopSlugs).size, featuredLoopSlugs.length);
@@ -297,7 +303,9 @@ const invalidRelatedLoops = structuredClone(loops);
 invalidRelatedLoops.at(-1).related = ["missing-review-fixture"];
 assert.throws(
   () => validateLoopData(invalidRelatedLoops),
-  /axelrod-subagent-arena-loop references unknown related loop: missing-review-fixture/,
+  new RegExp(
+    `${loops.at(-1).slug} references unknown related loop: missing-review-fixture`,
+  ),
 );
 for (const [slug, anchors] of submissionPromptAnchors) {
   const prompt = loopBySlug.get(slug)?.prompt ?? "";

@@ -472,4 +472,26 @@
     </author>
     <summary>A controlled tournament where two reasoning AI agents repeatedly choose to cooperate or defect, then are compared with players that always make one choice.</summary>
   </entry>
+  <entry>
+    <title>The prepare-a-new-project loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/prepare-new-project-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/prepare-new-project-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Brad Shannon (@bradshannon)</name>
+    </author>
+    <summary>A planning workflow that closes documentation gaps until requirements, technical design, acceptance criteria, and test strategy describe one buildable system.</summary>
+  </entry>
+  <entry>
+    <title>The test stabilizer loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/test-stabilizer-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/test-stabilizer-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>hungtv27 (@hungtv27)</name>
+    </author>
+    <summary>A flaky-test repair workflow that measures inconsistent results, fixes one root cause at a time, and stops after a defined streak of stable full-suite runs.</summary>
+  </entry>
 </feed>
