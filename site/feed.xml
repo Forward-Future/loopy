@@ -494,4 +494,15 @@
     </author>
     <summary>A flaky-test repair workflow that measures inconsistent results, fixes one root cause at a time, and stops after a defined streak of stable full-suite runs.</summary>
   </entry>
+  <entry>
+    <title>The artifact-to-skill loop</title>
+    <id>https://signals.forwardfuture.ai/loop-library/loops/artifact-to-skill-loop/</id>
+    <link href="https://signals.forwardfuture.ai/loop-library/loops/artifact-to-skill-loop/" />
+    <published>2026-06-20T00:00:00-07:00</published>
+    <updated>2026-06-20T00:00:00-07:00</updated>
+    <author>
+      <name>Hiten Shah (@hnshah)</name>
+    </author>
+    <summary>A reusable workflow for turning one proven artifact into a transferable skill, playbook, or procedure and validating it on a second case.</summary>
+  </entry>
 </feed>

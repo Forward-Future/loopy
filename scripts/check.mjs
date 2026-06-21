@@ -242,6 +242,10 @@ const submissionPromptAnchors = new Map([
   ["axelrod-subagent-arena-loop", ["Axelrod", "always-defect", "180 rounds"]],
   ["prepare-new-project-loop", ["two competent engineers", "traceable", "product forks"]],
   ["test-stabilizer-loop", ["[N] times", "root cause", "blind sleep or retry"]],
+  [
+    "artifact-to-skill-loop",
+    ["evidence that the artifact succeeded", "fresh real second case", "not generalizable"],
+  ],
 ]);
 const beginnerClarityAnchors = new Map([
   ["promise-to-proof-loop", ["marketing", "current product behavior", "customer trust"]],
@@ -257,6 +261,10 @@ const beginnerClarityAnchors = new Map([
   ["axelrod-subagent-arena-loop", ["cooperate (C) or defect (D)", "both cooperate, 3 points each", "cooperation-stability"]],
   ["prepare-new-project-loop", ["requirements", "independent reviewers", "decision needs the user"]],
   ["test-stabilizer-loop", ["shared state", "consecutive full-suite runs", "justified quarantine"]],
+  [
+    "artifact-to-skill-loop",
+    ["surface style", "hypothetical", "hidden context"],
+  ],
 ]);
 
 assert.equal(collection.mainEntity.numberOfItems, loops.length);
@@ -274,7 +282,7 @@ assert.deepEqual(agentLoopTerm.sameAs, [
   "https://code.claude.com/docs/en/agent-sdk/agent-loop",
   "https://arxiv.org/abs/2210.03629",
 ]);
-assert.equal(loops.length, 44);
+assert.equal(loops.length, 45);
 assert.equal(slugs.size, loops.length);
 assert.equal(featuredLoopSlugs.length, 3);
 assert.equal(new Set(featuredLoopSlugs).size, featuredLoopSlugs.length);

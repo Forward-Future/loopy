@@ -405,3 +405,12 @@ URL above.
 - Verify: The full test suite passes for the required consecutive-run streak. The repaired test passes repeatedly, [N] consecutive full-suite runs are green under the recorded conditions, and no blind sleep or retry hides an unresolved cause.
 - Keywords: flaky test repair, test suite stabilization, intermittent test failures, test reliability loop, root cause testing
 - Related: [The quality streak loop](https://signals.forwardfuture.ai/loop-library/loops/quality-streak-loop/), [The test-suite speed loop](https://signals.forwardfuture.ai/loop-library/loops/test-suite-speed-loop/)
+
+## 045 — [The artifact-to-skill loop](https://signals.forwardfuture.ai/loop-library/loops/artifact-to-skill-loop/)
+
+- Category: Evaluation
+- Use when: Use this when a completed artifact has evidence of success, appears to contain a repeatable method, and similar work is likely to recur.
+- Prompt: Turn [artifact] into a reusable skill, playbook, or procedure. Record evidence that the artifact succeeded and define quality criteria. Extract durable decisions, sequence, checks, and failure-avoidance patterns—not one-off context or surface style. Remove sensitive material. Have an independent reviewer apply the method to a fresh real second case; mark hypothetical testing provisional. Revise at most twice. Stop when it meets the criteria without the source, or report not generalizable. Return the method, evidence, revisions, limits, and attribution.
+- Verify: The extracted method succeeds on a fresh second case without the original artifact. An independent reviewer applies the reusable version under criteria defined before extraction, and the second result meets the source artifact's demonstrated quality bar or the method is honestly marked provisional or not generalizable.
+- Keywords: artifact to skill, knowledge extraction workflow, reusable playbook, skill validation, second case test
+- Related: [The multi-LLM convergence loop](https://signals.forwardfuture.ai/loop-library/loops/multi-llm-convergence-loop/), [The self-improving champion loop](https://signals.forwardfuture.ai/loop-library/loops/self-improving-champion-loop/), [The prepare-a-new-project loop](https://signals.forwardfuture.ai/loop-library/loops/prepare-new-project-loop/)
