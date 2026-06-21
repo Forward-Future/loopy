@@ -916,6 +916,11 @@ assert(
 assert(html.includes("Use Loop Library in your coding agent."));
 assert(html.includes('href="./agents/"'));
 assert(html.includes("Send an agent to the live guide"));
+const skillPromoHtml = html.slice(
+  html.indexOf('id="agent-skill"'),
+  html.indexOf("</section>", html.indexOf('id="agent-skill"')),
+);
+assert(!skillPromoHtml.includes("Agent guide"));
 assert(
   html.includes(
     "npx skills add Forward-Future/loop-library --skill loop-library",
