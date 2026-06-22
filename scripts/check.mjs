@@ -119,6 +119,17 @@ for (const value of [
   assert(html.includes(value), value);
 }
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
+for (const page of [html, learnHtml, agentHtml]) {
+  const brandPosition = page.indexOf('class="brand-lockup"');
+  const creditPosition = page.indexOf(
+    'class="here-now-credit here-now-credit--header"',
+  );
+  const navPosition = page.indexOf('class="site-nav"');
+  assert(brandPosition < creditPosition && creditPosition < navPosition);
+}
+assert(
+  css.includes("grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);"),
+);
 assert(learnHtml.includes("How agent loops work"));
 assert(agentHtml.includes("For AI agents"));
 assert(css.includes(".loop-row"));
