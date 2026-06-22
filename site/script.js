@@ -73,7 +73,12 @@ const loopTableBody = document.querySelector(".loop-table tbody");
 const loopRowPositions = new Map(
   loopRows.map((row, index) => [row, index]),
 );
-const SORT_OPTIONS = new Set(["featured", "newest", "alphabetical"]);
+const SORT_OPTIONS = new Set([
+  "featured",
+  "newest",
+  "oldest",
+  "alphabetical",
+]);
 
 let activeSort = "featured";
 
@@ -91,6 +96,18 @@ function compareNewest(a, b) {
   }
 
   return loopRowPositions.get(b) - loopRowPositions.get(a);
+}
+
+function compareOldest(a, b) {
+  const publishedDifference = (a.dataset.published ?? "").localeCompare(
+    b.dataset.published ?? "",
+  );
+
+  if (publishedDifference !== 0) {
+    return publishedDifference;
+  }
+
+  return loopRowPositions.get(a) - loopRowPositions.get(b);
 }
 
 function compareFeatured(a, b) {
@@ -123,7 +140,11 @@ function applySort(sort) {
       });
     }
 
-    return activeSort === "newest" ? compareNewest(a, b) : compareFeatured(a, b);
+    if (activeSort === "newest") {
+      return compareNewest(a, b);
+    }
+
+    return activeSort === "oldest" ? compareOldest(a, b) : compareFeatured(a, b);
   });
 
   if (loopTableBody) {
