@@ -120,6 +120,7 @@ for (const value of [
 }
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 for (const page of [html, learnHtml, agentHtml]) {
+  assert(page.includes("styles.css?v=20260622-centered-host-credit"));
   const brandPosition = page.indexOf('class="brand-lockup"');
   const creditPosition = page.indexOf(
     'class="here-now-credit here-now-credit--header"',
