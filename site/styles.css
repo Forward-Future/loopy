@@ -141,10 +141,10 @@ code {
   position: sticky;
   z-index: 20;
   top: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   min-height: 64px;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   padding: 0 var(--page-pad);
   border-bottom: 1px solid var(--ink);
@@ -154,6 +154,7 @@ code {
 
 .brand-lockup {
   display: flex;
+  justify-self: start;
   align-items: center;
   gap: 10px;
   text-decoration: none;
@@ -180,10 +181,12 @@ code {
 
 .site-nav {
   display: flex;
+  justify-self: end;
   align-items: center;
-  gap: clamp(16px, 2.5vw, 32px);
+  gap: clamp(12px, 1.6vw, 24px);
   font-size: 0.86rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .site-nav a {
@@ -331,6 +334,10 @@ code {
 
 .here-now-credit--footer {
   color: var(--light);
+}
+
+.here-now-credit--header {
+  justify-self: center;
 }
 
 .here-now-credit--footer .here-now-credit__icon {
@@ -1881,19 +1888,18 @@ code {
   }
 
   .site-header {
-    flex-wrap: wrap;
     padding-top: 8px;
     row-gap: 0;
   }
 
-  .site-nav > a:not(.nav-cta):not(.here-now-credit) {
+  .site-nav > a:not(.nav-cta) {
     display: none;
   }
 
   .mobile-site-nav {
     display: flex;
+    grid-column: 1 / -1;
     width: 100%;
-    flex: 0 0 100%;
     align-items: center;
     justify-content: center;
     gap: clamp(28px, 8vw, 64px);
@@ -2111,6 +2117,25 @@ code {
 }
 
 @media (max-width: 620px) {
+  .site-header {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .here-now-credit--header {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding-top: 6px;
+  }
+
+  .site-nav {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .mobile-site-nav {
+    grid-row: 3;
+  }
+
   .brand-name {
     display: none;
   }
