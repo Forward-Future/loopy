@@ -100,6 +100,16 @@ if (loopTableBody) {
   loopRows.forEach((row) => loopTableBody.append(row));
 }
 
+// Snapshot each row's searchable text before the prompt toggle is injected
+// below. Read the loop content rather than the whole row so search does not
+// match interface controls such as "Copy loop" or "Show more".
+const rowSearchText = new Map(
+  loopRows.map((row) => {
+    const content = row.querySelector(".cell-loop") ?? row;
+    return [row, normalize(`${row.dataset.search ?? ""} ${content.textContent}`)];
+  }),
+);
+
 const promptPreviews = loopRows
   .map((row, index) => {
     const prompt = row.querySelector("[data-prompt]");
@@ -173,9 +183,9 @@ function updateLibrary() {
 
   const query = normalize(searchInput.value);
   const matchingRows = loopRows.filter((row) => {
-    const searchableText = `${row.dataset.search} ${row.textContent}`;
+    const searchableText = rowSearchText.get(row) ?? "";
     const matchesSearch =
-      query.length === 0 || normalize(searchableText).includes(query);
+      query.length === 0 || searchableText.includes(query);
     const matchesCategory =
       activeCategory === "all" || row.dataset.category === activeCategory;
     return matchesSearch && matchesCategory;
