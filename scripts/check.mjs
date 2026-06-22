@@ -108,6 +108,7 @@ for (const value of [
   'id="library"',
   'id="submit"',
   'id="loop-search"',
+  'id="loop-sort"',
   'id="library-pagination"',
   'name="loop-library-form-api"',
   "https://signals.forwardfuture.ai/loop-library/catalog.json",
@@ -121,7 +122,10 @@ assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 assert(learnHtml.includes("How agent loops work"));
 assert(agentHtml.includes("For AI agents"));
 assert(css.includes(".loop-row"));
+assert(css.includes(".sort-control"));
 assert(browserScript.includes("data-category-filter"));
+assert(browserScript.includes('sortSelect.addEventListener("change"'));
+assert(browserScript.includes('params.set("sort", activeSort)'));
 assert(browserScript.includes("library-pagination"));
 assert(!browserScript.includes("innerHTML"));
 

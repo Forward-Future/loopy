@@ -59,6 +59,7 @@ const loopRows = [...document.querySelectorAll(".loop-row")];
 const categoryFilters = [
   ...document.querySelectorAll("[data-category-filter]"),
 ];
+const sortSelect = document.querySelector("#loop-sort");
 const resultsCount = document.querySelector("#results-count");
 const emptyState = document.querySelector("#empty-state");
 const pagination = document.querySelector("#library-pagination");
@@ -72,7 +73,27 @@ const loopTableBody = document.querySelector(".loop-table tbody");
 const loopRowPositions = new Map(
   loopRows.map((row, index) => [row, index]),
 );
-loopRows.sort((a, b) => {
+const SORT_OPTIONS = new Set(["featured", "newest", "alphabetical"]);
+
+let activeSort = "featured";
+
+function rowTitle(row) {
+  return normalize(row.querySelector(".loop-title-link")?.textContent ?? "");
+}
+
+function compareNewest(a, b) {
+  const publishedDifference = (b.dataset.published ?? "").localeCompare(
+    a.dataset.published ?? "",
+  );
+
+  if (publishedDifference !== 0) {
+    return publishedDifference;
+  }
+
+  return loopRowPositions.get(b) - loopRowPositions.get(a);
+}
+
+function compareFeatured(a, b) {
   const featuredDifference =
     Number(b.dataset.featured === "true") -
     Number(a.dataset.featured === "true");
@@ -82,23 +103,35 @@ loopRows.sort((a, b) => {
   }
 
   if (a.dataset.featured === "true") {
-    return 0;
+    return loopRowPositions.get(a) - loopRowPositions.get(b);
   }
 
-  const publishedDifference = b.dataset.published.localeCompare(
-    a.dataset.published,
-  );
-
-  if (publishedDifference !== 0) {
-    return publishedDifference;
-  }
-
-  return loopRowPositions.get(b) - loopRowPositions.get(a);
-});
-
-if (loopTableBody) {
-  loopRows.forEach((row) => loopTableBody.append(row));
+  return compareNewest(a, b);
 }
+
+function applySort(sort) {
+  activeSort = SORT_OPTIONS.has(sort) ? sort : "featured";
+
+  if (sortSelect) {
+    sortSelect.value = activeSort;
+  }
+
+  loopRows.sort((a, b) => {
+    if (activeSort === "alphabetical") {
+      return rowTitle(a).localeCompare(rowTitle(b), undefined, {
+        sensitivity: "base",
+      });
+    }
+
+    return activeSort === "newest" ? compareNewest(a, b) : compareFeatured(a, b);
+  });
+
+  if (loopTableBody) {
+    loopRows.forEach((row) => loopTableBody.append(row));
+  }
+}
+
+applySort(activeSort);
 
 // Snapshot each row's searchable text before the prompt toggle is injected
 // below. Read the loop content rather than the whole row so search does not
@@ -250,6 +283,12 @@ function syncUrlState(method = "replace") {
     params.delete("category");
   }
 
+  if (activeSort !== "featured") {
+    params.set("sort", activeSort);
+  } else {
+    params.delete("sort");
+  }
+
   if (currentPage > 1) {
     params.set("page", String(currentPage));
   } else {
@@ -281,6 +320,7 @@ function readUrlState() {
   }
 
   applyCategory(params.get("category") ?? "all");
+  applySort(params.get("sort") ?? "featured");
 
   const requestedPage = Number.parseInt(params.get("page") ?? "1", 10);
   currentPage =
@@ -336,6 +376,15 @@ categoryFilters.forEach((filter) => {
     syncUrlState("push");
   });
 });
+
+if (sortSelect) {
+  sortSelect.addEventListener("change", () => {
+    applySort(sortSelect.value);
+    currentPage = 1;
+    updateLibrary();
+    syncUrlState("push");
+  });
+}
 
 const clearFiltersButton = document.querySelector("#clear-filters");
 
