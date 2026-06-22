@@ -5,7 +5,7 @@ Loop Library has two separate but related parts in this repository:
 | Part | What it is | Where it lives |
 | --- | --- | --- |
 | **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.ai/loop-library/) · shell in [`site/`](site/), database and rendering in [`worker/`](worker/) |
-| **Loop Library skill** | An optional installable guide that helps an AI agent find, audit, repair, adapt, or design loops through conversation. It uses the website's live catalog when recommending published loops. | source in [`skills/loop-library/`](skills/loop-library/) |
+| **Loop Library skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, adapt, or design loops through conversation. It uses the website's live catalog when recommending published loops. | source in [`skills/loop-library/`](skills/loop-library/) |
 
 The website is the library; the skill is a companion way to work with it. You
 can browse or give an agent the website without installing the skill. Installing
@@ -69,6 +69,8 @@ moment to hand control back to a person when judgment or approval is needed.
 The Loop Library skill gives your agent direct access to the ideas in the
 library. You can use it to:
 
+- Discover repeated work in a codebase, coding threads, or both and turn the
+  strongest qualified candidate into a loop.
 - Find a published loop that fits what you are trying to get done.
 - Audit an existing loop for weak checks, unsafe actions, or unclear stopping
   behavior, then repair only the material problems.
@@ -134,13 +136,20 @@ You can also describe a matching task normally. These agents can load the
 skill automatically when your request clearly calls for it, but explicit
 invocation is the most predictable way to start.
 
+For example, in Codex you can write:
+
+```text
+$loop-library Analyze this codebase and my coding threads for repeated work, then turn the strongest candidate into a reliable loop.
+```
+
 ## Use Loop Library
 
 You do not need to know loop terminology. Invoke the skill and say what you
-want to get done. It can take four paths:
+want to get done. It can take five paths:
 
 | Path | What it does | Example request |
 | --- | --- | --- |
+| **Discover** | Inspects an authorized codebase, coding-thread history, or both for repeated work, then turns the strongest qualified candidate into a bounded loop. | `Analyze this repository and my coding threads for work we have done more than once. Turn the best candidate into a loop.` |
 | **Find** | Searches the live catalog and recommends up to three published loops. It does not run them. | `Find a published loop for keeping our documentation current.` |
 | **Loop Doctor** | Audits a loop you paste or name, explains material weaknesses, and repairs only those problems. | `Audit this loop and repair only material problems: [paste loop]` |
 | **Adapt** | Tailors a useful loop to your real tools, limits, schedule, and definition of success. | `Adapt the Overnight Docs Sweep to this repository and our existing checks.` |
@@ -157,6 +166,28 @@ In Codex, choose **Loop Library** from `/skills`, then send:
 ```text
 Find a loop for improving test reliability.
 ```
+
+### Discover loops from your work
+
+Discovery looks for recurring engineering work in the sources you put in
+scope. In a codebase, that can include scripts, CI and deployment configuration,
+tests, runbooks, maintenance commands, and repeated lifecycle patterns. In
+coding threads, it groups equivalent completed work even when the wording
+differs.
+
+The skill requires at least two distinct thread occurrences before calling work
+repeated. A code pattern without run history is labeled as a potential loop, not
+proven recurrence. It then checks whether fresh feedback can change the next
+action, whether success can be verified, and whether the work has clear limits,
+stopping behavior, and approval boundaries. It also checks the live catalog to
+avoid recreating an existing loop.
+
+The skill can inspect only repositories and coding threads that your agent can
+access and that you place in scope. If thread history is unavailable, it uses
+the codebase evidence and says so. A discovery result includes compact source
+evidence and either a new loop, an adaptation of a published loop, a short
+candidate slate when your choice matters, or a clean no-op when nothing truly
+fits.
 
 When the skill finds or creates the right loop, it gives you a prompt to use
 with your agent. Review any placeholders, then ask the agent to run that prompt

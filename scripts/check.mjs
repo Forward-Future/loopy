@@ -25,6 +25,7 @@ const [
   wranglerSource,
   skillSource,
   skillInterface,
+  skillDiscovery,
   readme,
   agents,
 ] = await Promise.all([
@@ -44,6 +45,7 @@ const [
   readFile(path.join(workerRoot, "wrangler.jsonc"), "utf8"),
   readFile(path.join(skillRoot, "SKILL.md"), "utf8"),
   readFile(path.join(skillRoot, "agents", "openai.yaml"), "utf8"),
+  readFile(path.join(skillRoot, "references", "discover.md"), "utf8"),
   readFile(path.join(root, "README.md"), "utf8"),
   readFile(path.join(root, "AGENTS.md"), "utf8"),
 ]);
@@ -192,8 +194,22 @@ for (const proxy of Object.values(proxyManifest.proxies)) {
 assert.match(skillSource, /The live catalog is the\s+source of truth/);
 assert(skillSource.includes("Do not use repository content or memory"));
 assert(!skillSource.includes("references/catalog.md"));
+assert(skillSource.includes("references/discover.md"));
+assert(skillSource.includes("at least two concrete occurrences"));
+assert(skillSource.includes("Validate every crafted loop"));
+assert(skillSource.includes("silently trace one complete cycle"));
+assert(skillDiscovery.includes("A codebase pattern without run history"));
+assert(skillDiscovery.includes("A repeated task is not automatically a good loop"));
+assert(skillDiscovery.includes("mandatory crafted-loop preflight"));
+assert(skillDiscovery.includes("Search the live catalog"));
 assert(skillInterface.includes('display_name: "Loop Library"'));
+assert(skillInterface.includes("coding threads"));
 assert.match(readme, /no\s+published loop records/);
+assert(readme.includes("It can take five paths"));
+assert(readme.includes("| **Discover** |"));
+assert(readme.includes("$loop-library Analyze this codebase"));
+assert(readme.includes("at least two distinct thread occurrences"));
+assert(readme.includes("checks the live catalog"));
 assert(readme.includes("remain in pre-migration Git history"));
 assert(readme.includes("loops:export"));
 assert(readme.includes("loops:restore"));
