@@ -757,6 +757,10 @@ code {
   outline-offset: 2px;
 }
 
+.sort-control select.is-pointer-focused:focus {
+  outline: none;
+}
+
 .copy-button {
   border: 1px solid var(--ink);
   color: var(--ink);

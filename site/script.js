@@ -82,6 +82,18 @@ const SORT_OPTIONS = new Set([
 
 let activeSort = "featured";
 
+if (sortSelect) {
+  sortSelect.addEventListener("pointerdown", () => {
+    sortSelect.classList.add("is-pointer-focused");
+  });
+  sortSelect.addEventListener("keydown", () => {
+    sortSelect.classList.remove("is-pointer-focused");
+  });
+  sortSelect.addEventListener("blur", () => {
+    sortSelect.classList.remove("is-pointer-focused");
+  });
+}
+
 function rowTitle(row) {
   return normalize(row.querySelector(".loop-title-link")?.textContent ?? "");
 }
