@@ -308,12 +308,12 @@ browser-nonce-bound state value and a no-store callback bridge. The bridge saves
 the signed session token in tab-scoped `sessionStorage`; session lookup and vote
 writes send it only inside same-origin JSON request bodies.
 
-The production launch is fail-closed. Keep `VOTING_UI_ENABLED=false` while the
-Worker and proxy are deployed, then complete a GitHub login, nonce-bound
-callback, session, vote, reload, and logout smoke test on the canonical domain.
-Set the value to the
-exact string `true` and redeploy only the Worker after the smoke test passes;
-the already-published site will reveal voting without another site publish.
+Auth and proxy changes use a fail-closed staged rollout. Temporarily set
+`VOTING_UI_ENABLED=false` while the Worker and proxy are deployed, then complete
+a GitHub login, nonce-bound callback, session, vote, reload, and logout smoke
+test on the canonical domain. Commit the value as the exact string `true` and
+redeploy only the Worker after the smoke test passes; the already-published site
+will reveal voting without another site publish.
 
 Read [AGENTS.md](AGENTS.md) before editing loops or publishing the site. It
 contains the source-of-truth rules for database publishing, generated

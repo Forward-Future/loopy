@@ -55,6 +55,6 @@
     "PUBLIC_SHELL_URL": "https://calm-mortar-jtek.here.now/index.html",
     "PUBLIC_SITE_HOSTNAME": "signals.forwardfuture.ai",
     "PUBLIC_SITE_PATH": "/loop-library",
-    "VOTING_UI_ENABLED": "false"
+    "VOTING_UI_ENABLED": "true"
   }
 }

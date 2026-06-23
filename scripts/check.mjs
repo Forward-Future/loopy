@@ -246,7 +246,7 @@ assert.equal(wrangler.vars.PUBLIC_ORIGIN_URL, "https://calm-mortar-jtek.here.now
 assert.equal(wrangler.vars.PUBLIC_SHELL_URL, "https://calm-mortar-jtek.here.now/index.html");
 assert.equal(wrangler.vars.PUBLIC_SITE_HOSTNAME, "signals.forwardfuture.ai");
 assert.equal(wrangler.vars.PUBLIC_SITE_PATH, "/loop-library");
-assert.equal(wrangler.vars.VOTING_UI_ENABLED, "false");
+assert.equal(wrangler.vars.VOTING_UI_ENABLED, "true");
 assert.deepEqual(Object.keys(proxyManifest.proxies).sort(), [
   "/",
   "/api/loops",
