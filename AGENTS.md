@@ -91,6 +91,39 @@ npm run deploy
 `TURNSTILE_HOSTNAMES` is a comma-separated exact allowlist containing
 `signals.forwardfuture.ai` and the current backing `*.here.now` hostname.
 
+## Authenticated voting
+
+- Public vote totals live in the `VOTE_STORE` SQLite Durable Object. A GitHub
+  account may hold at most one vote per loop and can switch or remove it.
+- Vote writes require a valid HMAC-signed, HTTP-only session cookie plus an
+  exact trusted `Origin`. Never accept provider IDs, usernames, or voter keys
+  from browser JSON.
+- Keep OAuth state in short-lived, signed, HTTP-only cookies. Keep post-login
+  redirects on the canonical Loop Library path.
+- Do not expose OAuth client secrets or `SESSION_SECRET` in Worker variables,
+  browser code, logs, or committed development files. Configure them with:
+
+  ```bash
+  cd worker
+  npm exec -- wrangler secret put SESSION_SECRET
+  npm exec -- wrangler secret put GITHUB_OAUTH_CLIENT_ID
+  npm exec -- wrangler secret put GITHUB_OAUTH_CLIENT_SECRET
+  ```
+
+- Register this exact provider callback:
+  `https://signals.forwardfuture.ai/loop-library/auth/callback/github`.
+- Keep `VOTING_UI_ENABLED` set to the exact string `false` for the first
+  production release. Vote controls render hidden and disabled, then appear
+  only when `/api/votes` returns `uiEnabled: true`; missing or malformed values
+  must remain fail-closed.
+- With the launch flag off, verify the canonical GitHub start, callback,
+  session, vote persistence, reload, and logout flow. Change the flag to the
+  exact string `true` and redeploy the Worker from newest integrated `main`
+  only after that smoke test passes. No site republish is required to reveal
+  the controls.
+- Deploy and verify the Worker before publishing a shell or proxy manifest that
+  exposes voting or auth routes.
+
 For local development, copy `worker/.dev.vars.example` to `worker/.dev.vars`,
 replace the here.now development credentials, then run:
 

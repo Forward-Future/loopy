@@ -22,6 +22,10 @@
       {
         "name": "LOOP_CATALOG",
         "class_name": "LoopCatalog"
+      },
+      {
+        "name": "VOTE_STORE",
+        "class_name": "VoteStore"
       }
     ]
   },
@@ -33,6 +37,10 @@
     {
       "tag": "v2",
       "new_sqlite_classes": ["LoopCatalog"]
+    },
+    {
+      "tag": "v3",
+      "new_sqlite_classes": ["VoteStore"]
     }
   ],
   "observability": {
@@ -46,6 +54,7 @@
     "PUBLIC_ORIGIN_URL": "https://calm-mortar-jtek.here.now/",
     "PUBLIC_SHELL_URL": "https://calm-mortar-jtek.here.now/index.html",
     "PUBLIC_SITE_HOSTNAME": "signals.forwardfuture.ai",
-    "PUBLIC_SITE_PATH": "/loop-library"
+    "PUBLIC_SITE_PATH": "/loop-library",
+    "VOTING_UI_ENABLED": "false"
   }
 }

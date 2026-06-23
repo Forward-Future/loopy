@@ -110,6 +110,13 @@ function compareNewest(a, b) {
   return loopRowPositions.get(b) - loopRowPositions.get(a);
 }
 
+function comparePopular(a, b) {
+  const upvoteDifference =
+    Number(b.dataset.upvotes || 0) - Number(a.dataset.upvotes || 0);
+
+  return upvoteDifference !== 0 ? upvoteDifference : compareNewest(a, b);
+}
+
 function compareOldest(a, b) {
   const publishedDifference = (a.dataset.published ?? "").localeCompare(
     b.dataset.published ?? "",
@@ -131,11 +138,7 @@ function compareFeatured(a, b) {
     return featuredDifference;
   }
 
-  if (a.dataset.featured === "true") {
-    return loopRowPositions.get(a) - loopRowPositions.get(b);
-  }
-
-  return compareNewest(a, b);
+  return comparePopular(a, b);
 }
 
 function applySort(sort) {
@@ -596,6 +599,242 @@ document.querySelectorAll("[data-copy-social-post]").forEach((button) => {
     }
   });
 });
+
+const voteControls = [...document.querySelectorAll("[data-vote-controls]")];
+const LOOP_LIBRARY_PATH = window.location.pathname === "/loop-library" ||
+  window.location.pathname.startsWith("/loop-library/")
+  ? "/loop-library"
+  : "";
+const VOTE_API_URL = `${LOOP_LIBRARY_PATH}/api/votes`;
+let voteViewer = null;
+let viewerVotes = {};
+let loginDialog;
+
+function voteLoginUrl(provider) {
+  const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  return `${LOOP_LIBRARY_PATH}/auth/${provider}?${new URLSearchParams({
+    return_to: returnTo,
+  })}`;
+}
+
+function createLoginDialog() {
+  if (loginDialog) {
+    return loginDialog;
+  }
+
+  const dialog = document.createElement("dialog");
+  dialog.className = "login-dialog";
+  dialog.setAttribute("aria-labelledby", "vote-login-title");
+
+  const panel = document.createElement("div");
+  panel.className = "login-dialog-panel";
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "eyebrow";
+  eyebrow.textContent = "Community voting";
+  const title = document.createElement("h2");
+  title.id = "vote-login-title";
+  title.textContent = "Sign in to vote";
+  const explanation = document.createElement("p");
+  explanation.textContent =
+    "Use GitHub. One account gets one vote per loop, and you can change it anytime.";
+  const providers = document.createElement("div");
+  providers.className = "login-providers";
+
+  const githubLink = document.createElement("a");
+  githubLink.className = "login-provider login-provider-github";
+  githubLink.href = voteLoginUrl("github");
+  githubLink.textContent = "Continue with GitHub";
+  providers.append(githubLink);
+
+  const cancel = document.createElement("button");
+  cancel.className = "login-cancel";
+  cancel.type = "button";
+  cancel.textContent = "Not now";
+  cancel.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  panel.append(eyebrow, title, explanation, providers, cancel);
+  dialog.append(panel);
+  document.body.append(dialog);
+  loginDialog = dialog;
+  return dialog;
+}
+
+function showLoginDialog() {
+  const dialog = createLoginDialog();
+  if (typeof dialog.showModal === "function") {
+    dialog.showModal();
+  } else {
+    dialog.setAttribute("open", "");
+  }
+}
+
+function updateVoteControls(control, counts = {}, viewerVote = 0) {
+  const upvote = control.querySelector('[data-vote-value="1"]');
+  const downvote = control.querySelector('[data-vote-value="-1"]');
+  const upvoteCount = upvote?.querySelector("[data-vote-count]");
+  const downvoteCount = downvote?.querySelector("[data-vote-count]");
+  const row = control.closest(".loop-row");
+
+  if (upvoteCount) upvoteCount.textContent = String(counts.upvotes || 0);
+  if (downvoteCount) downvoteCount.textContent = String(counts.downvotes || 0);
+  if (row) row.dataset.upvotes = String(counts.upvotes || 0);
+  upvote?.setAttribute("aria-pressed", String(viewerVote === 1));
+  downvote?.setAttribute("aria-pressed", String(viewerVote === -1));
+  control.classList.toggle("has-upvote", viewerVote === 1);
+  control.classList.toggle("has-downvote", viewerVote === -1);
+}
+
+function clearViewerVoteSelection() {
+  voteControls.forEach((control) => {
+    control.classList.remove("has-upvote", "has-downvote");
+    control.querySelectorAll(".vote-button").forEach((button) => {
+      button.setAttribute("aria-pressed", "false");
+    });
+  });
+}
+
+function setVotingUiVisible(visible) {
+  voteControls.forEach((control) => {
+    control.hidden = !visible;
+    control.querySelectorAll(".vote-button").forEach((button) => {
+      button.disabled = !visible;
+    });
+  });
+  if (!visible) {
+    document.querySelector("[data-vote-account]")?.remove();
+  }
+}
+
+function renderVoteAccount() {
+  const existing = document.querySelector("[data-vote-account]");
+  if (existing) existing.remove();
+  if (!voteViewer) return;
+
+  const account = document.createElement("div");
+  account.className = "vote-account";
+  account.dataset.voteAccount = "";
+  const label = document.createElement("span");
+  label.textContent = `Voting as GitHub: ${voteViewer.username}`;
+  const logout = document.createElement("button");
+  logout.type = "button";
+  logout.textContent = "Sign out";
+  logout.addEventListener("click", async () => {
+    const response = await fetch(`${LOOP_LIBRARY_PATH}/auth/logout`, {
+      method: "POST",
+      credentials: "same-origin",
+    });
+    if (!response.ok) {
+      showToast("Sign out failed. Try again.");
+      return;
+    }
+    voteViewer = null;
+    viewerVotes = {};
+    renderVoteAccount();
+    clearViewerVoteSelection();
+    showToast("Signed out.");
+  });
+  account.append(label, logout);
+
+  const anchor = document.querySelector(".results-line") ||
+    document.querySelector(".detail-actions");
+  anchor?.insertAdjacentElement("afterend", account);
+}
+
+async function loadVotes() {
+  if (voteControls.length === 0) return;
+
+  try {
+    const response = await fetch(VOTE_API_URL, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!response.ok) throw new Error("Voting unavailable");
+    const body = await response.json();
+    voteViewer = body.viewer || null;
+    viewerVotes = body.viewerVotes || {};
+    voteControls.forEach((control) => {
+      const slug = control.dataset.loopSlug;
+      updateVoteControls(
+        control,
+        body.votes?.[slug],
+        viewerVotes[slug] || 0,
+      );
+    });
+    setVotingUiVisible(body.uiEnabled === true);
+    applySort(activeSort);
+    updateLibrary();
+    if (body.uiEnabled === true) renderVoteAccount();
+  } catch {
+    setVotingUiVisible(false);
+  }
+}
+
+voteControls.forEach((control) => {
+  control.querySelectorAll("[data-vote-value]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (!voteViewer) {
+        showLoginDialog();
+        return;
+      }
+
+      const slug = control.dataset.loopSlug;
+      const selectedValue = Number(button.dataset.voteValue);
+      const nextValue = viewerVotes[slug] === selectedValue ? 0 : selectedValue;
+      control.querySelectorAll(".vote-button").forEach((candidate) => {
+        candidate.disabled = true;
+      });
+
+      try {
+        const response = await fetch(
+          `${LOOP_LIBRARY_PATH}/api/loops/${encodeURIComponent(slug)}/vote`,
+          {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ value: nextValue }),
+          },
+        );
+        const body = await response.json();
+        if (response.status === 401) {
+          voteViewer = null;
+          viewerVotes = {};
+          renderVoteAccount();
+          clearViewerVoteSelection();
+          showLoginDialog();
+          return;
+        }
+        if (!response.ok) throw new Error(body.error || "Vote failed");
+        viewerVotes[slug] = body.vote;
+        updateVoteControls(control, body.counts, body.vote);
+        applySort(activeSort);
+        updateLibrary();
+        showToast(body.vote === 0 ? "Vote removed." : "Vote counted.");
+      } catch (error) {
+        showToast(error.message || "Vote failed. Try again.");
+      } finally {
+        control.querySelectorAll(".vote-button").forEach((candidate) => {
+          candidate.disabled = false;
+        });
+      }
+    });
+  });
+});
+
+const authError = new URLSearchParams(window.location.search).get("auth_error");
+if (authError) {
+  showToast("Sign-in did not finish. Please try again.");
+  const cleanUrl = new URL(window.location.href);
+  cleanUrl.searchParams.delete("auth_error");
+  window.history.replaceState(null, "", cleanUrl);
+}
+
+loadVotes();
 
 const skillCopyButton = document.querySelector("[data-copy-skill-command]");
 const skillInstallCommand = document.querySelector(

@@ -39,6 +39,14 @@
     "/api/loops/*": {
       "upstream": "https://loop-library-forms.mberman84.workers.dev/loop-library/api/loops",
       "rateLimit": "600/hour/ip"
+    },
+    "/api/votes": {
+      "upstream": "https://loop-library-forms.mberman84.workers.dev/loop-library/api/votes",
+      "rateLimit": "600/hour/ip"
+    },
+    "/auth/*": {
+      "upstream": "https://loop-library-forms.mberman84.workers.dev/loop-library/auth",
+      "rateLimit": "120/hour/ip"
     }
   }
 }

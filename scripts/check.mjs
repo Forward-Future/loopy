@@ -19,6 +19,8 @@ const [
   workerSource,
   loopRoutesSource,
   catalogStoreSource,
+  authVotesSource,
+  voteStoreSource,
   rendererSource,
   workerPackageSource,
   workerLockSource,
@@ -39,6 +41,8 @@ const [
   readFile(path.join(workerRoot, "src", "index.js"), "utf8"),
   readFile(path.join(workerRoot, "src", "loop-routes.js"), "utf8"),
   readFile(path.join(workerRoot, "src", "catalog-store.js"), "utf8"),
+  readFile(path.join(workerRoot, "src", "auth-votes.js"), "utf8"),
+  readFile(path.join(workerRoot, "src", "vote-store.js"), "utf8"),
   readFile(path.join(workerRoot, "src", "render-loops.js"), "utf8"),
   readFile(path.join(workerRoot, "package.json"), "utf8"),
   readFile(path.join(workerRoot, "package-lock.json"), "utf8"),
@@ -121,14 +125,15 @@ for (const value of [
 assert(html.includes("Search the library"));
 assert(html.includes("Search by title, task, or contributor"));
 assert(html.includes('class="search-field"'));
-assert(html.includes("styles.css?v=20260622-sort-focus"));
-assert(html.includes("script.js?v=20260622-sort-focus"));
+assert(html.includes("styles.css?v=20260623-auth-gate"));
+assert(html.includes("script.js?v=20260623-auth-gate"));
 assert(css.includes(".search-control-label"));
 assert(css.includes(".search-control:hover .search-field"));
 assert(css.includes(".search-control:focus-within .search-field"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 for (const page of [learnHtml, agentHtml]) {
-  assert(page.includes("styles.css?v=20260622-centered-host-credit"));
+  assert(page.includes("styles.css?v=20260623-auth-gate"));
+  assert(page.includes("script.js?v=20260623-auth-gate"));
 }
 for (const page of [html, learnHtml, agentHtml]) {
   const brandPosition = page.indexOf('class="brand-lockup"');
@@ -155,6 +160,9 @@ assert(html.includes('<option value="oldest">Oldest → newest</option>'));
 assert(browserScript.includes('"oldest"'));
 assert(browserScript.includes('sortSelect.addEventListener("change"'));
 assert(browserScript.includes('params.set("sort", activeSort)'));
+assert(browserScript.includes("function comparePopular"));
+assert(browserScript.includes("Number(b.dataset.upvotes || 0)"));
+assert(html.includes('<option value="featured">Featured, then popular</option>'));
 assert(browserScript.includes("library-pagination"));
 assert(!browserScript.includes("innerHTML"));
 
@@ -172,6 +180,23 @@ for (const collectionConfig of [suggestions, weeklySignups]) {
 assert(workerSource.includes("TURNSTILE_RATE_LIMITER.limit"));
 assert(workerSource.includes("https://challenges.cloudflare.com/turnstile/v0/siteverify"));
 assert(workerSource.includes("handleLoopRoute"));
+assert(workerSource.includes("handleAuthVoteRoute"));
+assert(browserScript.includes('document.querySelectorAll("[data-vote-controls]")'));
+assert(browserScript.includes('credentials: "same-origin"'));
+assert(css.includes(".vote-controls"));
+assert(css.includes(".login-dialog"));
+assert(rendererSource.includes("renderVoteControls(loop.slug)"));
+assert(rendererSource.includes('class="vote-label"'));
+assert(rendererSource.includes('aria-label="Vote on this loop" hidden'));
+assert(browserScript.includes("setVotingUiVisible(body.uiEnabled === true)"));
+assert(css.includes(".vote-controls[hidden]"));
+assert(authVotesSource.includes('scope: "read:user"'));
+assert(!authVotesSource.includes("X_OAUTH"));
+assert(!authVotesSource.includes('"/auth/x"'));
+assert(!browserScript.includes("Continue with X"));
+assert(authVotesSource.includes("isTrustedMutationOrigin"));
+assert(voteStoreSource.includes("PRIMARY KEY (loop_slug, voter_key)"));
+assert(voteStoreSource.includes("CHECK (value IN (-1, 1))"));
 
 // Publishing, backup, rendering, and activation all terminate at the database.
 assert(loopRoutesSource.includes('"/admin/loops/export"'));
@@ -197,9 +222,15 @@ assert.equal(wrangler.workers_dev, true);
 assert.equal(wrangler.routes, undefined);
 assert.equal(wrangler.durable_objects.bindings[1].name, "LOOP_CATALOG");
 assert.equal(wrangler.durable_objects.bindings[1].class_name, "LoopCatalog");
+assert.equal(wrangler.durable_objects.bindings[2].name, "VOTE_STORE");
+assert.equal(wrangler.durable_objects.bindings[2].class_name, "VoteStore");
 assert.deepEqual(wrangler.migrations[1], {
   tag: "v2",
   new_sqlite_classes: ["LoopCatalog"],
+});
+assert.deepEqual(wrangler.migrations[2], {
+  tag: "v3",
+  new_sqlite_classes: ["VoteStore"],
 });
 assert.match(wrangler.vars.BOOTSTRAP_CATALOG_DIGEST, /^[a-f0-9]{64}$/);
 assert.equal(wrangler.vars.BOOTSTRAP_LOOP_COUNT, "50");
@@ -207,10 +238,13 @@ assert.equal(wrangler.vars.PUBLIC_ORIGIN_URL, "https://calm-mortar-jtek.here.now
 assert.equal(wrangler.vars.PUBLIC_SHELL_URL, "https://calm-mortar-jtek.here.now/index.html");
 assert.equal(wrangler.vars.PUBLIC_SITE_HOSTNAME, "signals.forwardfuture.ai");
 assert.equal(wrangler.vars.PUBLIC_SITE_PATH, "/loop-library");
+assert.equal(wrangler.vars.VOTING_UI_ENABLED, "false");
 assert.deepEqual(Object.keys(proxyManifest.proxies).sort(), [
   "/",
   "/api/loops",
   "/api/loops/*",
+  "/api/votes",
+  "/auth/*",
   "/catalog.json",
   "/catalog.md",
   "/catalog.txt",
@@ -221,7 +255,7 @@ assert.deepEqual(Object.keys(proxyManifest.proxies).sort(), [
 ]);
 for (const proxy of Object.values(proxyManifest.proxies)) {
   assert.match(proxy.upstream, /^https:\/\/loop-library-forms\.mberman84\.workers\.dev\/loop-library(?:\/|$)/);
-  assert.equal(proxy.rateLimit, "600/hour/ip");
+  assert(["120/hour/ip", "600/hour/ip"].includes(proxy.rateLimit));
 }
 
 assert.match(skillSource, /The live catalog is the\s+source of truth/);

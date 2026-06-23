@@ -2,8 +2,10 @@ import {
   handleLoopRoute,
   publicOriginRequest,
 } from "./loop-routes.js";
+import { handleAuthVoteRoute } from "./auth-votes.js";
 
 export { LoopCatalog } from "./catalog-store.js";
+export { VoteStore } from "./vote-store.js";
 
 const TURNSTILE_VERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
@@ -66,6 +68,16 @@ export async function handleRequest(
   _ctx,
   dependencies = { fetch: (...args) => globalThis.fetch(...args) },
 ) {
+  const authVoteResponse = await handleAuthVoteRoute(
+    request,
+    env,
+    dependencies,
+  );
+
+  if (authVoteResponse) {
+    return authVoteResponse;
+  }
+
   const loopResponse = await handleLoopRoute(request, env, dependencies);
 
   if (loopResponse) {

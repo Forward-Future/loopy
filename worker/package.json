@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check src/index.js && node --check bin/publish-loop.mjs && node --check bin/import-bootstrap.mjs && node --check bin/export-catalog.mjs && node --check bin/restore-catalog.mjs && node --test",
+    "check": "node --check src/index.js && node --check src/auth-votes.js && node --check src/vote-store.js && node --check bin/publish-loop.mjs && node --check bin/import-bootstrap.mjs && node --check bin/export-catalog.mjs && node --check bin/restore-catalog.mjs && node --test",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "loop:publish": "node bin/publish-loop.mjs",

@@ -82,6 +82,7 @@ export function renderHomepageRow(loop) {
                   <button class="copy-button" type="button">
                     <span>Copy loop</span>
                   </button>
+                  ${renderVoteControls(loop.slug)}
                 </td>
               </tr>`;
 }
@@ -310,9 +311,9 @@ export function renderLoopPage(loop, loops) {
     <link rel="alternate" type="text/plain" title="${SITE.name} plain-text catalog" href="${SITE.baseUrl}catalog.txt" />
     <link rel="help" href="${SITE.baseUrl}agents/" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260621-author-byline" />
+    <link rel="stylesheet" href="../../styles.css?v=20260623-auth-gate" />
     <script type="application/ld+json">${jsonForHtml(structuredData)}</script>
-    <script src="../../script.js?v=20260621-author-byline" defer></script>
+    <script src="../../script.js?v=20260623-auth-gate" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
   </head>
   <body>
@@ -349,7 +350,10 @@ export function renderLoopPage(loop, loops) {
           <h1>${escapeHtml(loop.title)}</h1>
           <p class="detail-lede">${escapeHtml(loop.description)}</p>
           <p class="detail-byline">By <strong>${escapeHtml(loop.author)}</strong></p>
-          ${shareActions(loop, url)}
+          <div class="detail-actions">
+            ${renderVoteControls(loop.slug)}
+            ${shareActions(loop, url)}
+          </div>
         </header>
         <div class="detail-stack">
           <section class="detail-prompt-card" data-copy-root aria-labelledby="copy-loop">
@@ -383,6 +387,10 @@ export function renderLoopPage(loop, loops) {
 function shareActions(loop, url) {
   const text = `Try "${loop.title}" from the Loop Library: ${loop.summary}`;
   return `<div class="share-actions" aria-label="Share this loop"><button class="share-action share-action-primary" type="button" data-copy-social-post data-post-text="${escapeHtml(text)}" data-post-url="${escapeHtml(url)}" aria-label="Copy a social post about ${escapeHtml(loop.title)}"><svg class="share-copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><span>Share on social</span></button></div>`;
+}
+
+function renderVoteControls(slug) {
+  return `<div class="vote-controls" data-vote-controls data-loop-slug="${escapeHtml(slug)}" aria-label="Vote on this loop" hidden><span class="vote-label" aria-hidden="true">Vote</span><button class="vote-button vote-button-up" type="button" data-vote-value="1" aria-label="Upvote this loop" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 8h4v6h6v-6h4Z"></path></svg><span data-vote-count>0</span></button><button class="vote-button vote-button-down" type="button" data-vote-value="-1" aria-label="Downvote this loop" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19 7-8h-4V5H9v6H5Z"></path></svg><span data-vote-count>0</span></button></div>`;
 }
 
 function hereNowCredit(assetPath, modifier) {
