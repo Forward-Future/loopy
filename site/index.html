@@ -132,7 +132,7 @@
       href="https://signals.forwardfuture.ai/loop-library/agents/"
     />
     <link rel="icon" type="image/png" href="./assets/favicon.png" />
-    <link rel="stylesheet" href="./styles.css?v=20260622-centered-host-credit" />
+    <link rel="stylesheet" href="./styles.css?v=20260622-search-prominence" />
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -355,17 +355,19 @@
 
         <div class="library-controls">
           <label class="search-control">
-            <span class="sr-only">Search loops</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="m20 20-4-4"></path>
-            </svg>
-            <input
-              id="loop-search"
-              type="search"
-              placeholder="Search loops or contributors"
-              autocomplete="off"
-            />
+            <span class="search-control-label">Search the library</span>
+            <span class="search-field">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-4-4"></path>
+              </svg>
+              <input
+                id="loop-search"
+                type="search"
+                placeholder="Search by title, task, or contributor"
+                autocomplete="off"
+              />
+            </span>
           </label>
 
           <div class="library-refinements">

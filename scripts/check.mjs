@@ -118,9 +118,18 @@ for (const value of [
 ]) {
   assert(html.includes(value), value);
 }
+assert(html.includes("Search the library"));
+assert(html.includes("Search by title, task, or contributor"));
+assert(html.includes('class="search-field"'));
+assert(html.includes("styles.css?v=20260622-search-prominence"));
+assert(css.includes(".search-control-label"));
+assert(css.includes(".search-control:hover .search-field"));
+assert(css.includes(".search-control:focus-within .search-field"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
-for (const page of [html, learnHtml, agentHtml]) {
+for (const page of [learnHtml, agentHtml]) {
   assert(page.includes("styles.css?v=20260622-centered-host-credit"));
+}
+for (const page of [html, learnHtml, agentHtml]) {
   const brandPosition = page.indexOf('class="brand-lockup"');
   const creditPosition = page.indexOf(
     'class="here-now-credit here-now-credit--header"',
