@@ -95,11 +95,19 @@ npm run deploy
 
 - Public vote totals live in the `VOTE_STORE` SQLite Durable Object. A GitHub
   account may hold at most one vote per loop and can switch or remove it.
-- Vote writes require a valid HMAC-signed, HTTP-only session cookie plus an
-  exact trusted `Origin`. Never accept provider IDs, usernames, or voter keys
-  from browser JSON.
-- Keep OAuth state in short-lived, signed, HTTP-only cookies. Keep post-login
-  redirects on the canonical Loop Library path.
+- The here.now proxy strips browser cookies and mutation `Origin` headers, and
+  it follows upstream redirects. Do not build voting auth around proxied
+  cookies, HTTP redirect responses, or forwarded authorization headers.
+- Start OAuth with a browser-generated nonce held in `sessionStorage`. Bind the
+  nonce and safe return path into a short-lived HMAC-signed OAuth state value.
+  The callback must return a no-store HTML bridge that verifies the stored
+  nonce before saving the signed session token and returning to the canonical
+  Loop Library path.
+- Keep the signed session token in tab-scoped `sessionStorage` and send it only
+  in JSON bodies to the session and vote endpoints. Vote writes must derive the
+  provider ID, username, and voter key exclusively from that verified token.
+  Reject explicit untrusted Origins; missing Origins are expected through the
+  here.now proxy and remain protected by the required bearer token.
 - Do not expose OAuth client secrets or `SESSION_SECRET` in Worker variables,
   browser code, logs, or committed development files. Configure them with:
 
@@ -116,8 +124,9 @@ npm run deploy
   production release. Vote controls render hidden and disabled, then appear
   only when `/api/votes` returns `uiEnabled: true`; missing or malformed values
   must remain fail-closed.
-- With the launch flag off, verify the canonical GitHub start, callback,
-  session, vote persistence, reload, and logout flow. Change the flag to the
+- With the launch flag off, verify the canonical GitHub start, nonce-bound
+  callback bridge, session, vote persistence, reload, and local logout flow.
+  Change the flag to the
   exact string `true` and redeploy the Worker from newest integrated `main`
   only after that smoke test passes. No site republish is required to reveal
   the controls.

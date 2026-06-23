@@ -88,28 +88,20 @@ function makeEnv() {
   };
 }
 
-function cookiePair(setCookie, name) {
-  const match = setCookie.match(new RegExp(`(?:^|, )(${name}=[^;]+)`));
-  assert(match, `${name} cookie missing from ${setCookie}`);
-  return match[1];
-}
-
 async function githubSession(env) {
+  const clientNonce = "test-browser-nonce-that-is-at-least-32-chars";
   const start = await handleAuthVoteRoute(
-    new Request(`${BASE}/auth/github?return_to=%2Floop-library%2Floops%2Fovernight-docs-sweep%2F`),
+    new Request(`${BASE}/auth/github?return_to=%2Floop-library%2Floops%2Fovernight-docs-sweep%2F&client_nonce=${clientNonce}`),
     env,
   );
-  assert.equal(start.status, 302);
-  const authorization = new URL(start.headers.get("Location"));
+  assert.equal(start.status, 200);
+  const authorization = new URL((await start.json()).authorizationUrl);
   assert.equal(authorization.origin, "https://github.com");
   assert.equal(authorization.searchParams.get("scope"), "read:user");
   const state = authorization.searchParams.get("state");
-  const oauthCookie = cookiePair(start.headers.get("Set-Cookie"), "ll_oauth");
   const calls = [];
   const callback = await handleAuthVoteRoute(
-    new Request(`${BASE}/auth/callback/github?code=test-code&state=${state}`, {
-      headers: { Cookie: oauthCookie },
-    }),
+    new Request(`${BASE}/auth/callback/github?code=test-code&state=${encodeURIComponent(state)}`),
     env,
     {
       fetch: async (input, init = {}) => {
@@ -124,32 +116,35 @@ async function githubSession(env) {
       },
     },
   );
-  assert.equal(callback.status, 302);
-  assert.equal(
-    callback.headers.get("Location"),
-    `${BASE}/loops/overnight-docs-sweep/`,
-  );
+  assert.equal(callback.status, 200);
+  const callbackBody = await callback.text();
+  assert.match(callbackBody, /sessionStorage\.setItem\("ll_session"/);
+  assert.match(callbackBody, /loop-library\/loops\/overnight-docs-sweep/);
+  assert.match(callbackBody, new RegExp(clientNonce));
   assert.equal(calls.length, 2);
   assert.equal(
     new Headers(calls[1].init.headers).get("Authorization"),
     "Bearer github-access-token",
   );
-  return cookiePair(callback.headers.get("Set-Cookie"), "ll_session");
+  const sessionMatch = callbackBody.match(
+    /"sessionToken":"([A-Za-z0-9_.-]+)"/,
+  );
+  assert(sessionMatch, "session token missing from OAuth bridge");
+  return sessionMatch[1];
 }
 
 test("GitHub OAuth creates a signed session that can cast, switch, and remove a vote", async () => {
   const env = makeEnv();
-  const sessionCookie = await githubSession(env);
+  const sessionToken = await githubSession(env);
   const voteRequest = (value, origin = ORIGIN) => new Request(
     `${BASE}/api/loops/overnight-docs-sweep/vote`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: sessionCookie,
         Origin: origin,
       },
-      body: JSON.stringify({ value }),
+      body: JSON.stringify({ value, sessionToken }),
     },
   );
 
@@ -168,17 +163,26 @@ test("GitHub OAuth creates a signed session that can cast, switch, and remove a 
     score: -1,
   });
 
-  const totals = await handleAuthVoteRoute(
-    new Request(`${BASE}/api/votes`, { headers: { Cookie: sessionCookie } }),
+  const session = await handleAuthVoteRoute(
+    new Request(`${BASE}/auth/session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionToken }),
+    }),
     env,
   );
-  const totalsBody = await totals.json();
-  assert.deepEqual(totalsBody.viewer, {
+  const sessionBody = await session.json();
+  assert.deepEqual(sessionBody.viewer, {
     provider: "github",
     username: "octoloop",
     name: "Octo Loop",
   });
-  assert.equal(totalsBody.viewerVotes["overnight-docs-sweep"], -1);
+  assert.equal(sessionBody.viewerVotes["overnight-docs-sweep"], -1);
+
+  const totals = await handleAuthVoteRoute(new Request(`${BASE}/api/votes`), env);
+  const totalsBody = await totals.json();
+  assert.equal(totalsBody.viewer, null);
+  assert.deepEqual(totalsBody.viewerVotes, {});
   assert.equal(totalsBody.uiEnabled, true);
 
   const removed = await handleAuthVoteRoute(voteRequest(0), env);
@@ -226,16 +230,15 @@ test("vote writes reject anonymous, cross-site, malformed, and unpublished reque
   );
   assert.equal(anonymous.status, 401);
 
-  const sessionCookie = await githubSession(env);
+  const sessionToken = await githubSession(env);
   const crossSite = await handleAuthVoteRoute(
     new Request(`${BASE}/api/loops/overnight-docs-sweep/vote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: sessionCookie,
         Origin: "https://phishing.example",
       },
-      body: JSON.stringify({ value: 1 }),
+      body: JSON.stringify({ value: 1, sessionToken }),
     }),
     env,
   );
@@ -246,10 +249,9 @@ test("vote writes reject anonymous, cross-site, malformed, and unpublished reque
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: sessionCookie,
         Origin: ORIGIN,
       },
-      body: JSON.stringify({ value: 2 }),
+      body: JSON.stringify({ value: 2, sessionToken }),
     }),
     env,
   );
@@ -260,10 +262,9 @@ test("vote writes reject anonymous, cross-site, malformed, and unpublished reque
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: sessionCookie,
         Origin: ORIGIN,
       },
-      body: JSON.stringify({ value: 1 }),
+      body: JSON.stringify({ value: 1, sessionToken }),
     }),
     env,
   );
@@ -272,19 +273,25 @@ test("vote writes reject anonymous, cross-site, malformed, and unpublished reque
 
 test("GitHub OAuth state is verified and X routes are absent", async () => {
   const env = makeEnv();
+  const clientNonce = "another-browser-nonce-that-is-at-least-32-chars";
   const githubStart = await handleAuthVoteRoute(
+    new Request(`${BASE}/auth/github?return_to=%2Floop-library%2F&client_nonce=${clientNonce}`),
+    env,
+  );
+  assert.equal(githubStart.status, 200);
+
+  const invalidCallback = await handleAuthVoteRoute(
+    new Request(`${BASE}/auth/callback/github?code=test-code&state=wrong-state`),
+    env,
+  );
+  assert.equal(invalidCallback.status, 200);
+  assert.match(await invalidCallback.text(), /auth_error=invalid_state/);
+
+  const missingNonce = await handleAuthVoteRoute(
     new Request(`${BASE}/auth/github?return_to=%2Floop-library%2F`),
     env,
   );
-
-  const invalidCallback = await handleAuthVoteRoute(
-    new Request(`${BASE}/auth/callback/github?code=test-code&state=wrong-state`, {
-      headers: { Cookie: cookiePair(githubStart.headers.get("Set-Cookie"), "ll_oauth") },
-    }),
-    env,
-  );
-  assert.equal(invalidCallback.status, 302);
-  assert.match(invalidCallback.headers.get("Location"), /auth_error=invalid_state/);
+  assert.equal(missingNonce.status, 400);
 
   assert.equal(
     await handleAuthVoteRoute(new Request(`${BASE}/auth/x`), env),
@@ -292,22 +299,21 @@ test("GitHub OAuth state is verified and X routes are absent", async () => {
   );
 });
 
-test("logout requires a trusted origin and clears the session", async () => {
+test("mutation origins reject explicit cross-site requests and allow stripped proxy origins", async () => {
   const env = makeEnv();
   const rejected = await handleAuthVoteRoute(
-    new Request(`${BASE}/auth/logout`, { method: "POST" }),
+    new Request(`${BASE}/auth/logout`, {
+      method: "POST",
+      headers: { Origin: "https://phishing.example" },
+    }),
     env,
   );
   assert.equal(rejected.status, 403);
 
   const accepted = await handleAuthVoteRoute(
-    new Request(`${BASE}/auth/logout`, {
-      method: "POST",
-      headers: { Origin: ORIGIN },
-    }),
+    new Request(`${BASE}/auth/logout`, { method: "POST" }),
     env,
   );
   assert.equal(accepted.status, 200);
-  assert.match(accepted.headers.get("Set-Cookie"), /ll_session=;/);
-  assert.match(accepted.headers.get("Set-Cookie"), /Max-Age=0/);
+  assert.deepEqual(await accepted.json(), { ok: true });
 });

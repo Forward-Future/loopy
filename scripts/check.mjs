@@ -125,15 +125,15 @@ for (const value of [
 assert(html.includes("Search the library"));
 assert(html.includes("Search by title, task, or contributor"));
 assert(html.includes('class="search-field"'));
-assert(html.includes("styles.css?v=20260623-auth-gate"));
-assert(html.includes("script.js?v=20260623-auth-gate"));
+assert(html.includes("styles.css?v=20260623-proxy-auth"));
+assert(html.includes("script.js?v=20260623-proxy-auth"));
 assert(css.includes(".search-control-label"));
 assert(css.includes(".search-control:hover .search-field"));
 assert(css.includes(".search-control:focus-within .search-field"));
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 for (const page of [learnHtml, agentHtml]) {
-  assert(page.includes("styles.css?v=20260623-auth-gate"));
-  assert(page.includes("script.js?v=20260623-auth-gate"));
+  assert(page.includes("styles.css?v=20260623-proxy-auth"));
+  assert(page.includes("script.js?v=20260623-proxy-auth"));
 }
 for (const page of [html, learnHtml, agentHtml]) {
   const brandPosition = page.indexOf('class="brand-lockup"');
@@ -191,6 +191,13 @@ assert(rendererSource.includes('aria-label="Vote on this loop" hidden'));
 assert(browserScript.includes("setVotingUiVisible(body.uiEnabled === true)"));
 assert(css.includes(".vote-controls[hidden]"));
 assert(authVotesSource.includes('scope: "read:user"'));
+assert(authVotesSource.includes("function authBridge"));
+assert(authVotesSource.includes("readSignedValue(state"));
+assert(browserScript.includes('window.sessionStorage.setItem(OAUTH_NONCE_KEY'));
+assert(browserScript.includes('window.sessionStorage.getItem(VOTE_SESSION_KEY)'));
+assert(browserScript.includes('url.searchParams.set("client_nonce", nonce)'));
+assert(browserScript.includes("sessionToken: readVoteSessionToken()"));
+assert(!authVotesSource.includes("Set-Cookie"));
 assert(!authVotesSource.includes("X_OAUTH"));
 assert(!authVotesSource.includes('"/auth/x"'));
 assert(!browserScript.includes("Continue with X"));

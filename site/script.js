@@ -606,6 +606,8 @@ const LOOP_LIBRARY_PATH = window.location.pathname === "/loop-library" ||
   ? "/loop-library"
   : "";
 const VOTE_API_URL = `${LOOP_LIBRARY_PATH}/api/votes`;
+const VOTE_SESSION_KEY = "ll_session";
+const OAUTH_NONCE_KEY = "ll_oauth_nonce";
 let voteViewer = null;
 let viewerVotes = {};
 let loginDialog;
@@ -615,6 +617,59 @@ function voteLoginUrl(provider) {
   return `${LOOP_LIBRARY_PATH}/auth/${provider}?${new URLSearchParams({
     return_to: returnTo,
   })}`;
+}
+
+function readVoteSessionToken() {
+  try {
+    return window.sessionStorage.getItem(VOTE_SESSION_KEY) || "";
+  } catch {
+    return "";
+  }
+}
+
+function clearVoteSessionToken() {
+  try {
+    window.sessionStorage.removeItem(VOTE_SESSION_KEY);
+  } catch {
+    // Storage may be unavailable in hardened browser modes.
+  }
+}
+
+function oauthNonce() {
+  const bytes = new Uint8Array(32);
+  window.crypto.getRandomValues(bytes);
+  let binary = "";
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  return window.btoa(binary)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+async function beginGithubLogin(link) {
+  const nonce = oauthNonce();
+  try {
+    window.sessionStorage.setItem(OAUTH_NONCE_KEY, nonce);
+    const url = new URL(link.href, window.location.href);
+    url.searchParams.set("client_nonce", nonce);
+    const response = await fetch(url, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    const body = await response.json();
+    if (!response.ok || !body.authorizationUrl) {
+      throw new Error(body.error || "GitHub sign-in is unavailable.");
+    }
+    window.location.assign(body.authorizationUrl);
+  } catch (error) {
+    try {
+      window.sessionStorage.removeItem(OAUTH_NONCE_KEY);
+    } catch {
+      // Storage may be unavailable in hardened browser modes.
+    }
+    link.removeAttribute("aria-disabled");
+    showToast(error.message || "GitHub sign-in is unavailable.");
+  }
 }
 
 function createLoginDialog() {
@@ -644,6 +699,12 @@ function createLoginDialog() {
   githubLink.className = "login-provider login-provider-github";
   githubLink.href = voteLoginUrl("github");
   githubLink.textContent = "Continue with GitHub";
+  githubLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (githubLink.getAttribute("aria-disabled") === "true") return;
+    githubLink.setAttribute("aria-disabled", "true");
+    beginGithubLogin(githubLink);
+  });
   providers.append(githubLink);
 
   const cancel = document.createElement("button");
@@ -670,6 +731,11 @@ function showLoginDialog() {
     dialog.setAttribute("open", "");
   }
 }
+
+window.addEventListener("pageshow", () => {
+  loginDialog?.querySelector(".login-provider-github")
+    ?.removeAttribute("aria-disabled");
+});
 
 function updateVoteControls(control, counts = {}, viewerVote = 0) {
   const upvote = control.querySelector('[data-vote-value="1"]');
@@ -721,15 +787,8 @@ function renderVoteAccount() {
   const logout = document.createElement("button");
   logout.type = "button";
   logout.textContent = "Sign out";
-  logout.addEventListener("click", async () => {
-    const response = await fetch(`${LOOP_LIBRARY_PATH}/auth/logout`, {
-      method: "POST",
-      credentials: "same-origin",
-    });
-    if (!response.ok) {
-      showToast("Sign out failed. Try again.");
-      return;
-    }
+  logout.addEventListener("click", () => {
+    clearVoteSessionToken();
     voteViewer = null;
     viewerVotes = {};
     renderVoteAccount();
@@ -753,8 +812,36 @@ async function loadVotes() {
     });
     if (!response.ok) throw new Error("Voting unavailable");
     const body = await response.json();
-    voteViewer = body.viewer || null;
-    viewerVotes = body.viewerVotes || {};
+    voteViewer = null;
+    viewerVotes = {};
+    const sessionToken = readVoteSessionToken();
+    if (sessionToken) {
+      try {
+        const sessionResponse = await fetch(`${LOOP_LIBRARY_PATH}/auth/session`, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sessionToken }),
+        });
+        if (!sessionResponse.ok) {
+          if (sessionResponse.status < 500) clearVoteSessionToken();
+        } else {
+          const sessionBody = await sessionResponse.json();
+          if (sessionBody.viewer) {
+            voteViewer = sessionBody.viewer;
+            viewerVotes = sessionBody.viewerVotes || {};
+          } else {
+            clearVoteSessionToken();
+          }
+        }
+      } catch {
+        // Public totals and the launch gate remain usable when restoring an
+        // existing session is temporarily unavailable.
+      }
+    }
     voteControls.forEach((control) => {
       const slug = control.dataset.loopSlug;
       updateVoteControls(
@@ -797,11 +884,15 @@ voteControls.forEach((control) => {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ value: nextValue }),
+            body: JSON.stringify({
+              value: nextValue,
+              sessionToken: readVoteSessionToken(),
+            }),
           },
         );
         const body = await response.json();
         if (response.status === 401) {
+          clearVoteSessionToken();
           voteViewer = null;
           viewerVotes = {};
           renderVoteAccount();

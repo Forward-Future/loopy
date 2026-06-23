@@ -1,8 +1,7 @@
-const SESSION_COOKIE = "ll_session";
-const OAUTH_COOKIE = "ll_oauth";
 const SESSION_TTL_SECONDS = 30 * 24 * 60 * 60;
 const OAUTH_TTL_SECONDS = 10 * 60;
 const MAX_VOTE_BODY_BYTES = 1024;
+const OAUTH_NONCE_PATTERN = /^[A-Za-z0-9_-]{32,128}$/;
 
 export async function handleAuthVoteRoute(
   request,
@@ -26,32 +25,37 @@ export async function handleAuthVoteRoute(
     if (request.method !== "GET") return methodNotAllowed("GET");
     if (!env.VOTE_STORE) return unavailable("Voting is not configured.");
 
-    const viewer = await readSession(request, env);
-    const response = await voteStoreFetch(
-      env,
-      `/votes${viewer ? `?voter=${encodeURIComponent(viewer.sub)}` : ""}`,
-    );
+    const response = await voteStoreFetch(env, "/votes");
     const body = await response.json();
     return jsonResponse({
       ...body,
       uiEnabled: env.VOTING_UI_ENABLED === "true",
-      viewer: publicViewer(viewer),
+      viewer: null,
+      viewerVotes: {},
     });
   }
 
   if (path === "/auth/session") {
-    if (request.method !== "GET") return methodNotAllowed("GET");
-    return jsonResponse({ viewer: publicViewer(await readSession(request, env)) });
+    if (request.method !== "POST") return methodNotAllowed("POST");
+    const body = await readAuthBody(request);
+    if (body instanceof Response) return body;
+    const viewer = await readSession(body.sessionToken, env);
+    if (!viewer) return jsonResponse({ viewer: null, viewerVotes: {} });
+    const response = await voteStoreFetch(
+      env,
+      `/votes?voter=${encodeURIComponent(viewer.sub)}`,
+    );
+    const votes = await response.json();
+    return jsonResponse({
+      viewer: publicViewer(viewer),
+      viewerVotes: votes.viewerVotes || {},
+    });
   }
 
   if (path === "/auth/logout") {
     if (request.method !== "POST") return methodNotAllowed("POST");
     if (!isTrustedMutationOrigin(request, env)) return forbidden();
-    return jsonResponse(
-      { ok: true },
-      200,
-      { "Set-Cookie": clearCookie(SESSION_COOKIE, env) },
-    );
+    return jsonResponse({ ok: true });
   }
 
   if (path === "/auth/github") {
@@ -76,16 +80,15 @@ export async function handleAuthVoteRoute(
       return unavailable("Voting is not configured.");
     }
 
-    const viewer = await readSession(request, env);
+    const vote = await readVoteBody(request);
+    if (vote instanceof Response) return vote;
+    const viewer = await readSession(vote.sessionToken, env);
     if (!viewer) {
       return jsonResponse(
         { error: "Sign in with GitHub to vote.", code: "authentication_required" },
         401,
       );
     }
-
-    const value = await readVoteValue(request);
-    if (value instanceof Response) return value;
 
     const slug = voteMatch[1];
     if (!(await isPublishedLoop(env, slug))) {
@@ -99,7 +102,7 @@ export async function handleAuthVoteRoute(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        value,
+        value: vote.value,
         voterKey: viewer.sub,
         provider: viewer.provider,
         username: viewer.username,
@@ -125,15 +128,22 @@ async function startOAuth(requestUrl, env) {
     return unavailable("Login is not configured.");
   }
 
-  const state = randomUrlSafe(32);
+  const clientNonce = requestUrl.searchParams.get("client_nonce") || "";
+  if (!OAUTH_NONCE_PATTERN.test(clientNonce)) {
+    return jsonResponse(
+      { error: "Invalid OAuth nonce", code: "invalid_oauth_nonce" },
+      400,
+    );
+  }
   const returnTo = safeReturnTo(
     requestUrl.searchParams.get("return_to"),
     env,
   );
-  const oauthCookie = await signedValue(
+  const state = await signedValue(
     {
+      v: 1,
       provider: "github",
-      state,
+      clientNonce,
       returnTo,
       exp: Math.floor(Date.now() / 1000) + OAUTH_TTL_SECONDS,
     },
@@ -148,39 +158,37 @@ async function startOAuth(requestUrl, env) {
     state,
   });
 
-  return redirect(authorizationUrl.toString(), {
-    "Set-Cookie": setCookie(OAUTH_COOKIE, oauthCookie, OAUTH_TTL_SECONDS, env),
-  });
+  return jsonResponse({ authorizationUrl: authorizationUrl.toString() });
 }
 
 async function finishOAuth(request, requestUrl, env, fetcher) {
-  const oauth = await readSignedCookie(request, OAUTH_COOKIE, env.SESSION_SECRET);
+  const state = requestUrl.searchParams.get("state") || "";
+  const oauth = await readSignedValue(state, env.SESSION_SECRET);
   const fallback = safeReturnTo(null, env);
   const returnTo = oauth?.returnTo || fallback;
-  const clearOAuth = clearCookie(OAUTH_COOKIE, env);
 
   if (
     !oauth ||
+    oauth.v !== 1 ||
     oauth.provider !== "github" ||
-    !requestUrl.searchParams.get("state") ||
-    !timingSafeEqual(oauth.state, requestUrl.searchParams.get("state"))
+    !OAUTH_NONCE_PATTERN.test(oauth.clientNonce || "")
   ) {
-    return redirect(authErrorUrl(returnTo, "invalid_state", env), {
-      "Set-Cookie": clearOAuth,
-    });
+    return authBridge(authErrorUrl(returnTo, "invalid_state", env));
   }
 
   if (requestUrl.searchParams.get("error")) {
-    return redirect(authErrorUrl(returnTo, "access_denied", env), {
-      "Set-Cookie": clearOAuth,
-    });
+    return authBridge(
+      authErrorUrl(returnTo, "access_denied", env),
+      { clientNonce: oauth.clientNonce },
+    );
   }
 
   const code = requestUrl.searchParams.get("code");
   if (!code) {
-    return redirect(authErrorUrl(returnTo, "missing_code", env), {
-      "Set-Cookie": clearOAuth,
-    });
+    return authBridge(
+      authErrorUrl(returnTo, "missing_code", env),
+      { clientNonce: oauth.clientNonce },
+    );
   }
 
   try {
@@ -203,25 +211,23 @@ async function finishOAuth(request, requestUrl, env, fetcher) {
       },
       env.SESSION_SECRET,
     );
-    const headers = new Headers({
-      "Cache-Control": "no-store",
-      Location: absoluteReturnTo(returnTo, env),
-      "Referrer-Policy": "no-referrer",
-    });
-    headers.append(
-      "Set-Cookie",
-      setCookie(SESSION_COOKIE, session, SESSION_TTL_SECONDS, env),
+    return authBridge(
+      absoluteReturnTo(returnTo, env),
+      {
+        clientNonce: oauth.clientNonce,
+        sessionToken: session,
+      },
+      authErrorUrl(returnTo, "invalid_state", env),
     );
-    headers.append("Set-Cookie", clearOAuth);
-    return new Response(null, { status: 302, headers });
   } catch (error) {
     console.error("OAuth login failed", {
       provider: "github",
       message: error instanceof Error ? error.message : String(error),
     });
-    return redirect(authErrorUrl(returnTo, "provider_error", env), {
-      "Set-Cookie": clearOAuth,
-    });
+    return authBridge(
+      authErrorUrl(returnTo, "provider_error", env),
+      { clientNonce: oauth.clientNonce },
+    );
   }
 }
 
@@ -271,9 +277,9 @@ function githubConfiguration(env) {
   };
 }
 
-async function readSession(request, env) {
+async function readSession(sessionToken, env) {
   if (!env.SESSION_SECRET) return null;
-  const session = await readSignedCookie(request, SESSION_COOKIE, env.SESSION_SECRET);
+  const session = await readSignedValue(sessionToken, env.SESSION_SECRET);
   if (
     !session ||
     session.v !== 1 ||
@@ -296,7 +302,7 @@ function publicViewer(viewer) {
     : null;
 }
 
-async function readVoteValue(request) {
+async function readVoteBody(request) {
   const length = Number(request.headers.get("Content-Length") || 0);
   if (Number.isFinite(length) && length > MAX_VOTE_BODY_BYTES) {
     return jsonResponse({ error: "Vote is too large", code: "invalid_vote" }, 413);
@@ -307,10 +313,50 @@ async function readVoteValue(request) {
       return jsonResponse({ error: "Vote is too large", code: "invalid_vote" }, 413);
     }
     const body = JSON.parse(text);
-    if (!body || ![-1, 0, 1].includes(body.value)) throw new Error("invalid");
-    return body.value;
+    if (
+      !body ||
+      ![-1, 0, 1].includes(body.value) ||
+      (body.sessionToken !== undefined && typeof body.sessionToken !== "string") ||
+      String(body.sessionToken || "").length > 900
+    ) {
+      throw new Error("invalid");
+    }
+    return { value: body.value, sessionToken: body.sessionToken || "" };
   } catch {
     return jsonResponse({ error: "Invalid vote", code: "invalid_vote" }, 400);
+  }
+}
+
+async function readAuthBody(request) {
+  const length = Number(request.headers.get("Content-Length") || 0);
+  if (Number.isFinite(length) && length > MAX_VOTE_BODY_BYTES) {
+    return jsonResponse(
+      { error: "Session request is too large", code: "invalid_session" },
+      413,
+    );
+  }
+  try {
+    const text = await request.text();
+    if (new TextEncoder().encode(text).byteLength > MAX_VOTE_BODY_BYTES) {
+      return jsonResponse(
+        { error: "Session request is too large", code: "invalid_session" },
+        413,
+      );
+    }
+    const body = JSON.parse(text);
+    if (
+      !body ||
+      typeof body.sessionToken !== "string" ||
+      body.sessionToken.length > 900
+    ) {
+      throw new Error("invalid");
+    }
+    return { sessionToken: body.sessionToken };
+  } catch {
+    return jsonResponse(
+      { error: "Invalid session request", code: "invalid_session" },
+      400,
+    );
   }
 }
 
@@ -329,7 +375,10 @@ function voteStoreFetch(env, path, init) {
 
 function isTrustedMutationOrigin(request, env) {
   const origin = request.headers.get("Origin");
-  if (!origin) return false;
+  // here.now intentionally strips browser Origin headers from proxy requests.
+  // The signed bearer token remains required for every vote; reject only an
+  // explicit, untrusted Origin so direct cross-site requests still fail.
+  if (!origin) return true;
   const allowed = new Set([
     `https://${env.PUBLIC_SITE_HOSTNAME || "signals.forwardfuture.ai"}`,
     "http://localhost:4173",
@@ -386,35 +435,14 @@ function stripBasePath(pathname, basePath) {
   return pathname;
 }
 
-function setCookie(name, value, maxAge, env) {
-  return `${name}=${value}; Path=${cookiePath(env)}; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`;
-}
-
-function clearCookie(name, env) {
-  return `${name}=; Path=${cookiePath(env)}; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
-}
-
-function cookiePath(env) {
-  return `${normalizeBasePath(env.PUBLIC_SITE_PATH || "/loop-library") || "/"}/`.replace("//", "/");
-}
-
-function cookieValue(request, name) {
-  const cookies = request.headers.get("Cookie") || "";
-  for (const part of cookies.split(";")) {
-    const [key, ...rest] = part.trim().split("=");
-    if (key === name) return rest.join("=");
-  }
-  return "";
-}
-
 async function signedValue(payload, secret) {
   const encoded = base64Url(JSON.stringify(payload));
   return `${encoded}.${await hmac(encoded, secret)}`;
 }
 
-async function readSignedCookie(request, name, secret) {
+async function readSignedValue(value, secret) {
   if (!secret) return null;
-  const value = cookieValue(request, name);
+  if (typeof value !== "string" || value.length > 2000) return null;
   const separator = value.lastIndexOf(".");
   if (separator < 1) return null;
   const encoded = value.slice(0, separator);
@@ -477,16 +505,65 @@ function timingSafeEqual(left, right) {
   return different === 0;
 }
 
-function redirect(location, headers = {}) {
-  return new Response(null, {
-    status: 302,
+function authBridge(destination, payload = {}, invalidStateDestination = destination) {
+  const bridge = scriptJson({
+    clientNonce: payload.clientNonce || null,
+    destination,
+    invalidStateDestination,
+    sessionToken: payload.sessionToken || null,
+  });
+  const safeDestination = escapeHtml(destination);
+  const body = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><title>Finishing GitHub sign-in</title></head>
+<body><p>Finishing GitHub sign-in…</p><p><a href="${safeDestination}">Continue</a></p>
+<script>
+const bridge = ${bridge};
+let destination = bridge.destination;
+try {
+  if (bridge.clientNonce) {
+    const storedNonce = sessionStorage.getItem("ll_oauth_nonce");
+    sessionStorage.removeItem("ll_oauth_nonce");
+    if (bridge.sessionToken && storedNonce === bridge.clientNonce) {
+      sessionStorage.setItem("ll_session", bridge.sessionToken);
+    } else if (bridge.sessionToken) {
+      destination = bridge.invalidStateDestination;
+    }
+  }
+} catch {
+  if (bridge.sessionToken) {
+    destination = bridge.invalidStateDestination;
+  }
+}
+location.replace(destination);
+</script></body></html>`;
+  return new Response(body, {
+    status: 200,
     headers: {
       "Cache-Control": "no-store",
-      Location: location,
+      "Content-Security-Policy": "default-src 'none'; script-src 'unsafe-inline'; style-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+      "Content-Type": "text/html; charset=utf-8",
       "Referrer-Policy": "no-referrer",
-      ...headers,
+      "X-Content-Type-Options": "nosniff",
     },
   });
+}
+
+function scriptJson(value) {
+  return JSON.stringify(value)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function jsonResponse(body, status = 200, headers = {}) {
