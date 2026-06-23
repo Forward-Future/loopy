@@ -128,7 +128,11 @@ async function startOAuth(requestUrl, env) {
     return unavailable("Login is not configured.");
   }
 
-  const clientNonce = requestUrl.searchParams.get("client_nonce") || "";
+  const requestedNonce = requestUrl.searchParams.get("client_nonce");
+  if (requestedNonce === null) {
+    return oauthStartBridge(requestUrl, env);
+  }
+  const clientNonce = requestedNonce;
   if (!OAUTH_NONCE_PATTERN.test(clientNonce)) {
     return jsonResponse(
       { error: "Invalid OAuth nonce", code: "invalid_oauth_nonce" },
@@ -159,6 +163,54 @@ async function startOAuth(requestUrl, env) {
   });
 
   return jsonResponse({ authorizationUrl: authorizationUrl.toString() });
+}
+
+function oauthStartBridge(requestUrl, env) {
+  const startUrl = new URL(
+    `${canonicalOrigin(env)}${normalizeBasePath(
+      env.PUBLIC_SITE_PATH || "/loop-library",
+    )}/auth/github`,
+  );
+  startUrl.searchParams.set(
+    "return_to",
+    safeReturnTo(requestUrl.searchParams.get("return_to"), env),
+  );
+  const bridge = scriptJson({ startUrl: startUrl.toString() });
+  const body = `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><title>Starting GitHub sign-in</title></head>
+<body><p data-auth-status>Starting GitHub sign-in…</p>
+<script>
+const bridge = ${bridge};
+try {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  let binary = "";
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  const nonce = btoa(binary).replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/, "");
+  sessionStorage.setItem("ll_oauth_nonce", nonce);
+  const url = new URL(bridge.startUrl);
+  url.searchParams.set("client_nonce", nonce);
+  fetch(url, { headers: { Accept: "application/json" } })
+    .then(async (response) => {
+      const result = await response.json();
+      if (!response.ok || !result.authorizationUrl) throw new Error("GitHub sign-in is unavailable.");
+      location.replace(result.authorizationUrl);
+    })
+    .catch(() => { document.querySelector("[data-auth-status]").textContent = "GitHub sign-in is unavailable. Please try again."; });
+} catch {
+  document.querySelector("[data-auth-status]").textContent = "GitHub sign-in is unavailable in this browser.";
+}
+</script></body></html>`;
+  return new Response(body, {
+    status: 200,
+    headers: {
+      "Cache-Control": "no-store",
+      "Content-Security-Policy": `default-src 'none'; script-src 'unsafe-inline'; connect-src 'self' ${canonicalOrigin(env)}; base-uri 'none'; frame-ancestors 'none'`,
+      "Content-Type": "text/html; charset=utf-8",
+      "Referrer-Policy": "no-referrer",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
 }
 
 async function finishOAuth(request, requestUrl, env, fetcher) {
