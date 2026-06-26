@@ -5,7 +5,7 @@ Loop Library has two separate but related parts in this repository:
 | Part | What it is | Where it lives |
 | --- | --- | --- |
 | **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.com/loop-library/) · shell in [`site/`](site/), database and rendering in [`worker/`](worker/) |
-| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, adapt, or design loops through conversation. It uses the website's live catalog when recommending published loops. | source in [`skills/loopy/`](skills/loopy/) |
+| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, or prepare loops for publication. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
 
 The website is the library; Loopy is a companion way to work with it. You
 can browse or give an agent the website without installing Loopy. Installing
@@ -75,12 +75,20 @@ library. You can use it to:
 - Audit an existing loop for weak checks, unsafe actions, or unclear stopping
   behavior, then repair only the material problems.
 - Adapt a useful loop to your tools, limits, and definition of success.
-- Design a new loop through a short, plain-language conversation.
+- Interview you about what you want to accomplish and what success looks like,
+  then craft a new loop through a short, plain-language conversation.
+- Run a loop in bounded passes and return a receipt with the actions, evidence,
+  outcome, and stopping reason.
+- Debrief completed runs and recommend the smallest evidence-backed
+  improvement.
+- Check a loop for catalog overlap, prepare a publication draft, and submit it
+  only after you approve the exact preview.
 - Turn the result into a compact prompt you can use right away.
 
 Loopy checks the live catalog when it recommends a published loop. It does
-not quietly start schedules, change production, or send messages on your
-behalf. Those actions still require the normal permissions and approvals.
+not quietly start schedules, change production, publish content, or send
+messages on your behalf. Those actions still require the normal permissions
+and approvals.
 
 ## Install Loopy
 
@@ -149,7 +157,7 @@ $loopy Analyze this codebase and my coding threads for repeated work, then turn 
 ## Use Loopy
 
 You do not need to know loop terminology. Invoke Loopy and say what you
-want to get done. It can take five paths:
+want to get done. It can take eight paths:
 
 | Path | What it does | Example request |
 | --- | --- | --- |
@@ -157,7 +165,10 @@ want to get done. It can take five paths:
 | **Find** | Searches the live catalog and recommends up to three published loops. It does not run them. | `Find a published loop for keeping our documentation current.` |
 | **Loop Doctor** | Audits a loop you paste or name, explains material weaknesses, and repairs only those problems. | `Audit this loop and repair only material problems: [paste loop]` |
 | **Adapt** | Tailors a useful loop to your real tools, limits, schedule, and definition of success. | `Adapt the Overnight Docs Sweep to this repository and our existing checks.` |
-| **Design** | Asks a few plain-language questions, then creates a short, bounded loop when the catalog has no good fit. | `Help me design a loop that turns customer feedback into verified fixes.` |
+| **Craft** | Interviews you one question at a time about the outcome, definition of success, scope, checks, and stopping point, then creates a bounded loop when the catalog has no good fit. | `Interview me and help me craft a loop for turning customer feedback into verified fixes.` |
+| **Run** | Executes an identified loop in bounded passes, applies its acceptance check, and returns an evidence-backed receipt. | `Run the Overnight Docs Sweep in this repository.` |
+| **Debrief** | Analyzes one or more completed run receipts and recommends the smallest justified improvement. | `Debrief this run receipt and tell me whether the loop needs to change.` |
+| **Publish** | Checks quality and catalog overlap, prepares an exact publication preview, and submits only after explicit approval. | `Prepare this loop for publication in Loop Library.` |
 
 For example, in Claude Code or Cursor:
 
@@ -193,11 +204,38 @@ evidence and either a new loop, an adaptation of a published loop, a short
 candidate slate when your choice matters, or a clean no-op when nothing truly
 fits.
 
-When Loopy finds or creates the right loop, it gives you a prompt to use
-with your agent. Review any placeholders, then ask the agent to run that prompt
-in the project you want it to work on. Selecting a loop does not start a
-schedule, deploy code, delete data, send messages, or grant new permissions;
-you must request those actions explicitly.
+When Loopy finds or creates the right loop, it gives you a prompt to use with
+your agent. You can copy that prompt or explicitly ask Loopy to run it in the
+project you want it to work on. Selecting a loop does not start a run or
+schedule, deploy code, delete data, publish content, send messages, or grant new
+permissions; you must request those actions explicitly.
+
+### Run and improve loops
+
+When asked to run a loop, Loopy re-reads current state, performs one bounded
+action at a time, applies the same acceptance check after each pass, and stops
+at success, a clean no-op, a blocker, an approval boundary, an exhausted limit,
+or no measurable progress. Before acting, it requires a finite run boundary
+supplied by the loop or by you. Its receipt preserves the exact loop definition
+or an immutable reference plus the acceptance conditions, so a later debrief
+can reproduce what ran. Loopy does not create persistent run files unless you
+request them or the project already has an established convention.
+
+Give that receipt back to Loopy for a debrief. It separates loop-design issues
+from execution, tool, environment, or goal problems and recommends one minimal
+change grounded in the evidence. A single run is treated as one result, not a
+recurring pattern.
+
+### Prepare a loop for publication
+
+Loopy validates the feedback cycle, checks the live catalog for overlap, and
+prepares the exact candidate and destination for review. It will not send a
+suggestion, save an owner draft, or publish publicly without explicit approval.
+An approved owner action defaults to a draft unless public publication is
+separately approved. Public suggestions return only an acceptance receipt;
+owner drafts and public publications require status readback. Suggestion
+submission also requires separate confirmation of the exact current ownership
+and license attestation shown in the preview.
 
 Every published loop also includes a few useful parts:
 

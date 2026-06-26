@@ -1,6 +1,6 @@
 ---
 name: loop-library
-description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, recommendation, audit, repair, adaptation, and bounded loop-design workflows.
+description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, recommendation, audit, repair, adaptation, guided crafting, bounded execution, run debrief, and publication-preparation workflows.
 ---
 
 # Loop Library (legacy alias)
@@ -10,8 +10,9 @@ with this workflow. Use `loopy`, `$loopy`, or `/loopy` for new installations
 and explicit invocations.
 
 Help the user discover loop opportunities in existing engineering work, reuse a
-published Loop Library loop when one fits, audit or repair an existing loop, or
-design a new one through a focused interview. Treat a loop as a feedback system
+published Loop Library loop when one fits, audit or repair an existing loop,
+craft a new one through a focused interview, run it with evidence, learn from
+the result, or prepare it for Loop Library. Treat a loop as a feedback system
 with terminal states, not as permission for endless autonomy.
 
 ## Route the request
@@ -25,14 +26,25 @@ Choose the smallest useful path:
   weaknesses without changing its intended outcome.
 - **Adapt:** Start from a published loop and replace its thresholds, tools,
   cadence, owners, or checks without weakening its feedback cycle.
-- **Design:** Ask a few plain-language questions, then produce a new bounded
-  loop.
-- **Find, then design:** Search first. Use the nearest published loop as a
+- **Craft / Guided Design:** Interview the user about the outcome and what
+  success means, then produce a new bounded loop.
+- **Run:** Execute an identified loop within the user's authorized scope and
+  return an evidence-backed run receipt.
+- **Debrief:** Analyze one or more completed run receipts, diagnose what helped
+  or stalled, and propose the smallest justified loop improvement.
+- **Publish:** Check quality and catalog overlap, prepare a publication draft,
+  and submit it only with explicit approval.
+- **Find, then craft:** Search first. Use the nearest published loop as a
   scaffold and ask only about the missing decisions.
 
-Do not ask for information the user already supplied. If an audit target is
-missing, ask the user to paste, link, or name the loop. For another vague
-request, begin with: "What would you like the agent to get done?"
+Do not ask for information the user already supplied. If an audit, run,
+debrief, or publication target is missing, ask the user to paste, link, or name
+it. For another vague request, begin with: "What are you trying to
+accomplish?"
+
+Use Loop Doctor to judge a loop's design. Use Debrief to explain an observed
+run. When the user asks for both, debrief the evidence first, then audit only
+the loop changes that the evidence supports.
 
 ## Discover loops from existing work
 
@@ -70,7 +82,7 @@ feedback-cycle rules below before recommending or crafting it.
 5. Recommend at most three. For each, give its exact published title and link,
    why it fits, and the smallest adaptation required.
 6. Prefer adapting a strong match over inventing a nearly identical loop. If no
-   loop fits, say so plainly and switch to the design interview.
+   loop fits, say so plainly and switch to the crafting interview.
 
 Never invent a Loop Library title, number, contributor, or URL. Label an
 adaptation or new design as such; do not imply that it is already published.
@@ -92,7 +104,32 @@ style. Do not search the catalog unless the user names a published loop, asks
 for alternatives, or wants to know whether a published loop already solves the
 same problem.
 
-## Keep discovered loops, adaptations, and repairs grounded
+## Run a loop
+
+When the user asks Loopy to run, execute, or try a loop, read
+[references/run.md](references/run.md) and follow the bounded execution and
+receipt workflow. Running a loop authorizes only the ordinary, reversible
+actions clearly within the user's stated scope. It does not authorize a
+schedule, production change, destructive action, purchase, privacy-sensitive
+access, or external message.
+
+## Debrief completed runs
+
+When the user asks what happened in a run, why a loop stalled, or how to
+improve a loop from runtime evidence, read
+[references/debrief.md](references/debrief.md). Ground the diagnosis in the
+available receipt and evidence. Do not infer a recurring pattern from one run
+or turn an environment failure into an unsupported prompt rewrite.
+
+## Prepare or publish a loop
+
+When the user asks to share, submit, or publish a loop, read
+[references/publish.md](references/publish.md). Check the live catalog for
+overlap, validate the candidate, show an exact preview, and require explicit
+approval before any external submission. Saving an authorized owner draft is
+not approval to make it public.
+
+## Keep every workflow grounded
 
 Use only details the user supplied or facts found in the systems and files they
 put in scope. A published loop's tools and examples are not facts about the
@@ -105,29 +142,35 @@ relevant items," omit it when it is not needed, or ask one short question when
 the answer is necessary for safety or success. Never present a guess as a
 "sensible default."
 
-## Run the design interview
+## Craft a loop through an interview
 
-Assume the user is new to loops. Ask one short question at a time in everyday
-language. In the interview questions, do not use terms such as trigger, success
-gate, terminal state, guardrail, or persistent state unless the user asks what
-they mean.
+Assume the user is new to loops. Make this a conversation, not a form: ask one
+short question at a time in everyday language, incorporate each answer, and do
+not repeat questions the user already answered. Do not use terms such as
+trigger, success gate, terminal state, guardrail, or persistent state unless
+the user asks what they mean.
 
 Start with:
 
-1. "What would you like the agent to get done?"
+1. "What are you trying to accomplish?"
 
 Then ask only what is still needed:
 
-2. "When should it run: when you ask, on a schedule, or after something
+2. "What would a successful result look like?"
+3. "When should it run: when you ask, on a schedule, or after something
    happens?"
-3. "What can it look at or change? Is anything off-limits?"
-4. "How will you know it worked?"
-5. "When should it stop or ask you for help?"
+4. "What can it look at or change? Is anything off-limits?"
+5. "How could the agent check that it worked?"
+6. "When should it stop or ask you for help?"
 
 Infer the smallest repeatable action, what to remember, and the final handoff
 from the user's answers instead of asking them to design those parts. Keep
 unknown details generic rather than filling them in. Stop asking questions once
-the remaining details would not change the design materially.
+the remaining details would not change the design materially. As soon as the
+outcome and success definition are clear, check whether fresh feedback could
+change a later action. If not, offer a one-shot workflow instead of continuing
+the loop interview. Search the live catalog early enough to use a strong match
+as the scaffold for remaining questions; otherwise craft a new loop.
 
 ## Design the feedback cycle
 
@@ -165,12 +208,14 @@ Apply these rules:
 - Recommend a one-shot workflow instead of manufacturing a loop when no new
   feedback can change the next action.
 
-Designing a loop does not authorize enabling a schedule, changing production,
-or sending external messages. Implement or activate it only when the user asks.
+Crafting or selecting a loop does not run it. Running a loop does not authorize
+enabling a schedule, changing production, or sending external messages unless
+the user separately grants that authority. Treat publication as a separate
+external action with its own preview and approval.
 
 ## Validate every crafted loop
 
-Before delivering any discovered, adapted, repaired, or newly designed loop,
+Before delivering any discovered, adapted, repaired, or newly crafted loop,
 silently trace one complete cycle and repair material weaknesses. Confirm that:
 
 - fresh observations can change the next action; otherwise return a one-shot
@@ -197,7 +242,7 @@ Find section and stop. For a Discover request, name the compact source evidence
 before the loop; cite at least two occurrences whenever claiming repeated work,
 and do not quote sensitive thread content. Add that evidence as one short
 `Evidence:` line before the format below. Use the format for an adapted or newly
-designed loop.
+crafted loop.
 
 Keep its internal design private unless the user asks for the detailed
 breakdown. Do not print the six-step cycle, field-by-field schema, assumptions
