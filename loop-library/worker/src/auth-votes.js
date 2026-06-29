@@ -42,6 +42,7 @@ export async function handleAuthVoteRoute(
     if (body instanceof Response) return body;
     const viewer = await readSession(body.sessionToken, env);
     if (!viewer) return jsonResponse({ viewer: null, viewerVotes: {} });
+    if (!env.VOTE_STORE) return unavailable("Voting is not configured.");
     const response = await voteStoreFetch(
       env,
       `/votes?voter=${encodeURIComponent(viewer.sub)}`,

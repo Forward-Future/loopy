@@ -331,6 +331,7 @@ node --check loop-library/site/script.js
 node loop-library/scripts/check.mjs
 npm --prefix loop-library/worker run check
 python3 -m json.tool loop-library/site/.herenow/data.json >/dev/null
+python3 -m json.tool loop-library/site/.herenow/proxy.json >/dev/null
 python3 -m json.tool loop-library/scripts/seo-geo-query-benchmark.json >/dev/null
 git diff --check
 ```

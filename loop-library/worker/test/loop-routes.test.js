@@ -16,8 +16,13 @@ class MemoryLoopCatalogNamespace {
   revisions = new Map();
   restore = null;
 
-  constructor(active = true) {
+  constructor(active = true, options = {}) {
     this.active = active;
+    this.validateWrites = options.validateWrites === true;
+
+    for (const loop of options.seedLoops || []) {
+      this.loops.set(loop.slug, { ...loop });
+    }
   }
 
   idFromName(name) {
@@ -39,6 +44,10 @@ class MemoryLoopCatalogNamespace {
               { status: 409 },
             );
           }
+          const catalogError = this.catalogIntegrityError([
+            { loop: body.loop, status: body.status },
+          ]);
+          if (catalogError) return catalogError;
           this.loops.set(body.loop.slug, { ...body.loop, status: body.status });
           const revisions = this.revisions.get(body.loop.slug) || [];
           revisions.unshift({
@@ -76,6 +85,10 @@ class MemoryLoopCatalogNamespace {
 
         if (init.method === "POST" && url.pathname === "/import") {
           const body = JSON.parse(init.body);
+          const catalogError = this.catalogIntegrityError(
+            body.loops.map((loop) => ({ loop, status: body.status })),
+          );
+          if (catalogError) return catalogError;
           for (const loop of body.loops) this.loops.set(loop.slug, { ...loop, status: body.status });
           if (body.activate) this.active = true;
           return Response.json({ imported: body.loops.length });
@@ -191,11 +204,31 @@ class MemoryLoopCatalogNamespace {
       },
     };
   }
+
+  catalogIntegrityError(changes) {
+    if (!this.validateWrites) return null;
+
+    try {
+      assertCatalogIntegrity([...this.loops.values()], changes);
+      return null;
+    } catch (error) {
+      return Response.json(
+        {
+          error: error instanceof Error ? error.message : "Invalid catalog graph",
+          code: "invalid_catalog_graph",
+        },
+        { status: 409 },
+      );
+    }
+  }
 }
 
 function makeEnv(options = {}) {
   return {
-    LOOP_CATALOG: new MemoryLoopCatalogNamespace(options.active ?? true),
+    LOOP_CATALOG: new MemoryLoopCatalogNamespace(options.active ?? true, {
+      validateWrites: options.validateCatalog === true,
+      seedLoops: options.seedLoops,
+    }),
     LOOP_PUBLISH_TOKEN: "test-publish-token",
     BOOTSTRAP_CATALOG_DIGEST: options.bootstrapDigest || "test-bootstrap-digest",
     BOOTSTRAP_LOOP_COUNT: String(options.bootstrapLoopCount ?? 50),
@@ -235,6 +268,63 @@ function exampleLoop(overrides = {}) {
     related: ["overnight-docs-sweep"],
     ...overrides,
   };
+}
+
+function overnightDocsLoop(overrides = {}) {
+  return exampleLoop({
+    number: "900",
+    slug: "overnight-docs-sweep",
+    title: "The overnight docs sweep",
+    summary: "Keeps documentation refreshed during a bounded maintenance pass.",
+    seoTitle: "Overnight Docs Sweep | Loop Library",
+    description: "A loop for refreshing docs with a concrete overnight check.",
+    prompt: "Review stale docs, update the highest-value page, verify links, and stop.",
+    verifyTitle: "Docs pass the configured link and freshness checks.",
+    verifyDetail: "Run the documentation checks and inspect the changed page.",
+    useWhen: "Use this when documentation has drifted after product or code changes.",
+    steps: [
+      "Find the stale documentation surface.",
+      "Make one focused update.",
+      "Run the documentation verification checks.",
+    ],
+    why: "Small bounded updates keep docs useful without broad rewrites.",
+    note: "Stop when the check passes or when ownership is unclear.",
+    keywords: ["documentation", "maintenance", "freshness"],
+    related: ["catalog-support-loop"],
+    ...overrides,
+  });
+}
+
+function catalogSupportLoop(overrides = {}) {
+  return exampleLoop({
+    number: "901",
+    slug: "catalog-support-loop",
+    title: "The catalog support loop",
+    summary: "Provides a stable fixture for catalog graph validation.",
+    seoTitle: "Catalog Support Loop | Loop Library",
+    description: "A support loop used to validate related-loop relationships.",
+    prompt: "Check the catalog graph, confirm related links resolve, and stop.",
+    verifyTitle: "Every related loop slug resolves.",
+    verifyDetail: "Read the generated catalog and verify each related link.",
+    useWhen: "Use this when validating catalog graph behavior.",
+    steps: [
+      "Load the catalog records.",
+      "Trace each related-loop slug.",
+      "Report any missing or unpublished relationship.",
+    ],
+    why: "Graph validation prevents public pages from hiding broken relationships.",
+    note: "Keep the fixture plain so tests can assert the target loop explicitly.",
+    keywords: ["catalog graph", "related loops", "validation"],
+    related: ["overnight-docs-sweep"],
+    ...overrides,
+  });
+}
+
+function publishedSupportLoops() {
+  return [
+    { ...overnightDocsLoop(), status: "published" },
+    { ...catalogSupportLoop(), status: "published" },
+  ];
 }
 
 function adminRequest(loop, options = {}) {
@@ -284,6 +374,60 @@ test("rejects unauthorized and invalid publishing requests", async () => {
   );
   assert.equal(invalid.status, 400);
   assert.equal((await invalid.json()).code, "invalid_loop");
+});
+
+test("publishing routes reject invalid catalog graphs through the catalog store", async () => {
+  const missingRelated = makeEnv({ validateCatalog: true });
+  const missingRelatedResponse = await handleRequest(
+    adminRequest(exampleLoop({ related: ["missing-loop"] })),
+    missingRelated,
+  );
+  assert.equal(missingRelatedResponse.status, 409);
+  assert.match(
+    (await missingRelatedResponse.json()).error,
+    /references unavailable related loop missing-loop/,
+  );
+
+  const invalidImport = makeEnv({ validateCatalog: true });
+  const importResponse = await handleRequest(
+    new Request(`${WORKER_ORIGIN}/admin/loops/import`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer test-publish-token",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        loops: [exampleLoop({ related: ["missing-loop"] })],
+        status: "published",
+      }),
+    }),
+    invalidImport,
+  );
+  assert.equal(importResponse.status, 409);
+  assert.equal((await importResponse.json()).code, "invalid_catalog_graph");
+
+  const duplicateMetadata = makeEnv({
+    validateCatalog: true,
+    seedLoops: [
+      ...publishedSupportLoops(),
+      { ...exampleLoop({ related: ["overnight-docs-sweep"] }), status: "published" },
+    ],
+  });
+  const duplicateResponse = await handleRequest(
+    adminRequest(
+      exampleLoop({
+        number: "052",
+        slug: "duplicate-title-loop",
+        related: ["overnight-docs-sweep"],
+      }),
+    ),
+    duplicateMetadata,
+  );
+  assert.equal(duplicateResponse.status, 409);
+  assert.match(
+    (await duplicateResponse.json()).error,
+    /duplicate-title-loop.title duplicates database-publishing-loop.title/,
+  );
 });
 
 test("rejects a stale publisher instead of overwriting a newer revision", async () => {
@@ -410,6 +554,31 @@ test("renders database content into the canonical homepage and detail page", asy
     assert.match(detailHtml, new RegExp(`property="${property}"`));
   }
   assert.match(detailHtml, /name="twitter:image:alt"/);
+});
+
+test("renders related links from a catalog graph validated by the store", async () => {
+  const env = makeEnv({
+    validateCatalog: true,
+    seedLoops: publishedSupportLoops(),
+  });
+  const publish = await handleRequest(
+    adminRequest(exampleLoop({ related: ["overnight-docs-sweep"] })),
+    env,
+  );
+  assert.equal(publish.status, 201);
+
+  const detail = await handleRequest(
+    new Request(`${SITE_ORIGIN}/loop-library/loops/database-publishing-loop/`),
+    env,
+  );
+  const detailHtml = await detail.text();
+
+  assert.equal(detail.status, 200);
+  assert.match(detailHtml, /Related loops/);
+  assert.match(
+    detailHtml,
+    /href="\.\.\/overnight-docs-sweep\/">The overnight docs sweep<\/a>/,
+  );
 });
 
 test("renders homepage headers for HEAD by fetching the origin shell with GET", async () => {
@@ -563,6 +732,7 @@ test("generates catalogs, sitemap, and feed from the same record", async () => {
   for (const [path, expected] of [
     ["catalog.json", '"loopCount":1'],
     ["catalog.md", "The database publishing loop"],
+    ["catalog.txt", "The database publishing loop"],
     ["llms.txt", "Published loops: 1."],
     ["sitemap.xml", "/loops/database-publishing-loop/"],
     ["feed.xml", "The database publishing loop"],

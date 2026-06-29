@@ -53,13 +53,14 @@ this repository layout.
   node loop-library/scripts/check.mjs
   npm --prefix loop-library/worker run check
   python3 -m json.tool loop-library/site/.herenow/data.json >/dev/null
+  python3 -m json.tool loop-library/site/.herenow/proxy.json >/dev/null
   python3 -m json.tool loop-library/scripts/seo-geo-query-benchmark.json >/dev/null
   git diff --check
   ```
 
 - Do not publish a loop unless its public homepage row, detail page,
-  `catalog.json`, `catalog.md`, sitemap, and feed all read back from production
-  with the expected slug and modified date.
+  `catalog.json`, `catalog.md`, `catalog.txt`, `llms.txt`, sitemap, and feed
+  all read back from production with the expected slug and modified date.
 
 ## Protected forms
 

@@ -219,6 +219,24 @@ test("voting UI is fail-closed unless the launch flag is exactly true", async ()
   assert.equal((await enabled.json()).uiEnabled, true);
 });
 
+test("session lookup fails closed when vote storage is unavailable", async () => {
+  const env = makeEnv();
+  const sessionToken = await githubSession(env);
+  delete env.VOTE_STORE;
+
+  const session = await handleAuthVoteRoute(
+    new Request(`${BASE}/auth/session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionToken }),
+    }),
+    env,
+  );
+
+  assert.equal(session.status, 503);
+  assert.equal((await session.json()).code, "not_configured");
+});
+
 test("vote writes reject anonymous, cross-site, malformed, and unpublished requests", async () => {
   const env = makeEnv();
   const anonymous = await handleAuthVoteRoute(
