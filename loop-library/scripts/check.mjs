@@ -316,6 +316,9 @@ assert(skillSource.includes("What are you trying to accomplish?"));
 assert(skillSource.includes("What would a successful result look like?"));
 assert(skillSource.includes("offer a one-shot workflow"));
 assert(skillSource.includes("Use Loop Doctor to judge a loop's design"));
+assert(skillSource.includes("## Save and reuse project loops"));
+assert(skillSource.includes("Do not repeat the offer, save without"));
+assert(skillSource.includes("never edit\nor remove another saved loop without an explicit request"));
 assert(skillDiscovery.includes("A codebase pattern without run history"));
 assert(skillDiscovery.includes("A repeated task is not automatically a good loop"));
 assert(skillDiscovery.includes("mandatory crafted-loop preflight"));
@@ -343,6 +346,7 @@ assert(skillInterface.includes("interview me about my goal"));
 assert.match(legacySkillSource, /^---\nname: loop-library\n/);
 assert(legacySkillSource.includes("compatibility name for Loopy"));
 assert(legacySkillSource.includes("references/run.md"));
+assert(legacySkillSource.includes("## Save and reuse project loops"));
 assert.equal(legacySkillRun, skillRun);
 assert.equal(legacySkillDebrief, skillDebrief);
 assert.equal(legacySkillPublish, skillPublish);
@@ -352,7 +356,7 @@ for (const source of [html, learnHtml, agentHtml, rendererSource, readme, skillS
   assert(!source.includes("$loop-library"));
 }
 assert.match(readme, /no\s+published loop records/);
-assert(readme.includes("It can take eight paths"));
+assert(readme.includes("It can take nine paths"));
 assert(readme.includes("| **Discover** |"));
 assert(readme.includes("| **Craft** |"));
 assert(readme.includes("| **Run** |"));

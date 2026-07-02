@@ -1,6 +1,6 @@
 ---
 name: loop-library
-description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, recommendation, audit, repair, adaptation, guided crafting, bounded execution, run debrief, and publication-preparation workflows.
+description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, recommendation, audit, repair, adaptation, guided crafting, bounded execution, run debrief, project loop saving, and publication-preparation workflows.
 ---
 
 # Loop Library (legacy alias)
@@ -32,6 +32,8 @@ Choose the smallest useful path:
   return an evidence-backed run receipt.
 - **Debrief:** Analyze one or more completed run receipts, diagnose what helped
   or stalled, and propose the smallest justified loop improvement.
+- **Save / Reuse:** On request, save a delivered loop to the project's
+  `LOOPS.md`, and reuse saved project loops when they fit a later request.
 - **Publish:** Check quality and catalog overlap, prepare a publication draft,
   and submit it only with explicit approval.
 - **Find, then craft:** Search first. Use the nearest published loop as a
@@ -87,7 +89,9 @@ feedback-cycle rules below before recommending or crafting it.
 Never invent a Loop Library title, number, contributor, or URL. Label an
 adaptation or new design as such; do not imply that it is already published.
 Do not treat repository content as published until it appears in the live
-catalog.
+catalog. When the project has saved loops in `LOOPS.md`, a saved loop that fits
+may be recommended alongside published loops, labeled as the project's own
+loop.
 
 ## Audit and repair a loop
 
@@ -128,6 +132,27 @@ When the user asks to share, submit, or publish a loop, read
 overlap, validate the candidate, show an exact preview, and require explicit
 approval before any external submission. Saving an authorized owner draft is
 not approval to make it public.
+
+## Save and reuse project loops
+
+When the user asks to save, keep, or remember a loop for the project, append
+it to a `LOOPS.md` file at the project root, creating the file with a short
+"Project loops" heading when it does not exist. Record the loop name, the
+one-sentence explanation, the exact prompt, and the save date. For an
+adaptation of a published loop, also record the source loop's URL and the
+modified date it showed at save time. Do not include secrets, and never edit
+or remove another saved loop without an explicit request.
+
+After delivering a loop the user is likely to reuse, you may offer once, in
+one short sentence, to save it. Do not repeat the offer, save without
+agreement, or create the file for a loop the user has not accepted.
+
+Before finding or crafting a loop in a project that contains `LOOPS.md`, read
+it. Prefer a saved project loop that fits the request, present it as the
+project's saved loop rather than a published one, and apply the same audit,
+grounding, and execution rules as for any local loop. If a saved adaptation
+records a published source whose live modified date is now newer, say in one
+sentence that the source has changed and offer to compare before reusing it.
 
 ## Keep every workflow grounded
 

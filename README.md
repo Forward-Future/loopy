@@ -5,7 +5,7 @@ Loop Library has two separate but related parts in this repository:
 | Part | What it is | Where it lives |
 | --- | --- | --- |
 | **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.com/loop-library/) · all website code under [`loop-library/`](loop-library/) (shell in [`loop-library/site/`](loop-library/site/), database and rendering in [`loop-library/worker/`](loop-library/worker/)) |
-| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, or prepare loops for publication. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
+| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, save, or prepare loops for publication. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
 
 The website is the library; Loopy is a companion way to work with it. You
 can browse or give an agent the website without installing Loopy. Installing
@@ -81,6 +81,8 @@ library. You can use it to:
   outcome, and stopping reason.
 - Debrief completed runs and recommend the smallest evidence-backed
   improvement.
+- Save a loop you want to keep into the project's `LOOPS.md` when you ask, and
+  reuse those saved loops in later sessions.
 - Check a loop for catalog overlap, prepare a publication draft, and submit it
   only after you approve the exact preview.
 - Turn the result into a compact prompt you can use right away.
@@ -157,7 +159,7 @@ $loopy Analyze this codebase and my coding threads for repeated work, then turn 
 ## Use Loopy
 
 You do not need to know loop terminology. Invoke Loopy and say what you
-want to get done. It can take eight paths:
+want to get done. It can take nine paths:
 
 | Path | What it does | Example request |
 | --- | --- | --- |
@@ -168,6 +170,7 @@ want to get done. It can take eight paths:
 | **Craft** | Interviews you one question at a time about the outcome, definition of success, scope, checks, and stopping point, then creates a bounded loop when the catalog has no good fit. | `Interview me and help me craft a loop for turning customer feedback into verified fixes.` |
 | **Run** | Executes an identified loop in bounded passes, applies its acceptance check, and returns an evidence-backed receipt. | `Run the Overnight Docs Sweep in this repository.` |
 | **Debrief** | Analyzes one or more completed run receipts and recommends the smallest justified improvement. | `Debrief this run receipt and tell me whether the loop needs to change.` |
+| **Save** | Saves a loop you want to keep into the project's `LOOPS.md`, then reuses saved project loops when they fit a later request. | `Save this loop to the project so we can reuse it.` |
 | **Publish** | Checks quality and catalog overlap, prepares an exact publication preview, and submits only after explicit approval. | `Prepare this loop for publication in Loop Library.` |
 
 For example, in Claude Code or Cursor:
