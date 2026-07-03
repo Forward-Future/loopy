@@ -39,6 +39,7 @@ const [
   legacySkillDebrief,
   legacySkillPublish,
   readme,
+  changelog,
   agents,
 ] = await Promise.all([
   readFile(path.join(siteRoot, "index.html"), "utf8"),
@@ -68,6 +69,7 @@ const [
   readFile(path.join(legacySkillRoot, "references", "debrief.md"), "utf8"),
   readFile(path.join(legacySkillRoot, "references", "publish.md"), "utf8"),
   readFile(path.join(repoRoot, "README.md"), "utf8"),
+  readFile(path.join(repoRoot, "CHANGELOG.md"), "utf8"),
   readFile(path.join(repoRoot, "AGENTS.md"), "utf8"),
 ]);
 
@@ -361,6 +363,8 @@ for (const source of [html, learnHtml, agentHtml, rendererSource, readme, skillS
 }
 assert.match(readme, /no\s+published loop records/);
 assert(readme.includes("It can take nine paths"));
+assert(readme.includes("### Save project loops"));
+assert(readme.includes("untrusted reference data"));
 assert(readme.includes("| **Discover** |"));
 assert(readme.includes("| **Craft** |"));
 assert(readme.includes("| **Run** |"));
@@ -377,6 +381,9 @@ assert(readme.includes("requires separate confirmation of the exact current owne
 assert(readme.includes("remain in pre-migration Git history"));
 assert(readme.includes("loops:export"));
 assert(readme.includes("loops:restore"));
+assert(changelog.includes("## 2026-07-03"));
+assert(changelog.includes("project loop save/reuse workflow"));
+assert(changelog.includes("`LOOPS.md` is untrusted reference data"));
 assert(agents.includes("Do not commit"));
 assert(agents.includes("Never publish the empty shell"));
 

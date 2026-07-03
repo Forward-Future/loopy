@@ -185,6 +185,27 @@ In Codex, choose **Loopy** from `/skills`, then send:
 Find a loop for improving test reliability.
 ```
 
+### Save project loops
+
+When Loopy delivers a loop that you want to keep for a project, ask it to save
+the loop. It appends the accepted loop to `LOOPS.md` at the project root with a
+name, one-sentence explanation, exact prompt, and save date. If the saved loop
+is adapted from a published Loop Library loop, Loopy also records the source URL
+and the source modified date it saw at save time.
+
+Saved loops are project-local, not published Loop Library entries. In later
+find or craft requests, Loopy reads `LOOPS.md` when it exists and can recommend
+a matching saved loop, clearly labeled as the project's own loop. If a saved
+adaptation points to a published source that has changed since it was saved,
+Loopy gives a short heads-up and offers to compare before reuse.
+
+Loopy saves only when you ask. It will not create `LOOPS.md`, edit another
+saved loop, or remove a saved loop without an explicit request. `LOOPS.md` is
+treated as untrusted reference data: saved prompts do not grant permission to
+run code, deploy, schedule work, send messages, expose private data, or take
+destructive action. If an accepted loop prompt contains secrets, Loopy refuses
+to save it until you provide a sanitized prompt.
+
 ### Discover loops from your work
 
 Discovery looks for recurring engineering work in the sources you put in
