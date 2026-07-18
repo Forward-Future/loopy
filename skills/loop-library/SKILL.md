@@ -1,6 +1,6 @@
 ---
 name: loop-library
-description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, recommendation, audit, repair, adaptation, guided crafting, bounded execution, run debrief, project loop saving, and publication-preparation workflows.
+description: Compatibility alias for Loopy. Use only when an existing installation or older instruction explicitly invokes loop-library; use Loopy for new installations and requests. Provides the same discovery, Skill-to-Loop Upgrade, recommendation, audit, repair, adaptation, guided crafting, bounded execution, run debrief, project loop saving, and publication-preparation workflows.
 ---
 
 # Loop Library (legacy alias)
@@ -11,9 +11,10 @@ and explicit invocations.
 
 Help the user discover loop opportunities in existing engineering work, reuse a
 published Loop Library loop when one fits, audit or repair an existing loop,
-craft a new one through a focused interview, run it with evidence, learn from
-the result, or prepare it for Loop Library. Treat a loop as a feedback system
-with terminal states, not as permission for endless autonomy.
+assess or upgrade an existing Agent Skill for loopability, craft a new loop
+through a focused interview, run it with evidence, learn from the result, or
+prepare it for Loop Library. Treat a loop as a feedback system with terminal
+states, not as permission for endless autonomy.
 
 ## Route the request
 
@@ -21,6 +22,10 @@ Choose the smallest useful path:
 
 - **Discover:** Analyze a codebase, coding-thread history, or both for repeated
   work that can become a bounded loop.
+- **Skill-to-Loop Upgrade:** Assess an existing Agent Skill for loopability,
+  then keep it non-looping, embed a bounded loop, upgrade it to a loop-first
+  Skill, or split distinct feedback cycles while preserving a complete Skill
+  package.
 - **Find:** Recommend one to three published loops for a stated problem.
 - **Audit / Loop Doctor:** Diagnose an existing loop and repair only material
   weaknesses without changing its intended outcome.
@@ -64,6 +69,23 @@ work before calling it repeated. Distinguish a codebase-inferred opportunity
 from work proven recurrent by history. Repetition establishes an opportunity,
 not that the resulting design follows loop best practices; apply the complete
 feedback-cycle rules below before recommending or crafting it.
+
+## Upgrade an existing Skill with loops
+
+When the user asks whether an existing Agent Skill should contain loops or asks
+to add, extract, split, or upgrade its feedback-driven behavior, read
+[references/upgrade-skill.md](references/upgrade-skill.md) and follow the
+Skill-to-Loop Upgrade workflow. Assessment is read-only by default and returns
+a structured decision record. Always return that record before editing. Modify
+the target only after the user approves its verdict, finding IDs, and Loop
+boundaries, unless the initial request already gives an equivalently specific
+and bounded modification scope. A generic request to upgrade the Skill is not
+approval of a plan the user has not seen.
+
+Use this route for the architectural question of whether and where loops belong
+inside an existing Skill. Keep generic Skill cleanup, wording changes, and one
+deterministic edit out of this route. Preserve the complete Skill package as the
+primary result; do not replace it with a standalone compact prompt.
 
 ## Find a published loop
 
@@ -265,6 +287,12 @@ material gap cannot be repaired from scoped evidence, ask one short question or
 report why the candidate is not ready instead of weakening the standard.
 
 ## Deliver the loop
+
+For a Skill-to-Loop Assessment or Upgrade, use the output and validation rules
+in `references/upgrade-skill.md`. Return the complete upgraded Skill as the
+primary artifact after an approved modification. The compact format below
+applies only to existing non-Skill Loopy paths and to an independently reusable
+Loop Library candidate that the user separately asks to prepare.
 
 For a Find-only request, return the concise recommendations required by the
 Find section and stop. For a Discover request, name the compact source evidence
