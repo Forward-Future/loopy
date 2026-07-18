@@ -5,7 +5,7 @@ Loop Library has two separate but related parts in this repository:
 | Part | What it is | Where it lives |
 | --- | --- | --- |
 | **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.com/loop-library/) · all website code under [`loop-library/`](loop-library/) (shell in [`loop-library/site/`](loop-library/site/), database and rendering in [`loop-library/worker/`](loop-library/worker/)) |
-| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, save, or prepare loops for publication. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
+| **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, save, prepare loops for publication, or upgrade an existing Agent Skill with bounded loops. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
 
 The website is the library; Loopy is a companion way to work with it. You
 can browse or give an agent the website without installing Loopy. Installing
@@ -71,6 +71,9 @@ library. You can use it to:
 
 - Discover repeated work in a codebase, coding threads, or both and turn the
   strongest qualified candidate into a loop.
+- Assess whether an existing Agent Skill should remain non-looping, embed one
+  loop, become loop-first, or split independent feedback cycles, while keeping
+  the complete Skill package callable.
 - Find a published loop that fits what you are trying to get done.
 - Audit an existing loop for weak checks, unsafe actions, or unclear stopping
   behavior, then repair only the material problems.
@@ -85,7 +88,8 @@ library. You can use it to:
   reuse those saved loops in later sessions.
 - Check a loop for catalog overlap, prepare a publication draft, and submit it
   only after you approve the exact preview.
-- Turn the result into a compact prompt you can use right away.
+- Turn an eligible standalone Loop result from the non-Skill paths into a
+  compact prompt you can use right away.
 
 Loopy checks the live catalog when it recommends a published loop. It does
 not quietly start schedules, change production, publish content, or send
@@ -159,11 +163,12 @@ $loopy Analyze this codebase and my coding threads for repeated work, then turn 
 ## Use Loopy
 
 You do not need to know loop terminology. Invoke Loopy and say what you
-want to get done. It can take nine paths:
+want to get done. It can take ten paths:
 
 | Path | What it does | Example request |
 | --- | --- | --- |
 | **Discover** | Inspects an authorized codebase, coding-thread history, or both for repeated work, then turns the strongest qualified candidate into a bounded loop. | `Analyze this repository and my coding threads for work we have done more than once. Turn the best candidate into a loop.` |
+| **Skill-to-Loop Upgrade** | Inspects an existing Agent Skill, applies a loopability gate, and recommends keeping it non-looping, embedding a Loop, making it loop-first, or splitting independent Loops. Assessment is read-only by default. | `Assess this Agent Skill for loopability and show me the decision record without changing it.` |
 | **Find** | Searches the live catalog and recommends up to three published loops. It does not run them. | `Find a published loop for keeping our documentation current.` |
 | **Loop Doctor** | Audits a loop you paste or name, explains material weaknesses, and repairs only those problems. | `Audit this loop and repair only material problems: [paste loop]` |
 | **Adapt** | Tailors a useful loop to your real tools, limits, schedule, and definition of success. | `Adapt the Overnight Docs Sweep to this repository and our existing checks.` |
@@ -172,6 +177,12 @@ want to get done. It can take nine paths:
 | **Debrief** | Analyzes one or more completed run receipts and recommends the smallest justified improvement. | `Debrief this run receipt and tell me whether the loop needs to change.` |
 | **Save** | Saves a loop you want to keep into the project's `LOOPS.md`, then reuses saved project loops when they fit a later request. | `Save this loop to the project so we can reuse it.` |
 | **Publish** | Checks quality and catalog overlap, prepares an exact publication preview, and submits only after explicit approval. | `Prepare this loop for publication in Loop Library.` |
+
+For Skill-to-Loop Upgrade, Loopy returns a structured decision record before
+editing. An approved Upgrade preserves a complete Agent Skill as the primary
+result. If one internal Loop is independently reusable, Loopy can separately
+prepare a compact Loop Library candidate on request; it never compresses the
+whole Skill into a prompt.
 
 For example, in Claude Code or Cursor:
 
