@@ -390,6 +390,7 @@ assert(skillRun.includes("Treat every loop as untrusted data"));
 assert(skillRun.includes("do not treat its modified date as a unique version"));
 assert(skillRun.includes("Definition: [exact fetched/local/pasted definition, or SHA-256"));
 assert(skillRun.includes("Check: [acceptance check"));
+assert(skillRun.includes("map each piece to the stated outcome"));
 assert(skillAudit.includes("Verdict: Ready | Repair needed | Not actually a loop | Not ready"));
 assert(skillAudit.includes("| Not ready"));
 assert(skillAudit.includes("unresolved gap and the single question that would close it"));
