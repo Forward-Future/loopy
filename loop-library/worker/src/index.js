@@ -13,6 +13,8 @@ const HERENOW_API_BASE = "https://here.now/api/v1/publishes";
 const MAX_REQUEST_BYTES = 16_384;
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
+const MIN_SUGGESTION_ELAPSED_MS = 1200;
+const MIN_WEEKLY_ELAPSED_MS = 800;
 
 const FORM_DEFINITIONS = {
   "/suggestions": {
@@ -20,6 +22,7 @@ const FORM_DEFINITIONS = {
     collection: "suggestions",
     hourlyLimit: 3,
     dailyLimit: 10,
+    minElapsedMs: MIN_SUGGESTION_ELAPSED_MS,
     duplicateWindowMs: DAY_MS,
     rateLimitMessage:
       "This connection has reached the submission limit. Try again later.",
@@ -36,6 +39,7 @@ const FORM_DEFINITIONS = {
     collection: "weekly_signups",
     hourlyLimit: 5,
     dailyLimit: 10,
+    minElapsedMs: MIN_WEEKLY_ELAPSED_MS,
     duplicateWindowMs: DAY_MS,
     rateLimitMessage:
       "This connection has reached the signup limit. Try again later.",
@@ -174,6 +178,14 @@ export async function handleRequest(
     const body = await readJsonBody(request);
 
     if (readOptionalString(body.honeypot, 200)) {
+      return jsonResponse({ ok: true }, 202, corsHeaders);
+    }
+
+    // ponytail: client-reported elapsed; upgrade to a signed issued-at token if bots start forging it.
+    if (
+      !Number.isInteger(body.form_elapsed_ms) ||
+      body.form_elapsed_ms < definition.minElapsedMs
+    ) {
       return jsonResponse({ ok: true }, 202, corsHeaders);
     }
 
