@@ -226,9 +226,9 @@ assert(browserScript.includes('document.querySelectorAll("[data-vote-controls]")
 assert(browserScript.includes('credentials: "same-origin"'));
 assert(css.includes(".vote-controls"));
 assert(css.includes(".login-dialog"));
-assert(rendererSource.includes("renderVoteControls(loop.slug)"));
+assert(rendererSource.includes("renderVoteControls(loop, counts)"));
 assert(rendererSource.includes('class="vote-label"'));
-assert(rendererSource.includes('aria-label="Vote on this loop" hidden'));
+assert(rendererSource.includes('role="group" aria-label="Vote on ${title}" hidden'));
 assert(browserScript.includes("setVotingUiVisible(body.uiEnabled === true)"));
 assert(css.includes(".vote-controls[hidden]"));
 assert(authVotesSource.includes('scope: "read:user"'));
