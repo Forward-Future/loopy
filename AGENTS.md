@@ -35,7 +35,9 @@ this repository layout.
 - Every loop must have a stable slug, unique number, search title and
   description, contributor attribution, published and modified dates,
   practical context, verification criteria, category, keywords, and valid
-  related-loop slugs.
+  related-loop slugs. `categoryLabel` must match the label that
+  `loop-library/worker/src/loop-schema.js` maps for the record's `category`,
+  because the page chip uses the mapping while structured data uses the field.
 - Do not hand-edit the homepage, detail pages, catalogs, feed, sitemap, or
   Loopy skill content when publishing a database record. The Worker renders
   those public surfaces from the same record. New loops use the shared social card unless a

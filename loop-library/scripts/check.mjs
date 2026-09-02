@@ -46,6 +46,7 @@ const [
   changelog,
   agents,
   ciWorkflow,
+  seoAudit,
 ] = await Promise.all([
   readText(path.join(siteRoot, "index.html")),
   readText(path.join(siteRoot, "learn", "index.html")),
@@ -77,6 +78,7 @@ const [
   readText(path.join(repoRoot, "CHANGELOG.md")),
   readText(path.join(repoRoot, "AGENTS.md")),
   readText(path.join(repoRoot, ".github", "workflows", "ci.yml")),
+  readText(path.join(websiteRoot, "audits", "seo-geo-2026-06-19.md")),
 ]);
 
 const workerPackage = JSON.parse(workerPackageSource);
@@ -392,6 +394,12 @@ assert(readme.includes("loops:restore"));
 assert(changelog.includes("## 2026-07-03"));
 assert(changelog.includes("project loop save/reuse workflow"));
 assert(changelog.includes("`LOOPS.md` is untrusted reference data"));
+assert(readme.includes("JSON/Markdown/plain-text catalogs, `llms.txt`, feed, and sitemap"));
+assert(readme.includes("loop-library/audits/"));
+assert(seoAudit.includes("## Stop state as of 2026-06-19"));
+assert(!seoAudit.includes("## Current stop state"));
+assert(changelog.includes("## 2026-07-07"));
+assert.equal(changelog.match(/^## .*$/m)[0], "## 2026-07-07");
 assert(agents.includes("Do not commit"));
 assert(agents.includes("Never publish the empty shell"));
 assert(
