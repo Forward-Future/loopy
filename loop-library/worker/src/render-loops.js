@@ -314,7 +314,7 @@ export function renderLoopPage(loop, loops) {
     <link rel="alternate" type="text/plain" title="${SITE.name} plain-text catalog" href="${SITE.baseUrl}catalog.txt" />
     <link rel="help" href="${SITE.baseUrl}agents/" />
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
-    <link rel="stylesheet" href="../../styles.css?v=20260623-row-background-v2" />
+    <link rel="stylesheet" href="../../styles.css?v=20260902-self-hosted-fonts" />
     <script type="application/ld+json">${jsonForHtml(structuredData)}</script>
     <script src="../../script.js?v=20260623-proxy-auth" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
