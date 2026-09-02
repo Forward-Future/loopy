@@ -169,6 +169,24 @@ for (const page of [html, learnHtml, agentHtml]) {
 assert(
   css.includes("grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);"),
 );
+const fontFaces = css.match(/@font-face\s*\{[^}]*\}/g) || [];
+assert(fontFaces.length >= 4);
+const siteFile = (dir, href) =>
+  access(path.join(siteRoot, dir, href.replace(/^\.\//, "")));
+for (const block of fontFaces) {
+  assert(block.includes("font-display: swap;"), block);
+  for (const [, url] of block.matchAll(/url\(["']?([^"')]+)["']?\)/g)) {
+    await siteFile("", url);
+  }
+}
+for (const [dir, page] of [["", html], ["learn", learnHtml], ["agents", agentHtml]]) {
+  const preloads = [...page.matchAll(/<link rel="preload" href="([^"]+)"[^>]*as="font"/g)];
+  assert(preloads.length >= 1, dir);
+  for (const [, href] of preloads) await siteFile(dir, href);
+}
+for (const name of ["LICENSE-Inter.txt", "LICENSE-IBMPlexMono.txt"]) {
+  await siteFile("assets/fonts", name);
+}
 assert(learnHtml.includes("How agent loops work"));
 assert(agentHtml.includes("For AI agents"));
 assert(agentHtml.includes("bounded execution receipts"));
