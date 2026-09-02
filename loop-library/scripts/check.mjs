@@ -146,7 +146,7 @@ for (const value of [
 assert(html.includes("Search the library"));
 assert(html.includes("Search by title, task, or contributor"));
 assert(html.includes('class="search-field"'));
-assert(html.includes("styles.css?v=20260623-row-background-v2"));
+assert(html.includes("styles.css?v=20260902-self-hosted-fonts"));
 assert(html.includes("script.js?v=20260702-popular-sort"));
 assert(css.includes(".search-control-label"));
 assert(css.includes(".search-control:hover .search-field"));
@@ -155,7 +155,7 @@ assert.match(css, /\.loop-row\s*\{[^}]*background:\s*var\(--surface\);[^}]*\}/);
 assert.match(css, /\.loop-table td\s*\{[^}]*background:\s*transparent;[^}]*\}/);
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 for (const page of [learnHtml, agentHtml]) {
-  assert(page.includes("styles.css?v=20260623-row-background-v2"));
+  assert(page.includes("styles.css?v=20260902-self-hosted-fonts"));
   assert(page.includes("script.js?v=20260702-popular-sort"));
 }
 for (const page of [html, learnHtml, agentHtml]) {
