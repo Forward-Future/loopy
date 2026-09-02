@@ -641,6 +641,35 @@ test("renders the mounted homepage through a here.now proxy", async () => {
   assert.match(await response.text(), /The database publishing loop/);
 });
 
+test("does not copy shell cookies or auth headers into the cacheable homepage", async () => {
+  const env = makeEnv();
+  await handleRequest(adminRequest(exampleLoop()), env);
+  const shell = `<!doctype html><p id="results-count" aria-live="polite">Showing 50 loops</p><time datetime="2026-06-20">Updated June 20, 2026</time><tbody><!-- LOOP_DATABASE_ROWS_START --><!-- LOOP_DATABASE_ROWS_END --></tbody>`;
+  const response = await handleRequest(
+    new Request(`${SITE_ORIGIN}/loop-library/`),
+    env,
+    undefined,
+    {
+      async fetch() {
+        return new Response(shell, {
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Set-Cookie": "a=b",
+            "WWW-Authenticate": "Basic",
+            Vary: "Accept-Encoding",
+          },
+        });
+      },
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("Set-Cookie"), null);
+  assert.equal(response.headers.get("WWW-Authenticate"), null);
+  assert.equal(response.headers.get("Vary"), "Accept-Encoding");
+  assert.equal(response.headers.get("Content-Type"), "text/html; charset=utf-8");
+});
+
 test("serves a branded fallback homepage when the here.now shell errors", async () => {
   const env = makeEnv();
   await handleRequest(adminRequest(exampleLoop()), env);
@@ -684,6 +713,7 @@ test("serves the fallback homepage when the here.now shell is unreachable", asyn
   const html = await response.text();
 
   assert.equal(response.status, 502);
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
   assert.match(html, /briefly unavailable/);
   assert.match(html, /The database publishing loop/);
 });
@@ -767,7 +797,7 @@ test("returns bodyless HEAD responses for missing loops", async () => {
       env,
     );
     assert.equal(response.status, 404);
-    assert.equal(response.headers.get("Cache-Control"), "public, max-age=60, stale-while-revalidate=600");
+    assert.equal(response.headers.get("Cache-Control"), "no-store");
     assert.equal(await response.text(), "");
   }
 });
@@ -893,7 +923,7 @@ test("returns 404 for an archived bootstrap loop instead of exposing its static 
   );
 
   assert.equal(response.status, 404);
-  assert.equal(response.headers.get("Cache-Control"), "public, max-age=60, stale-while-revalidate=600");
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
 });
 
 test("preserves the catalog v2 contributor playbook contract", async () => {

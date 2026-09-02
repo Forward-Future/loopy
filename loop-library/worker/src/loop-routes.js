@@ -105,7 +105,7 @@ export async function handleLoopRoute(
         : jsonResponse(
             { error: "Loop not found", code: "not_found" },
             404,
-            CACHE_HEADERS,
+            { "Cache-Control": "no-store" },
             request.method,
           );
     }
@@ -135,7 +135,7 @@ export async function handleLoopRoute(
             "Loop not found.\n",
             "text/plain; charset=utf-8",
             404,
-            CACHE_HEADERS,
+            { "Cache-Control": "no-store" },
             request.method,
           )
         : null;
@@ -204,11 +204,13 @@ export async function handleLoopRoute(
       loops,
       catalog.updated,
     );
-    const headers = new Headers(originResponse.headers);
-    headers.delete("Content-Length");
-    headers.delete("ETag");
-    headers.delete("Last-Modified");
-    for (const [name, value] of Object.entries(CACHE_HEADERS)) headers.set(name, value);
+    // Allowlist: the response is publicly cacheable, so shell cookies, auth
+    // challenges, and validators for the un-injected body must not leak in.
+    const headers = new Headers(CACHE_HEADERS);
+    for (const name of ["Content-Type", "Content-Language", "Vary"]) {
+      const value = originResponse.headers.get(name);
+      if (value) headers.set(name, value);
+    }
     return new Response(request.method === "HEAD" ? null : html, {
       status: originResponse.status,
       headers,
