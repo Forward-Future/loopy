@@ -223,6 +223,22 @@ class MemoryLoopCatalogNamespace {
   }
 }
 
+class MemoryVoteNamespace {
+  constructor(votes = {}) {
+    this.votes = votes;
+  }
+
+  idFromName(name) {
+    return name;
+  }
+
+  get() {
+    return {
+      fetch: async () => Response.json({ votes: this.votes, viewerVotes: {} }),
+    };
+  }
+}
+
 function makeEnv(options = {}) {
   return {
     LOOP_CATALOG: new MemoryLoopCatalogNamespace(options.active ?? true, {
@@ -466,6 +482,9 @@ test("rejects a stale publisher instead of overwriting a newer revision", async 
 
 test("renders database content into the canonical homepage and detail page", async () => {
   const env = makeEnv();
+  env.VOTE_STORE = new MemoryVoteNamespace({
+    "database-publishing-loop": { upvotes: 3, downvotes: 1, score: 2 },
+  });
   await handleRequest(
     adminRequest(
       exampleLoop({
@@ -475,6 +494,7 @@ test("renders database content into the canonical homepage and detail page", asy
     ),
     env,
   );
+  await handleRequest(adminRequest(overnightDocsLoop()), env);
   const shell = `<!doctype html><script type="application/ld+json">{"old":true}</script><p id="results-count" aria-live="polite">Showing 50 loops</p><time datetime="2026-06-20">Updated June 20, 2026</time><tbody><!-- LOOP_DATABASE_ROWS_START --><tr><td>old</td></tr><!-- LOOP_DATABASE_ROWS_END --></tbody>`;
   const dependencies = {
     async fetch() {
@@ -489,7 +509,21 @@ test("renders database content into the canonical homepage and detail page", asy
   );
   const homepageHtml = await homepage.text();
   assert.match(homepageHtml, /The database publishing loop/);
-  assert.match(homepageHtml, /Showing 1 loops/);
+  assert.match(homepageHtml, /Showing 2 loops/);
+  const rows = homepageHtml.match(/<tr[\s\S]*?<\/tr>/g);
+  assert.equal(rows.length, 2);
+  const votedRow = rows.find((row) => row.includes('data-loop-slug="database-publishing-loop"'));
+  const unvotedRow = rows.find((row) => row.includes('data-loop-slug="overnight-docs-sweep"'));
+  assert.match(votedRow, /data-upvotes="3"/);
+  assert.match(votedRow, /data-vote-value="1"[^>]*>[\s\S]*?<span data-vote-count>3</);
+  assert.match(unvotedRow, /data-upvotes="0"/);
+  assert.match(homepageHtml, /class="vote-controls"[^>]*role="group"/);
+  const voteLabels = [...homepageHtml.matchAll(
+    /data-vote-value="-?1" aria-label="([^"]+)"/g,
+  )].map((match) => match[1]);
+  assert.equal(voteLabels.length, 4);
+  assert.equal(new Set(voteLabels).size, voteLabels.length);
+  assert.match(votedRow, /class="copy-button"[^>]*aria-label="Copy loop: The database publishing loop"/);
   assert.doesNotMatch(homepageHtml, />old</);
   assert.match(homepageHtml, /data-featured="true"/);
   assert.match(homepageHtml, /class="loop-featured">Featured/);
@@ -506,7 +540,7 @@ test("renders database content into the canonical homepage and detail page", asy
     (item) => item["@type"] === "CollectionPage",
   );
   assert.equal(collection.dateModified, "2026-06-21");
-  assert.equal(collection.mainEntity.numberOfItems, 1);
+  assert.equal(collection.mainEntity.numberOfItems, 2);
   assert.equal(
     collection.mainEntity.itemListElement[0].name,
     "The database publishing loop",

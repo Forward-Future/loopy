@@ -433,7 +433,7 @@ async function isPublishedLoop(env, slug) {
   return catalog.initialized && catalog.loops.some((loop) => loop.slug === slug);
 }
 
-function voteStoreFetch(env, path, init) {
+export function voteStoreFetch(env, path, init) {
   const id = env.VOTE_STORE.idFromName("production");
   return env.VOTE_STORE.get(id).fetch(`https://vote-store${path}`, init);
 }

@@ -47,7 +47,7 @@ function relatedRecords(loop, loopBySlug) {
     .filter(Boolean);
 }
 
-export function renderHomepageRow(loop) {
+export function renderHomepageRow(loop, counts = {}) {
   const search = loop.searchText || [
     loop.title,
     loop.summary,
@@ -63,6 +63,7 @@ export function renderHomepageRow(loop) {
                 data-published="${escapeHtml(loop.published)}"
                 ${loop.featured ? 'data-featured="true"' : ""}
                 data-search="${escapeHtml(search)}"
+                data-upvotes="${Number(counts.upvotes || 0)}"
               >
                 <td class="cell-loop">
                   <div class="loop-meta">
@@ -79,15 +80,15 @@ export function renderHomepageRow(loop) {
                   <p data-prompt>${escapeHtml(loop.prompt)}</p>
                 </td>
                 <td class="cell-action">
-                  <button class="copy-button" type="button">
+                  <button class="copy-button" type="button" aria-label="Copy loop: ${escapeHtml(loop.title)}">
                     <span>Copy loop</span>
                   </button>
-                  ${renderVoteControls(loop.slug)}
+                  ${renderVoteControls(loop, counts)}
                 </td>
               </tr>`;
 }
 
-export function injectHomepage(html, loops, catalogUpdated = null) {
+export function injectHomepage(html, loops, catalogUpdated = null, votes = {}) {
   const rowsStart = "<!-- LOOP_DATABASE_ROWS_START -->";
   const rowsEnd = "<!-- LOOP_DATABASE_ROWS_END -->";
   let shell = html;
@@ -112,7 +113,9 @@ export function injectHomepage(html, loops, catalogUpdated = null) {
     "",
   ) || new Date().toISOString().slice(0, 10);
   const updatedLabel = formatDate(updated);
-  const rows = loops.map(renderHomepageRow).join("\n\n");
+  const rows = loops
+    .map((loop) => renderHomepageRow(loop, votes[loop.slug]))
+    .join("\n\n");
   let result = `${shell.slice(0, start + rowsStart.length)}\n${rows}\n              ${shell.slice(end)}`;
 
   result = result.replace(
@@ -351,7 +354,7 @@ export function renderLoopPage(loop, loops) {
           <p class="detail-lede">${escapeHtml(loop.description)}</p>
           <p class="detail-byline">By <strong>${escapeHtml(loop.author)}</strong></p>
           <div class="detail-actions">
-            ${renderVoteControls(loop.slug)}
+            ${renderVoteControls(loop)}
             ${shareActions(loop, url)}
           </div>
         </header>
@@ -449,11 +452,12 @@ ${items}
 
 function shareActions(loop, url) {
   const text = `Try "${loop.title}" from the Loop Library: ${loop.summary}`;
-  return `<div class="share-actions" aria-label="Share this loop"><button class="share-action share-action-primary" type="button" data-copy-social-post data-post-text="${escapeHtml(text)}" data-post-url="${escapeHtml(url)}" aria-label="Copy a social post about ${escapeHtml(loop.title)}"><svg class="share-copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><span>Share on social</span></button></div>`;
+  return `<div class="share-actions" role="group" aria-label="Share this loop"><button class="share-action share-action-primary" type="button" data-copy-social-post data-post-text="${escapeHtml(text)}" data-post-url="${escapeHtml(url)}" aria-label="Copy a social post about ${escapeHtml(loop.title)}"><svg class="share-copy-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11"></rect><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"></path></svg><span>Share on social</span></button></div>`;
 }
 
-function renderVoteControls(slug) {
-  return `<div class="vote-controls" data-vote-controls data-loop-slug="${escapeHtml(slug)}" aria-label="Vote on this loop" hidden><span class="vote-label" aria-hidden="true">Vote</span><button class="vote-button vote-button-up" type="button" data-vote-value="1" aria-label="Upvote this loop" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 8h4v6h6v-6h4Z"></path></svg><span data-vote-count>0</span></button><button class="vote-button vote-button-down" type="button" data-vote-value="-1" aria-label="Downvote this loop" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19 7-8h-4V5H9v6H5Z"></path></svg><span data-vote-count>0</span></button></div>`;
+function renderVoteControls(loop, counts = {}) {
+  const title = escapeHtml(loop.title);
+  return `<div class="vote-controls" data-vote-controls data-loop-slug="${escapeHtml(loop.slug)}" role="group" aria-label="Vote on ${title}" hidden><span class="vote-label" aria-hidden="true">Vote</span><button class="vote-button vote-button-up" type="button" data-vote-value="1" aria-label="Upvote ${title}" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 5-7 8h4v6h6v-6h4Z"></path></svg><span data-vote-count>${Number(counts.upvotes || 0)}</span></button><button class="vote-button vote-button-down" type="button" data-vote-value="-1" aria-label="Downvote ${title}" aria-pressed="false" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19 7-8h-4V5H9v6H5Z"></path></svg><span data-vote-count>${Number(counts.downvotes || 0)}</span></button></div>`;
 }
 
 function hereNowCredit(assetPath, modifier) {

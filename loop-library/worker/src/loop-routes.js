@@ -13,6 +13,7 @@ import {
   renderLoopPage,
   renderSitemap,
 } from "./render-loops.js";
+import { voteStoreFetch } from "./auth-votes.js";
 
 const MAX_ADMIN_BYTES = 512 * 1024;
 const MAX_RESTORE_START_BYTES = 20 * 1024 * 1024;
@@ -202,6 +203,7 @@ export async function handleLoopRoute(
       await originResponse.text(),
       loops,
       catalog.updated,
+      await homepageVoteCounts(env),
     );
     const headers = new Headers(originResponse.headers);
     headers.delete("Content-Length");
@@ -215,6 +217,20 @@ export async function handleLoopRoute(
   }
 
   return null;
+}
+
+async function homepageVoteCounts(env) {
+  if (!env.VOTE_STORE) return {};
+  try {
+    const response = await voteStoreFetch(env, "/votes");
+    if (!response.ok) return {};
+    return (await response.json()).votes || {};
+  } catch (error) {
+    // Vote totals only seed the first-paint sort; the homepage must still
+    // render when the vote store is unavailable.
+    console.warn("Homepage vote totals unavailable:", error);
+    return {};
+  }
 }
 
 export function publicOriginRequest(request, env, overrides = {}) {
