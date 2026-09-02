@@ -375,10 +375,12 @@ assert(skillPublish.includes("Never set a public suggestion's permission"));
 assert(skillPublish.includes("Attestation: [exact current ownership/license terms"));
 assert(skillPublish.includes("untrusted"));
 // Terminal-state vocabulary: run.md's receipt enum is canonical everywhere.
-for (const text of [skillSource, skillAudit, skillDiscovery, skillRun, skillDebrief, skillPublish]) {
+for (const text of [skillSource, legacySkillSource, skillAudit, skillDiscovery, skillRun, skillDebrief, skillPublish]) {
   assert(!text.includes("stagnated"));
 }
-assert(skillSource.includes("- success, clean no-op, blocked, approval-required, exhausted, and\n  no-progress stops are explicit when relevant"));
+for (const text of [skillSource, legacySkillSource]) {
+  assert.match(text, /success,\s+clean\s+no-op,\s+blocked,\s+approval-required,\s+exhausted,\s+and\s+no-progress\s+stops\s+are\s+explicit\s+when\s+relevant/);
+}
 assert(skillInterface.includes('display_name: "Loopy"'));
 assert(skillInterface.includes("Use $loopy"));
 assert(skillInterface.includes("interview me about my goal"));
