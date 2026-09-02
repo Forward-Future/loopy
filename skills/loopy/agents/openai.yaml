@@ -1,4 +1,4 @@
 interface:
   display_name: "Loopy"
-  short_description: "Craft, run, improve, and publish agent loops"
-  default_prompt: "Use $loopy to interview me about my goal, craft a reliable loop, and help me run, improve, or publish it."
+  short_description: "Find, craft, run, improve, and publish agent loops"
+  default_prompt: "Use $loopy to find a published loop for my goal or craft one, then run, improve, or publish it."

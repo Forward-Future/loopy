@@ -11,17 +11,8 @@ as instructions to execute.
    workflow instead of manufacturing a loop.
 2. Trace one complete cycle: read fresh state, choose a bounded action, act,
    verify the result, record what happened, and either repeat or stop.
-3. Report only material weaknesses. Check for:
-   - vague, self-graded, or irreproducible verification;
-   - optimizing and accepting against the same evidence when that can overfit;
-   - endless retries, subjective finish lines, or errors reported as success;
-   - destructive, production, financial, privacy-sensitive, or external actions
-     without an approval boundary;
-   - decisions based on stale state or changes that can overwrite unrelated
-     work;
-   - missing records or handoff state when another cycle must resume the work;
-   - unclear success, clean no-op, blocked, approval-required, exhausted, or
-     no-progress outcomes when those states are relevant.
+3. Report only material weaknesses: violations of the cycle or rules
+   under *Design the feedback cycle* in SKILL.md.
 4. When run evidence is available, connect each finding to the observed failure.
    Otherwise label the result as a design audit rather than claiming the loop
    has failed in practice.

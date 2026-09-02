@@ -408,11 +408,14 @@ for (const text of [skillSource, legacySkillSource, skillAudit, skillDiscovery, 
   assert(!text.includes("stagnated"));
 }
 for (const text of [skillSource, legacySkillSource]) {
-  assert.match(text, /success,\s+clean\s+no-op,\s+blocked,\s+approval-required,\s+exhausted,\s+and\s+no-progress\s+stops\s+are\s+explicit\s+when\s+relevant/);
+  assert.match(text, /Define\s+success,\s+clean\s+no-op,\s+blocked,\s+approval-required,\s+exhausted,\s+and\s+no-progress\s+outcomes\s+where\s+relevant/);
+  assert.match(text, /confirm that every rule under \*Design the\s+feedback cycle\* and \*Keep every workflow grounded\* holds/);
 }
+assert(skillAudit.includes("Report only material weaknesses: violations of the cycle or rules\n   under *Design the feedback cycle* in SKILL.md"));
 assert(skillInterface.includes('display_name: "Loopy"'));
 assert(skillInterface.includes("Use $loopy"));
-assert(skillInterface.includes("interview me about my goal"));
+assert(skillInterface.includes('short_description: "Find,'));
+assert(skillInterface.includes("find a published loop for my goal or craft one"));
 assert.match(legacySkillSource, /^---\nname: loop-library\n/);
 assert(legacySkillSource.includes("compatibility name for Loopy"));
 assert(legacySkillSource.includes("references/run.md"));
