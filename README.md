@@ -298,8 +298,8 @@ LOOP_PUBLISH_TOKEN=... \
 
 The command validates the record and publishes the homepage row, detail page,
 JSON/Markdown/plain-text catalogs, `llms.txt`, feed, and sitemap from the same
-database write. Use `--draft` to save a non-public record or `--archive` to remove a
-record from public responses without deleting its revision history.
+database write. Use `--draft` to save a non-public record or `--archive` to
+remove a record from public responses without deleting its revision history.
 
 The first database-backed release needs one import from the private migration
 bundle. Loop records and bootstrap data are intentionally not committed to
