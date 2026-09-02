@@ -78,7 +78,7 @@ export async function handleAuthVoteRoute(
   if (voteMatch) {
     if (request.method !== "POST") return methodNotAllowed("POST");
     if (!isTrustedMutationOrigin(request, env)) return forbidden();
-    if (!env.VOTE_STORE || !env.LOOP_CATALOG) {
+    if (!env.VOTE_STORE || !env.LOOP_CATALOG || !env.TURNSTILE_RATE_LIMITER) {
       return unavailable("Voting is not configured.");
     }
 
@@ -89,6 +89,17 @@ export async function handleAuthVoteRoute(
       return jsonResponse(
         { error: "Sign in with GitHub to vote.", code: "authentication_required" },
         401,
+      );
+    }
+
+    const voteRate = await env.TURNSTILE_RATE_LIMITER.limit({
+      key: `vote:${viewer.sub}`,
+    });
+    if (!voteRate.success) {
+      return jsonResponse(
+        { error: "Too many votes. Try again later.", code: "rate_limited" },
+        429,
+        { "Retry-After": "60" },
       );
     }
 
@@ -522,12 +533,6 @@ async function hmac(value, secret) {
   return base64UrlBytes(
     new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(value))),
   );
-}
-
-function randomUrlSafe(size) {
-  const bytes = new Uint8Array(size);
-  crypto.getRandomValues(bytes);
-  return base64UrlBytes(bytes);
 }
 
 function base64Url(value) {

@@ -619,7 +619,7 @@ export function renderFeed(loops) {
   <id>${SITE.baseUrl}</id>
   <link href="${SITE.baseUrl}" />
   <link href="${SITE.baseUrl}feed.xml" rel="self" type="application/atom+xml" />
-  <updated>${updated}T00:00:00-07:00</updated>
+  <updated>${updated}T00:00:00Z</updated>
   <author>
     <name>${SITE.publisher}</name>
     <uri>https://forwardfuture.com/</uri>
@@ -628,8 +628,8 @@ ${loops.map((loop) => `  <entry>
     <title>${escapeXml(loop.title)}</title>
     <id>${loopUrl(loop)}</id>
     <link href="${loopUrl(loop)}" />
-    <published>${loop.published}T00:00:00-07:00</published>
-    <updated>${loop.modified}T00:00:00-07:00</updated>
+    <published>${loop.published}T00:00:00Z</published>
+    <updated>${loop.modified}T00:00:00Z</updated>
     <author>
       <name>${escapeXml(loop.author)}</name>
     </author>

@@ -814,7 +814,8 @@ test("generates catalogs, sitemap, and feed from the same record", async () => {
     new Request(`${SITE_ORIGIN}/loop-library/feed.xml`),
     env,
   ).then((response) => response.text());
-  assert.match(feed, /2026-06-21T00:00:00-07:00/);
+  assert.match(feed, /<updated>2026-06-21T00:00:00Z<\/updated>/);
+  assert.doesNotMatch(feed, /-07:00/);
 });
 
 test("passes non-catalog canonical assets through to the here.now origin", async () => {

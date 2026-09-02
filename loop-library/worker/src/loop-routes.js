@@ -669,14 +669,6 @@ function catalogResponse(path, loops, method) {
   return textResponse(renderCatalogMarkdown(loops), path === "/catalog.md" ? "text/markdown; charset=utf-8" : "text/plain; charset=utf-8", 200, CACHE_HEADERS, method);
 }
 
-function latestModified(loops) {
-  if (loops.length === 0) return null;
-  return loops.reduce(
-    (latest, loop) => (loop.modified > latest ? loop.modified : latest),
-    "1970-01-01",
-  );
-}
-
 function stripBasePath(pathname, basePath) {
   const normalizedBase = `/${String(basePath).split("/").filter(Boolean).join("/")}`;
   if (pathname === normalizedBase || pathname === `${normalizedBase}/`) return "/";
