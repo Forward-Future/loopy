@@ -4,7 +4,7 @@ Loop Library has two separate but related parts in this repository:
 
 | Part | What it is | Where it lives |
 | --- | --- | --- |
-| **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.com/loop-library/) · all website code under [`loop-library/`](loop-library/) (shell in [`loop-library/site/`](loop-library/site/), database and rendering in [`loop-library/worker/`](loop-library/worker/)) |
+| **Loop Library website** | The public catalog where people and agents can browse published loops, read them, and copy their prompts. No installation is required. | [Live website](https://signals.forwardfuture.com/loop-library/) · all website code under [`loop-library/`](loop-library/) (shell in [`loop-library/site/`](loop-library/site/), database and rendering in [`loop-library/worker/`](loop-library/worker/), gate script in [`loop-library/scripts/`](loop-library/scripts/), audits in [`loop-library/audits/`](loop-library/audits/)) |
 | **Loopy skill** | An optional installable guide that helps an AI agent discover, find, audit, repair, craft, run, debrief, save, or prepare loops for publication. It uses the website's live catalog when recommending or publishing loops. | source in [`skills/loopy/`](skills/loopy/) |
 
 The website is the library; Loopy is a companion way to work with it. You
@@ -297,8 +297,8 @@ LOOP_PUBLISH_TOKEN=... \
 ```
 
 The command validates the record and publishes the homepage row, detail page,
-JSON/Markdown/plain-text catalogs, feed, and sitemap from the same database
-write. Use `--draft` to save a non-public record or `--archive` to remove a
+JSON/Markdown/plain-text catalogs, `llms.txt`, feed, and sitemap from the same
+database write. Use `--draft` to save a non-public record or `--archive` to remove a
 record from public responses without deleting its revision history.
 
 The first database-backed release needs one import from the private migration
