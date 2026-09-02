@@ -21,11 +21,14 @@ const MAX_RESTORE_CHUNK_BYTES = 4 * 1024 * 1024;
 const LEGACY_PUBLIC_DOMAIN = "forwardfuture.ai";
 const CURRENT_PUBLIC_DOMAIN = "forwardfuture.com";
 const CACHE_HEADERS = {
-  // Public catalog surfaces embed nothing per-viewer (vote counts load from
-  // /api/votes in the browser), so a short shared cache is safe. Publishing may
-  // take up to max-age to appear; admin, session, and vote routes stay no-store.
+  // Public catalog surfaces embed vote totals for first-paint ordering (they
+  // may be up to a minute stale; the client refreshes them from the no-store
+  // /api/votes) and nothing per-viewer, so a short shared cache is safe.
+  // Publishing may take up to max-age to appear; admin, session, and vote
+  // routes stay no-store.
   "Cache-Control": "public, max-age=60, stale-while-revalidate=600",
 };
+const NO_STORE_HEADERS = { "Cache-Control": "no-store" };
 
 export async function handleLoopRoute(
   request,
@@ -91,7 +94,7 @@ export async function handleLoopRoute(
         code: "catalog_not_active",
       },
       503,
-      { "Cache-Control": "no-store" },
+      NO_STORE_HEADERS,
       request.method,
     );
   }
@@ -106,7 +109,7 @@ export async function handleLoopRoute(
         : jsonResponse(
             { error: "Loop not found", code: "not_found" },
             404,
-            { "Cache-Control": "no-store" },
+            NO_STORE_HEADERS,
             request.method,
           );
     }
@@ -136,7 +139,7 @@ export async function handleLoopRoute(
             "Loop not found.\n",
             "text/plain; charset=utf-8",
             404,
-            { "Cache-Control": "no-store" },
+            NO_STORE_HEADERS,
             request.method,
           )
         : null;
@@ -173,7 +176,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         502,
-        { "Cache-Control": "no-store" },
+        NO_STORE_HEADERS,
         request.method,
       );
     }
@@ -185,7 +188,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         originResponse.status,
-        { "Cache-Control": "no-store" },
+        NO_STORE_HEADERS,
         request.method,
       );
     }

@@ -316,7 +316,7 @@ export function renderLoopPage(loop, loops) {
     <link rel="icon" type="image/png" href="../../assets/favicon.png" />
     <link rel="stylesheet" href="../../styles.css?v=20260902-self-hosted-fonts" />
     <script type="application/ld+json">${jsonForHtml(structuredData)}</script>
-    <script src="../../script.js?v=20260623-proxy-auth" defer></script>
+    <script src="../../script.js?v=20260902-elapsed-a11y" defer></script>
     <title>${escapeHtml(loop.seoTitle)}</title>
   </head>
   <body>
