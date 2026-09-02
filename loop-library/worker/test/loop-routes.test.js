@@ -193,7 +193,7 @@ class MemoryLoopCatalogNamespace {
             loops: [...this.loops.values()],
             revisionCount: revisions.length,
             maxRevisionId: revisions.at(-1)?.id || 0,
-          });
+          }, { headers: { "Cache-Control": "no-store" } });
         }
 
         if (url.pathname.startsWith("/revisions/")) {
@@ -373,7 +373,7 @@ test("publishes a loop and exposes it without an Origin header", async () => {
   assert.equal(body.loops[0].slug, "database-publishing-loop");
   assert.equal(body.loops[0].sourceUrl, undefined);
   assert.equal(body.updated, "2026-06-21");
-  assert.equal(response.headers.get("Cache-Control"), "no-store");
+  assert.equal(response.headers.get("Cache-Control"), "public, max-age=60, stale-while-revalidate=600");
 });
 
 test("rejects unauthorized and invalid publishing requests", async () => {
@@ -649,7 +649,7 @@ test("renders homepage headers for HEAD by fetching the origin shell with GET", 
 
   assert.equal(response.status, 200);
   assert.equal(await response.text(), "");
-  assert.equal(response.headers.get("Cache-Control"), "no-store");
+  assert.equal(response.headers.get("Cache-Control"), "public, max-age=60, stale-while-revalidate=600");
   assert.equal(response.headers.get("Last-Modified"), null);
 });
 
@@ -673,6 +673,35 @@ test("renders the mounted homepage through a here.now proxy", async () => {
 
   assert.equal(response.status, 200);
   assert.match(await response.text(), /The database publishing loop/);
+});
+
+test("does not copy shell cookies or auth headers into the cacheable homepage", async () => {
+  const env = makeEnv();
+  await handleRequest(adminRequest(exampleLoop()), env);
+  const shell = `<!doctype html><p id="results-count" aria-live="polite">Showing 50 loops</p><time datetime="2026-06-20">Updated June 20, 2026</time><tbody><!-- LOOP_DATABASE_ROWS_START --><!-- LOOP_DATABASE_ROWS_END --></tbody>`;
+  const response = await handleRequest(
+    new Request(`${SITE_ORIGIN}/loop-library/`),
+    env,
+    undefined,
+    {
+      async fetch() {
+        return new Response(shell, {
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Set-Cookie": "a=b",
+            "WWW-Authenticate": "Basic",
+            Vary: "Accept-Encoding",
+          },
+        });
+      },
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("Set-Cookie"), null);
+  assert.equal(response.headers.get("WWW-Authenticate"), null);
+  assert.equal(response.headers.get("Vary"), "Accept-Encoding");
+  assert.equal(response.headers.get("Content-Type"), "text/html; charset=utf-8");
 });
 
 test("serves a branded fallback homepage when the here.now shell errors", async () => {
@@ -718,6 +747,7 @@ test("serves the fallback homepage when the here.now shell is unreachable", asyn
   const html = await response.text();
 
   assert.equal(response.status, 502);
+  assert.equal(response.headers.get("Cache-Control"), "no-store");
   assert.match(html, /briefly unavailable/);
   assert.match(html, /The database publishing loop/);
 });
@@ -1039,6 +1069,41 @@ test("exports a private database backup through the authenticated admin route", 
   assert.equal(backup.schemaVersion, 2);
   assert.equal(backup.loops[0].slug, "database-publishing-loop");
   assert.equal(backup.revisionCount, 1);
+});
+
+test("marks public rendered surfaces cacheable and keeps admin responses no-store", async () => {
+  const env = makeEnv();
+  await handleRequest(adminRequest(exampleLoop()), env);
+  const shell = `<!doctype html><p id="results-count" aria-live="polite">Showing 50 loops</p><time datetime="2026-06-20">Updated June 20, 2026</time><tbody><!-- LOOP_DATABASE_ROWS_START --><!-- LOOP_DATABASE_ROWS_END --></tbody>`;
+  const dependencies = {
+    async fetch() {
+      return new Response(shell, { headers: { "Content-Type": "text/html; charset=utf-8" } });
+    },
+  };
+
+  for (const path of ["/", "/loops/database-publishing-loop/", "/catalog.json", "/feed.xml"]) {
+    const response = await handleRequest(
+      new Request(`${SITE_ORIGIN}/loop-library${path}`),
+      env,
+      undefined,
+      dependencies,
+    );
+    assert.equal(response.status, 200, path);
+    assert.equal(
+      response.headers.get("Cache-Control"),
+      "public, max-age=60, stale-while-revalidate=600",
+      path,
+    );
+  }
+
+  const exportResponse = await handleRequest(
+    new Request(`${WORKER_ORIGIN}/admin/loops/export`, {
+      headers: { Authorization: "Bearer test-publish-token" },
+    }),
+    env,
+  );
+  assert.equal(exportResponse.status, 200);
+  assert.equal(exportResponse.headers.get("Cache-Control"), "no-store");
 });
 
 test("restores an evolved backup into a fresh catalog with revision history", async () => {

@@ -63,6 +63,8 @@ this repository layout.
 - Do not publish a loop unless its public homepage row, detail page,
   `catalog.json`, `catalog.md`, `catalog.txt`, `llms.txt`, sitemap, and feed
   all read back from production with the expected slug and modified date.
+  Read back with a cache-busting query string; without it a cached copy can be
+  served for up to a minute and one stale copy for up to ten.
 
 ## Protected forms
 
