@@ -1352,6 +1352,7 @@ if (form && submitButton && submitButtonLabel) {
           payload,
           permission: formData.get("permission") === "on",
           honeypot: String(formData.get("company") || "").trim(),
+          form_elapsed_ms: Math.round(performance.now() - formStartedAt),
           idempotency_key: idempotencyKey,
           turnstile_token: turnstileWidgets.suggestions.token,
         },
@@ -1424,6 +1425,9 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
           honeypot: String(
             formData.get("newsletter_company") || "",
           ).trim(),
+          form_elapsed_ms: Math.round(
+            performance.now() - weeklyFormStartedAt,
+          ),
           idempotency_key: weeklyIdempotencyKey,
           turnstile_token: turnstileWidgets.weeklySignups.token,
         },

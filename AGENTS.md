@@ -73,7 +73,8 @@ this repository layout.
   credentials or allow direct public inserts.
 - Keep Turnstile validation for the expected action, hostname, and origin, plus
   the existing schema checks, rate limits, duplicate suppression, honeypot,
-  minimum completion time, and idempotency handling.
+  minimum completion time (1200 ms for loop suggestions, 800 ms for weekly
+  signups, enforced in the Worker), and idempotency handling.
 - Keep loop suggestions limited to 3/hour and 10/day per IP, and weekly signups
   limited to 5/hour and 10/day per IP. Matching content or email submitted
   within 24 hours should succeed without creating a second record.

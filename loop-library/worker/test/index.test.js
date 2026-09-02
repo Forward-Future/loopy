@@ -206,6 +206,7 @@ async function seedRateEvents(env, ip, form, count) {
 
 function suggestionBody(overrides = {}) {
   return {
+    form_elapsed_ms: 1200,
     honeypot: "",
     idempotency_key: testUuid(1),
     payload: {
@@ -223,6 +224,7 @@ function suggestionBody(overrides = {}) {
 
 function weeklyBody(overrides = {}) {
   return {
+    form_elapsed_ms: 800,
     honeypot: "",
     idempotency_key: testUuid(2),
     payload: {
@@ -792,4 +794,68 @@ test("Durable Object alarms physically remove expired guard state", async () => 
   } finally {
     Date.now = originalNow;
   }
+});
+
+test("suggestions submitted too fast receive the honeypot response without external calls", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+  const response = await handleRequest(
+    makeRequest("/suggestions", suggestionBody({ form_elapsed_ms: 10 })),
+    env,
+    undefined,
+    dependencies,
+  );
+
+  assert.equal(response.status, 202);
+  assert.deepEqual(await response.json(), { ok: true });
+  assert.equal(calls.turnstile.length, 0);
+  assert.equal(calls.siteData.length, 0);
+});
+
+test("weekly signups submitted too fast receive the honeypot response without external calls", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+  const response = await handleRequest(
+    makeRequest("/weekly-signups", weeklyBody({ form_elapsed_ms: 10 })),
+    env,
+    undefined,
+    dependencies,
+  );
+
+  assert.equal(response.status, 202);
+  assert.deepEqual(await response.json(), { ok: true });
+  assert.equal(calls.turnstile.length, 0);
+  assert.equal(calls.siteData.length, 0);
+});
+
+test("missing or non-integer form_elapsed_ms receives the honeypot response", async () => {
+  for (const form_elapsed_ms of [undefined, "1200", 1200.5]) {
+    const env = makeEnv();
+    const { calls, dependencies } = makeDependencies();
+    const response = await handleRequest(
+      makeRequest("/suggestions", suggestionBody({ form_elapsed_ms })),
+      env,
+      undefined,
+      dependencies,
+    );
+
+    assert.equal(response.status, 202);
+    assert.equal(calls.turnstile.length, 0);
+    assert.equal(calls.siteData.length, 0);
+  }
+});
+
+test("suggestions at the minimum completion time proceed normally", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+  const response = await handleRequest(
+    makeRequest("/suggestions", suggestionBody({ form_elapsed_ms: 1200 })),
+    env,
+    undefined,
+    dependencies,
+  );
+
+  assert.equal(response.status, 201);
+  assert.equal(calls.turnstile.length, 1);
+  assert.equal(calls.siteData.length, 1);
 });
