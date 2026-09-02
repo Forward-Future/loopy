@@ -57,7 +57,7 @@ this repository layout.
   python3 -m json.tool loop-library/site/.herenow/data.json >/dev/null
   python3 -m json.tool loop-library/site/.herenow/proxy.json >/dev/null
   python3 -m json.tool loop-library/scripts/seo-geo-query-benchmark.json >/dev/null
-  git diff --check
+  git diff --check $(git hash-object -t tree /dev/null) HEAD
   ```
 
 - Do not publish a loop unless its public homepage row, detail page,
