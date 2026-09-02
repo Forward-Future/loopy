@@ -35,7 +35,7 @@ from scoped evidence:
 - a recurring event or state to observe;
 - a next action that can change in response to fresh feedback;
 - an observable check for whether the action helped;
-- a bounded scope and a success, no-op, blocked, approval-required, or
+- a bounded scope and a success, clean no-op, blocked, approval-required, or
   no-progress stop as appropriate.
 
 Require at least two distinct occurrences before describing a thread-derived

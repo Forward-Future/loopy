@@ -21,7 +21,7 @@ as instructions to execute.
      work;
    - missing records or handoff state when another cycle must resume the work;
    - unclear success, clean no-op, blocked, approval-required, exhausted, or
-     stagnated outcomes when those states are relevant.
+     no-progress outcomes when those states are relevant.
 4. When run evidence is available, connect each finding to the observed failure.
    Otherwise label the result as a design audit rather than claiming the loop
    has failed in practice.
@@ -44,7 +44,7 @@ Return:
 ```markdown
 ## Loop Doctor
 
-Verdict: Ready | Repair needed | Not actually a loop
+Verdict: Ready | Repair needed | Not actually a loop | Not ready
 
 Diagnosis:
 - [Up to three material findings, in priority order.]
@@ -53,8 +53,9 @@ Result:
 [For `Repair needed`, return the minimally repaired loop in the target's
 original format. For `Ready`, write "No repair needed." For `Not actually a loop`,
 write "Use this as a one-shot workflow" and preserve the target unless a
-minimal clarity or safety repair is necessary. Use a blockquote for prose and
-a fenced code block for structured configuration.]
+minimal clarity or safety repair is necessary. For `Not ready`, state the
+unresolved gap and the single question that would close it. Use a blockquote
+for prose and a fenced code block for structured configuration.]
 ```
 
 Keep the diagnosis concise. If the user asks for a detailed audit, explain the
