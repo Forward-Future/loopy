@@ -229,6 +229,15 @@ assert(css.includes(".login-dialog"));
 assert(rendererSource.includes("renderVoteControls(loop, counts)"));
 assert(rendererSource.includes('class="vote-label"'));
 assert(rendererSource.includes('role="group" aria-label="Vote on ${title}" hidden'));
+assert(rendererSource.includes('class="share-actions" role="group"'));
+assert(rendererSource.includes('aria-label="Copy loop: ${escapeHtml(loop.title)}"'));
+assert(browserScript.includes("`Show more of ${title}`"));
+assert.match(browserScript, /if \(!FORM_API_ORIGIN\) \{[\s\S]*?setFormProtectionUnavailable\(\);\s*return;/);
+for (const page of [learnHtml, agentHtml]) {
+  for (const name of ["twitter:card", "twitter:title", "twitter:description", "twitter:image"]) {
+    assert(page.includes(`name="${name}"`), name);
+  }
+}
 assert(browserScript.includes("setVotingUiVisible(body.uiEnabled === true)"));
 assert(css.includes(".vote-controls[hidden]"));
 assert(authVotesSource.includes('scope: "read:user"'));

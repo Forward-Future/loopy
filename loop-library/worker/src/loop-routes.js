@@ -225,9 +225,10 @@ async function homepageVoteCounts(env) {
     const response = await voteStoreFetch(env, "/votes");
     if (!response.ok) return {};
     return (await response.json()).votes || {};
-  } catch {
+  } catch (error) {
     // Vote totals only seed the first-paint sort; the homepage must still
     // render when the vote store is unavailable.
+    console.warn("Homepage vote totals unavailable:", error);
     return {};
   }
 }

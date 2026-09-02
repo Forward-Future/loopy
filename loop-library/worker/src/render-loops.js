@@ -80,7 +80,7 @@ export function renderHomepageRow(loop, counts = {}) {
                   <p data-prompt>${escapeHtml(loop.prompt)}</p>
                 </td>
                 <td class="cell-action">
-                  <button class="copy-button" type="button" aria-label="Copy ${escapeHtml(loop.title)}">
+                  <button class="copy-button" type="button" aria-label="Copy loop: ${escapeHtml(loop.title)}">
                     <span>Copy loop</span>
                   </button>
                   ${renderVoteControls(loop, counts)}

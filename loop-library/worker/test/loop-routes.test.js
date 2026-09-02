@@ -523,7 +523,7 @@ test("renders database content into the canonical homepage and detail page", asy
   )].map((match) => match[1]);
   assert.equal(voteLabels.length, 4);
   assert.equal(new Set(voteLabels).size, voteLabels.length);
-  assert.match(votedRow, /class="copy-button"[^>]*aria-label="Copy The database publishing loop"/);
+  assert.match(votedRow, /class="copy-button"[^>]*aria-label="Copy loop: The database publishing loop"/);
   assert.doesNotMatch(homepageHtml, />old</);
   assert.match(homepageHtml, /data-featured="true"/);
   assert.match(homepageHtml, /class="loop-featured">Featured/);
