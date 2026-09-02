@@ -129,6 +129,8 @@ npm run deploy
   provider ID, username, and voter key exclusively from that verified token.
   Reject explicit untrusted Origins; missing Origins are expected through the
   here.now proxy and remain protected by the required bearer token.
+- Vote writes are rate limited per signed-in account through the shared
+  `TURNSTILE_RATE_LIMITER` binding (30 per minute, per `wrangler.jsonc`).
 - Do not expose OAuth client secrets or `SESSION_SECRET` in Worker variables,
   browser code, logs, or committed development files. Configure them with:
 

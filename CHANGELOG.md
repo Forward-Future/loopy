@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-09-02
+
+### Added
+
+- Enforced the minimum form completion time in the Worker: submissions
+  without a plausible `form_elapsed_ms` receive the silent 202 instead of a
+  record.
+- Rate limited vote writes per signed-in account through the shared
+  `TURNSTILE_RATE_LIMITER` binding, returning the same 429 shape as the forms.
+- Tested the `LoopCatalog` and `VoteStore` Durable Objects against real
+  SQLite instead of stubs.
+- Self-hosted Inter and IBM Plex Mono with `font-display: swap`, preloads,
+  and OFL licenses alongside.
+
+### Changed
+
+- Rendered public pages, catalogs, feed, and sitemap now carry a public
+  `max-age=60, stale-while-revalidate=600` cache header; 404s, shell errors,
+  admin, session, and vote routes stay `no-store`.
+- Atom feed `<published>` and `<updated>` timestamps are emitted in UTC.
+- Hardened the gate suite: `check.mjs` is CRLF-safe with LF pinned in
+  `.gitattributes`, mirrors every `skills/loopy/references` file into the
+  `skills/loop-library` alias, and `git diff --check` runs repo-wide.
+- Repaired the Loopy skill's terminal-state vocabulary, added the `Not
+  ready` Loop Doctor verdict, and routed the default prompt to Find a
+  published loop before crafting one.
+
 ## 2026-07-07
 
 ### Added

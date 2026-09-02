@@ -181,7 +181,7 @@ export async function handleRequest(
       return jsonResponse({ ok: true }, 202, corsHeaders);
     }
 
-    // ponytail: client-reported elapsed; upgrade to a signed issued-at token if bots start forging it.
+    // Client-reported elapsed; upgrade to a signed issued-at token if bots start forging it.
     if (
       !Number.isInteger(body.form_elapsed_ms) ||
       body.form_elapsed_ms < definition.minElapsedMs

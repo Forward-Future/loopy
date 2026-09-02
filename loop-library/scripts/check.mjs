@@ -154,7 +154,9 @@ assert(html.includes("Search the library"));
 assert(html.includes("Search by title, task, or contributor"));
 assert(html.includes('class="search-field"'));
 assert(html.includes("styles.css?v=20260902-self-hosted-fonts"));
-assert(html.includes("script.js?v=20260702-popular-sort"));
+assert(html.includes("script.js?v=20260902-elapsed-a11y"));
+// Worker-rendered loop pages must ship the same script token as the shell.
+assert(rendererSource.includes(html.match(/script\.js\?v=[\w-]+/)[0]));
 assert(css.includes(".search-control-label"));
 assert(css.includes(".search-control:hover .search-field"));
 assert(css.includes(".search-control:focus-within .search-field"));
@@ -163,7 +165,7 @@ assert.match(css, /\.loop-table td\s*\{[^}]*background:\s*transparent;[^}]*\}/);
 assert.equal((html.match(/data-here-now-credit/g) || []).length, 2);
 for (const page of [learnHtml, agentHtml]) {
   assert(page.includes("styles.css?v=20260902-self-hosted-fonts"));
-  assert(page.includes("script.js?v=20260702-popular-sort"));
+  assert(page.includes("script.js?v=20260902-elapsed-a11y"));
 }
 for (const page of [html, learnHtml, agentHtml]) {
   const brandPosition = page.indexOf('class="brand-lockup"');
@@ -468,7 +470,7 @@ assert(readme.includes("loop-library/audits/"));
 assert(seoAudit.includes("## Stop state as of 2026-06-19"));
 assert(!seoAudit.includes("## Current stop state"));
 assert(changelog.includes("## 2026-07-07"));
-assert.equal(changelog.match(/^## .*$/m)[0], "## 2026-07-07");
+assert.equal(changelog.match(/^## .*$/m)[0], "## 2026-09-02");
 assert(agents.includes("Do not commit"));
 assert(agents.includes("Never publish the empty shell"));
 assert(
