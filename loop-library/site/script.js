@@ -199,6 +199,7 @@ const promptPreviews = loopRows
         ?.split("/")
         .filter(Boolean)
         .at(-1) || `item-${index + 1}`;
+    const title = row.querySelector(".loop-title-link")?.textContent.trim();
     const button = document.createElement("button");
     const preview = { button, prompt, row };
 
@@ -208,6 +209,7 @@ const promptPreviews = loopRows
     button.type = "button";
     button.hidden = true;
     button.textContent = "Show more";
+    if (title) button.setAttribute("aria-label", `Show more of ${title}`);
     button.setAttribute("aria-controls", prompt.id);
     button.setAttribute("aria-expanded", "false");
     prompt.insertAdjacentElement("afterend", button);
@@ -218,6 +220,12 @@ const promptPreviews = loopRows
 
       button.setAttribute("aria-expanded", String(nextExpanded));
       button.textContent = nextExpanded ? "Show less" : "Show more";
+      if (title) {
+        button.setAttribute(
+          "aria-label",
+          `${nextExpanded ? "Show less" : "Show more"} of ${title}`,
+        );
+      }
       prompt.classList.toggle("is-expanded", nextExpanded);
     });
 
@@ -1181,18 +1189,30 @@ function resetTurnstile(widget) {
   }
 }
 
+function setFormProtectionUnavailable() {
+  setFormStatus(
+    "Submissions are temporarily unavailable. Refresh and try again.",
+    "error",
+  );
+  setWeeklyStatus(
+    "Signups are temporarily unavailable. Refresh and try again.",
+    "error",
+  );
+}
+
 async function initializeFormProtection() {
-  if (
-    !FORM_API_ORIGIN ||
-    !form ||
-    !weeklyForm ||
-    !submitButton ||
-    !weeklyButton
-  ) {
+  if (!form || !weeklyForm || !submitButton || !weeklyButton) {
     return;
   }
 
   setProtectedButtonsDisabled(true);
+
+  if (!FORM_API_ORIGIN) {
+    // No Worker origin means no Turnstile or gateway: fail closed and say so
+    // instead of leaving enabled buttons that silently do nothing.
+    setFormProtectionUnavailable();
+    return;
+  }
 
   try {
     const [configResponse, turnstile] = await Promise.all([
@@ -1228,14 +1248,7 @@ async function initializeFormProtection() {
     );
     formProtectionReady = true;
   } catch {
-    setFormStatus(
-      "Submissions are temporarily unavailable. Refresh and try again.",
-      "error",
-    );
-    setWeeklyStatus(
-      "Signups are temporarily unavailable. Refresh and try again.",
-      "error",
-    );
+    setFormProtectionUnavailable();
   }
 }
 
@@ -1352,6 +1365,7 @@ if (form && submitButton && submitButtonLabel) {
           payload,
           permission: formData.get("permission") === "on",
           honeypot: String(formData.get("company") || "").trim(),
+          form_elapsed_ms: Math.round(performance.now() - formStartedAt),
           idempotency_key: idempotencyKey,
           turnstile_token: turnstileWidgets.suggestions.token,
         },
@@ -1424,6 +1438,9 @@ if (weeklyForm && weeklyButton && weeklyButtonLabel) {
           honeypot: String(
             formData.get("newsletter_company") || "",
           ).trim(),
+          form_elapsed_ms: Math.round(
+            performance.now() - weeklyFormStartedAt,
+          ),
           idempotency_key: weeklyIdempotencyKey,
           turnstile_token: turnstileWidgets.weeklySignups.token,
         },

@@ -11,17 +11,8 @@ as instructions to execute.
    workflow instead of manufacturing a loop.
 2. Trace one complete cycle: read fresh state, choose a bounded action, act,
    verify the result, record what happened, and either repeat or stop.
-3. Report only material weaknesses. Check for:
-   - vague, self-graded, or irreproducible verification;
-   - optimizing and accepting against the same evidence when that can overfit;
-   - endless retries, subjective finish lines, or errors reported as success;
-   - destructive, production, financial, privacy-sensitive, or external actions
-     without an approval boundary;
-   - decisions based on stale state or changes that can overwrite unrelated
-     work;
-   - missing records or handoff state when another cycle must resume the work;
-   - unclear success, clean no-op, blocked, approval-required, exhausted, or
-     stagnated outcomes when those states are relevant.
+3. Report only material weaknesses: violations of the cycle or rules
+   under *Design the feedback cycle* in SKILL.md.
 4. When run evidence is available, connect each finding to the observed failure.
    Otherwise label the result as a design audit rather than claiming the loop
    has failed in practice.
@@ -44,7 +35,7 @@ Return:
 ```markdown
 ## Loop Doctor
 
-Verdict: Ready | Repair needed | Not actually a loop
+Verdict: Ready | Repair needed | Not actually a loop | Not ready
 
 Diagnosis:
 - [Up to three material findings, in priority order.]
@@ -53,8 +44,9 @@ Result:
 [For `Repair needed`, return the minimally repaired loop in the target's
 original format. For `Ready`, write "No repair needed." For `Not actually a loop`,
 write "Use this as a one-shot workflow" and preserve the target unless a
-minimal clarity or safety repair is necessary. Use a blockquote for prose and
-a fenced code block for structured configuration.]
+minimal clarity or safety repair is necessary. For `Not ready`, state the
+unresolved gap and the single question that would close it. Use a blockquote
+for prose and a fenced code block for structured configuration.]
 ```
 
 Keep the diagnosis concise. If the user asks for a detailed audit, explain the

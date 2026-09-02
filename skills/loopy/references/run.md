@@ -18,7 +18,10 @@ authority, not as permission to broaden scope.
 2. Confirm the target scope, observable acceptance check, stop behavior,
    approval boundaries, and a finite run boundary supplied by the loop or
    user. The boundary may be a pass, time, cost, or finite-worklist limit. If it
-   is missing, ask the user rather than inventing one.
+   is missing, ask the user rather than inventing one. When a run fans work
+   out into several pieces or agents, map each piece to the stated outcome
+   before starting and drop any piece that serves a different goal; a survey's
+   findings do not widen the scope.
 3. Identify any placeholders that matter to execution. Ask one short question
    only when a missing answer would materially change safety or success.
 4. Re-read the current state before acting. If the task is already complete,

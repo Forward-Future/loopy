@@ -1,4 +1,4 @@
 interface:
   display_name: "Loopy (legacy alias)"
   short_description: "Compatibility alias for the Loopy skill"
-  default_prompt: "Use $loop-library to craft, run, improve, or publish a reliable loop, then use $loopy for future requests."
+  default_prompt: "Use $loop-library to find a published loop for my goal or craft one, then run, improve, or publish it; use $loopy for future requests."

@@ -84,6 +84,7 @@ function makeEnv() {
     PUBLIC_SITE_HOSTNAME: "signals.forwardfuture.com",
     PUBLIC_SITE_PATH: "/loop-library",
     SESSION_SECRET: "test-session-secret-that-is-more-than-32-characters",
+    TURNSTILE_RATE_LIMITER: { limit: async () => ({ success: true }) },
     VOTING_UI_ENABLED: "true",
     VOTE_STORE: new MemoryVoteNamespace(),
   };
@@ -288,6 +289,34 @@ test("vote writes reject anonymous, cross-site, malformed, and unpublished reque
     env,
   );
   assert.equal(unpublished.status, 404);
+});
+
+test("vote writes are rate limited per signed-in viewer", async () => {
+  const env = makeEnv();
+  const sessionToken = await githubSession(env);
+  const keys = [];
+  env.TURNSTILE_RATE_LIMITER = {
+    limit: async ({ key }) => {
+      keys.push(key);
+      return { success: false };
+    },
+  };
+  const limited = await handleAuthVoteRoute(
+    new Request(`${BASE}/api/loops/overnight-docs-sweep/vote`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Origin: ORIGIN },
+      body: JSON.stringify({ value: 1, sessionToken }),
+    }),
+    env,
+  );
+  assert.equal(limited.status, 429);
+  assert.equal(limited.headers.get("Retry-After"), "60");
+  assert.deepEqual(await limited.json(), {
+    error: "Too many votes. Try again later.",
+    code: "rate_limited",
+  });
+  assert.deepEqual(keys, ["vote:github:42"]);
+  assert.equal(env.VOTE_STORE.votes.size, 0);
 });
 
 test("GitHub OAuth state is verified and X routes are absent", async () => {

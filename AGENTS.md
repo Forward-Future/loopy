@@ -35,7 +35,9 @@ this repository layout.
 - Every loop must have a stable slug, unique number, search title and
   description, contributor attribution, published and modified dates,
   practical context, verification criteria, category, keywords, and valid
-  related-loop slugs.
+  related-loop slugs. `categoryLabel` must match the label that
+  `loop-library/worker/src/loop-schema.js` maps for the record's `category`,
+  because the page chip uses the mapping while structured data uses the field.
 - Do not hand-edit the homepage, detail pages, catalogs, feed, sitemap, or
   Loopy skill content when publishing a database record. The Worker renders
   those public surfaces from the same record. New loops use the shared social card unless a
@@ -55,12 +57,14 @@ this repository layout.
   python3 -m json.tool loop-library/site/.herenow/data.json >/dev/null
   python3 -m json.tool loop-library/site/.herenow/proxy.json >/dev/null
   python3 -m json.tool loop-library/scripts/seo-geo-query-benchmark.json >/dev/null
-  git diff --check
+  git diff --check $(git hash-object -t tree /dev/null) HEAD
   ```
 
 - Do not publish a loop unless its public homepage row, detail page,
   `catalog.json`, `catalog.md`, `catalog.txt`, `llms.txt`, sitemap, and feed
   all read back from production with the expected slug and modified date.
+  Read back with a cache-busting query string; without it a cached copy can be
+  served for up to a minute and one stale copy for up to ten.
 
 ## Protected forms
 
@@ -71,7 +75,8 @@ this repository layout.
   credentials or allow direct public inserts.
 - Keep Turnstile validation for the expected action, hostname, and origin, plus
   the existing schema checks, rate limits, duplicate suppression, honeypot,
-  minimum completion time, and idempotency handling.
+  minimum completion time (1200 ms for loop suggestions, 800 ms for weekly
+  signups, enforced in the Worker), and idempotency handling.
 - Keep loop suggestions limited to 3/hour and 10/day per IP, and weekly signups
   limited to 5/hour and 10/day per IP. Matching content or email submitted
   within 24 hours should succeed without creating a second record.
@@ -124,6 +129,8 @@ npm run deploy
   provider ID, username, and voter key exclusively from that verified token.
   Reject explicit untrusted Origins; missing Origins are expected through the
   here.now proxy and remain protected by the required bearer token.
+- Vote writes are rate limited per signed-in account through the shared
+  `TURNSTILE_RATE_LIMITER` binding (30 per minute, per `wrangler.jsonc`).
 - Do not expose OAuth client secrets or `SESSION_SECRET` in Worker variables,
   browser code, logs, or committed development files. Configure them with:
 

@@ -13,6 +13,7 @@ import {
   renderLoopPage,
   renderSitemap,
 } from "./render-loops.js";
+import { voteStoreFetch } from "./auth-votes.js";
 
 const MAX_ADMIN_BYTES = 512 * 1024;
 const MAX_RESTORE_START_BYTES = 20 * 1024 * 1024;
@@ -20,10 +21,14 @@ const MAX_RESTORE_CHUNK_BYTES = 4 * 1024 * 1024;
 const LEGACY_PUBLIC_DOMAIN = "forwardfuture.ai";
 const CURRENT_PUBLIC_DOMAIN = "forwardfuture.com";
 const CACHE_HEADERS = {
-  // Publishing is expected to be immediately visible on every generated surface.
-  // Reintroduce CDN caching only with catalog-revision cache keys or explicit purge.
-  "Cache-Control": "no-store",
+  // Public catalog surfaces embed vote totals for first-paint ordering (they
+  // may be up to a minute stale; the client refreshes them from the no-store
+  // /api/votes) and nothing per-viewer, so a short shared cache is safe.
+  // Publishing may take up to max-age to appear; admin, session, and vote
+  // routes stay no-store.
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=600",
 };
+const NO_STORE_HEADERS = { "Cache-Control": "no-store" };
 
 export async function handleLoopRoute(
   request,
@@ -89,7 +94,7 @@ export async function handleLoopRoute(
         code: "catalog_not_active",
       },
       503,
-      { "Cache-Control": "no-store" },
+      NO_STORE_HEADERS,
       request.method,
     );
   }
@@ -104,7 +109,7 @@ export async function handleLoopRoute(
         : jsonResponse(
             { error: "Loop not found", code: "not_found" },
             404,
-            CACHE_HEADERS,
+            NO_STORE_HEADERS,
             request.method,
           );
     }
@@ -134,7 +139,7 @@ export async function handleLoopRoute(
             "Loop not found.\n",
             "text/plain; charset=utf-8",
             404,
-            CACHE_HEADERS,
+            NO_STORE_HEADERS,
             request.method,
           )
         : null;
@@ -171,7 +176,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         502,
-        CACHE_HEADERS,
+        NO_STORE_HEADERS,
         request.method,
       );
     }
@@ -183,7 +188,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         originResponse.status,
-        CACHE_HEADERS,
+        NO_STORE_HEADERS,
         request.method,
       );
     }
@@ -202,12 +207,15 @@ export async function handleLoopRoute(
       await originResponse.text(),
       loops,
       catalog.updated,
+      await homepageVoteCounts(env),
     );
-    const headers = new Headers(originResponse.headers);
-    headers.delete("Content-Length");
-    headers.delete("ETag");
-    headers.delete("Last-Modified");
-    for (const [name, value] of Object.entries(CACHE_HEADERS)) headers.set(name, value);
+    // Allowlist: the response is publicly cacheable, so shell cookies, auth
+    // challenges, and validators for the un-injected body must not leak in.
+    const headers = new Headers(CACHE_HEADERS);
+    for (const name of ["Content-Type", "Content-Language", "Vary"]) {
+      const value = originResponse.headers.get(name);
+      if (value) headers.set(name, value);
+    }
     return new Response(request.method === "HEAD" ? null : html, {
       status: originResponse.status,
       headers,
@@ -215,6 +223,20 @@ export async function handleLoopRoute(
   }
 
   return null;
+}
+
+async function homepageVoteCounts(env) {
+  if (!env.VOTE_STORE) return {};
+  try {
+    const response = await voteStoreFetch(env, "/votes");
+    if (!response.ok) return {};
+    return (await response.json()).votes || {};
+  } catch (error) {
+    // Vote totals only seed the first-paint sort; the homepage must still
+    // render when the vote store is unavailable.
+    console.warn("Homepage vote totals unavailable:", error);
+    return {};
+  }
 }
 
 export function publicOriginRequest(request, env, overrides = {}) {
@@ -667,14 +689,6 @@ function catalogResponse(path, loops, method) {
     return textResponse(renderAgentInstructions(loops), "text/plain; charset=utf-8", 200, CACHE_HEADERS, method);
   }
   return textResponse(renderCatalogMarkdown(loops), path === "/catalog.md" ? "text/markdown; charset=utf-8" : "text/plain; charset=utf-8", 200, CACHE_HEADERS, method);
-}
-
-function latestModified(loops) {
-  if (loops.length === 0) return null;
-  return loops.reduce(
-    (latest, loop) => (loop.modified > latest ? loop.modified : latest),
-    "1970-01-01",
-  );
 }
 
 function stripBasePath(pathname, basePath) {

@@ -215,7 +215,7 @@ Apply these rules:
   with a rubric, threshold, benchmark, reviewer decision, or finite scenario
   set whenever possible.
 - Define success, clean no-op, blocked, approval-required, exhausted, and
-  stagnated outcomes where relevant. Never report an error or exhausted budget
+  no-progress outcomes where relevant. Never report an error or exhausted budget
   as success.
 - Use a user-supplied limit when one exists. Otherwise use a no-progress stop
   instead of inventing a time, iteration, cost, retry, or scope limit. Name an
@@ -241,24 +241,14 @@ external action with its own preview and approval.
 ## Validate every crafted loop
 
 Before delivering any discovered, adapted, repaired, or newly crafted loop,
-silently trace one complete cycle and repair material weaknesses. Confirm that:
-
-- fresh observations can change the next action; otherwise return a one-shot
-  workflow instead of a loop;
-- each pass chooses one bounded action, verifies it with observable evidence,
-  and records enough state for the next pass or handoff;
-- verification is reproducible and, when overfitting or self-approval is a
-  risk, separate from the signal used to choose or optimize the action;
-- success, clean no-op, blocked, approval-required, and no-progress stops are
-  explicit when relevant, with errors never presented as success;
-- destructive or consequential actions require the appropriate approval, and
-  unrelated work and fresh state are preserved; and
-- the design remains grounded in scoped evidence without invented tools,
-  schedules, limits, metrics, owners, or permissions.
+silently trace one complete cycle and confirm that every rule under *Design the
+feedback cycle* and *Keep every workflow grounded* holds; repair material
+weaknesses. Fresh observations must be able to change the next action;
+otherwise return a one-shot workflow instead of a loop.
 
 Do not expose this internal preflight unless the user asks for an audit. If a
 material gap cannot be repaired from scoped evidence, ask one short question or
-report why the candidate is not ready instead of weakening the standard.
+report Not ready instead of weakening the standard.
 
 ## Deliver the loop
 
