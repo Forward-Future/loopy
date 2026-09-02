@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import test from "node:test";
 
 import {
@@ -184,6 +185,23 @@ function makeRequest(path, body, options = {}) {
 
 function testUuid(index) {
   return `00000000-0000-4000-8000-${String(index).padStart(12, "0")}`;
+}
+
+// Seeds the guard with events ~5h old so only the daily cap can trip.
+async function seedRateEvents(env, ip, form, count) {
+  const name = `rate:${createHash("sha256").update(ip).digest("hex")}`;
+  env.FORM_GUARD.get(env.FORM_GUARD.idFromName(name));
+  const guard = env.FORM_GUARD.objects.get(name);
+  const at = Date.now() - 5 * 60 * 60 * 1000;
+  await guard.state.storage.put(
+    "events",
+    Array.from({ length: count }, (_, index) => ({
+      at: at + index,
+      form,
+      idempotencyKey: testUuid(900 + index),
+      requestHash: "b".repeat(64),
+    })),
+  );
 }
 
 function suggestionBody(overrides = {}) {
@@ -465,6 +483,131 @@ test("enforces hourly limits after valid Turnstile checks", async () => {
   assert.equal(blocked.status, 429);
   assert(Number(blocked.headers.get("Retry-After")) > 0);
   assert.equal(calls.siteData.length, 3);
+});
+
+test("enforces the suggestion daily cap once the hourly window has cleared", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+  await seedRateEvents(env, "203.0.113.10", "suggestions", 10);
+
+  const blocked = await handleRequest(
+    makeRequest(
+      "/suggestions",
+      suggestionBody({
+        idempotency_key: testUuid(110),
+        payload: {
+          instructions: "This request should exceed the daily allowance.",
+          loop_title: "Daily limit loop blocked",
+        },
+        turnstile_token: "suggestion-token-daily",
+      }),
+    ),
+    env,
+    undefined,
+    dependencies,
+  );
+  const body = await blocked.json();
+
+  assert.equal(blocked.status, 429);
+  assert.equal(body.code, "rate_limited");
+  assert(Number(blocked.headers.get("Retry-After")) > 3600);
+  assert.equal(calls.turnstile.length, 1);
+  assert.equal(calls.siteData.length, 0);
+});
+
+test("enforces hourly limits on weekly signups", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+
+  for (let index = 0; index < 5; index += 1) {
+    const response = await handleRequest(
+      makeRequest(
+        "/weekly-signups",
+        weeklyBody({
+          idempotency_key: testUuid(200 + index),
+          payload: { email: `reader-${index}@example.com` },
+          turnstile_token: `weekly-token-${index}`,
+        }),
+      ),
+      env,
+      undefined,
+      dependencies,
+    );
+
+    assert.equal(response.status, 201);
+  }
+
+  const blocked = await handleRequest(
+    makeRequest(
+      "/weekly-signups",
+      weeklyBody({
+        idempotency_key: testUuid(205),
+        payload: { email: "reader-blocked@example.com" },
+        turnstile_token: "weekly-token-blocked",
+      }),
+    ),
+    env,
+    undefined,
+    dependencies,
+  );
+  const body = await blocked.json();
+
+  assert.equal(blocked.status, 429);
+  assert.equal(body.code, "rate_limited");
+  assert(Number(blocked.headers.get("Retry-After")) > 0);
+  assert.equal(calls.siteData.length, 5);
+});
+
+test("enforces the weekly signup daily cap once the hourly window has cleared", async () => {
+  const env = makeEnv();
+  const { calls, dependencies } = makeDependencies();
+  await seedRateEvents(env, "203.0.113.10", "weekly_signups", 10);
+
+  const blocked = await handleRequest(
+    makeRequest(
+      "/weekly-signups",
+      weeklyBody({
+        idempotency_key: testUuid(210),
+        payload: { email: "reader-daily@example.com" },
+        turnstile_token: "weekly-token-daily",
+      }),
+    ),
+    env,
+    undefined,
+    dependencies,
+  );
+  const body = await blocked.json();
+
+  assert.equal(blocked.status, 429);
+  assert.equal(body.code, "rate_limited");
+  assert(Number(blocked.headers.get("Retry-After")) > 3600);
+  assert.equal(calls.turnstile.length, 1);
+  assert.equal(calls.siteData.length, 0);
+});
+
+test("suffix-allowed origins still depend on Turnstile hostname verification", async () => {
+  const env = { ...makeEnv(), ALLOWED_ORIGIN_SUFFIXES: ".here.now" };
+  const { calls, dependencies } = makeDependencies();
+  const origin = "https://evil.here.now";
+  const response = await handleRequest(
+    makeRequest(
+      "/suggestions",
+      suggestionBody({ turnstile_token: "wrong-hostname-token" }),
+      { origin },
+    ),
+    env,
+    undefined,
+    dependencies,
+  );
+  const body = await response.json();
+
+  // The suffix branch admits the origin; Turnstile's hostname check is the gate.
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), origin);
+  assert.notEqual(body.code, "origin_not_allowed");
+  assert.equal(response.status, 400);
+  assert.equal(body.code, "verification_failed");
+  assert.equal(calls.turnstile.length, 1);
+  assert.equal(calls.siteData.length, 0);
 });
 
 test("suppresses duplicate content after verification", async () => {
