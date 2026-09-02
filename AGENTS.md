@@ -61,6 +61,8 @@ this repository layout.
 - Do not publish a loop unless its public homepage row, detail page,
   `catalog.json`, `catalog.md`, `catalog.txt`, `llms.txt`, sitemap, and feed
   all read back from production with the expected slug and modified date.
+  Those surfaces are publicly cacheable for 60 seconds, so wait up to a minute
+  or bypass the cache (for example with a unique query string) before reading.
 
 ## Protected forms
 

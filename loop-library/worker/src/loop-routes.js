@@ -20,9 +20,10 @@ const MAX_RESTORE_CHUNK_BYTES = 4 * 1024 * 1024;
 const LEGACY_PUBLIC_DOMAIN = "forwardfuture.ai";
 const CURRENT_PUBLIC_DOMAIN = "forwardfuture.com";
 const CACHE_HEADERS = {
-  // Publishing is expected to be immediately visible on every generated surface.
-  // Reintroduce CDN caching only with catalog-revision cache keys or explicit purge.
-  "Cache-Control": "no-store",
+  // Public catalog surfaces embed nothing per-viewer (vote counts load from
+  // /api/votes in the browser), so a short shared cache is safe. Publishing may
+  // take up to max-age to appear; admin, session, and vote routes stay no-store.
+  "Cache-Control": "public, max-age=60, stale-while-revalidate=600",
 };
 
 export async function handleLoopRoute(
@@ -171,7 +172,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         502,
-        CACHE_HEADERS,
+        { "Cache-Control": "no-store" },
         request.method,
       );
     }
@@ -183,7 +184,7 @@ export async function handleLoopRoute(
         renderHomepageFallback(loops),
         "text/html; charset=utf-8",
         originResponse.status,
-        CACHE_HEADERS,
+        { "Cache-Control": "no-store" },
         request.method,
       );
     }
